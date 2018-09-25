@@ -117,9 +117,9 @@ Respecto a la música y los efectos de sonido, tanto el menú principal como la 
 
 El juego no tiene ningún progreso, hablando en un ámbito de juego de historia. El único progreso que se puede evaluar es la evolución de la puntuación de los jugadores a medida que van haciendo carreras. A continuación se muestra un gráfico con un ejemplo de cómo podría ser la progresión en nuestro juego.
 
-![Progreso de Partida](Documentation/ImagesGDD/Progreso_Partida_GDD.png)
+![Progreso de Partida](Documentation/ImagesGDD/ProgresoPartidaGDD.png)
 
-![Progreso del juego completo](Documentation/ImagesGDD/Progreso Juego GDD.png)
+![Progreso del juego completo](Documentation/ImagesGDD/Progreso%20Juego%20GDD.png)
 
 
 El primer esquema muestra la estructura de una partida; mientras que el segundo, muestra un diagrama del flujo de todo el juego, es decir, todas las pantallas que podemos visitar y desde donde podemos visitarlas.
