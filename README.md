@@ -74,6 +74,10 @@ En este juego no es necesario implementar una función de guardado y cargado de 
 
 El juego tendrá las siguientes pantallas: Menú principal, pantalla de juego y menú de opciones, al que se puede acceder desde el menú principal y desde la pantalla del juego. Habrá un menú durante la partida que nos permitirá abandonar la partida pero no la pausará ya que se trata de un juego online.
 
+**Matchmaking:**
+
+Dado que es un juego online losjugadores tendrán que ser capaces de encontrar partidas online de tal forma que el juego los empareje con otros jugadores. El algoritmo de matchmaking va a centrarse en dar la mejor experiencia posible, y por ello y dado que usaremos un sistema p2p el juego dará prioridad a las mejores conexiones, uniendo así a los jugadores con menor ping, siendo por tanto los más cercanos entre sí. El juego no tiene una gran curva de aprendizaje ni guarda resultados de las partidas así que no se considera necesario tener en cuenta el nivel de habilidad de los jugadores o su historial.
+
 **Interfaces:**
 
 -
@@ -108,7 +112,7 @@ Existen unos objetos, llamados &quot;power-ups&quot;, como ya se mencionó antes
 
 Respecto a la música y los efectos de sonido, tanto el menú principal como la pantalla de juego tendrán una música de fondo. Todavía no está claro si la música utilizada será original del equipo, o bien se buscará libre de copyright.
 
-**Progreso del Juego:       **
+**Progreso del Juego:**
 
 El juego no tiene ningún progreso, hablando en un ámbito de juego de historia. El único progreso que se puede evaluar es la evolución de la puntuación de los jugadores a medida que van haciendo carreras. A continuación se muestra un gráfico con un ejemplo de cómo podría ser la progresión en nuestro juego.
 
