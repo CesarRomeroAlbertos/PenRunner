@@ -1,4 +1,4 @@
-# PenRunner
+﻿# PenRunner
 This repository is for an university project making a simple online game with javascript.
 
 #
@@ -61,6 +61,7 @@ Cenital en 2D y tercera persona. Se utilizará únicamente el ratón.
 **Controles:**
 
 El juego se controla únicamente con el ratón. Se nos mostrará un arco y una flecha dentro de dicho arco que empieza en una posición aleatoria del arco y que gira rápidamente en dicho arco. El arco como tal se orientará en torno al ratón, apuntando en todo momento su bisectriz al cursor. Cuando el jugador de un click la posición de la flecha se fijará y entonces pasará a decidirse la potencia del tiro. Un medidor irá subiendo y bajando rápidamente y el tamaño de la flecha escalará acorde con el tamaño actual de dicho medidor. Con el siguiente click del jugador se decidirá la potencia y entonces el vehículo del jugador se desplazará acorde a la dirección y potencia elegidos.
+![Raton](Documentation/ImagesGDD/Raton.png)
 
 **Puntuación:**
 
@@ -111,6 +112,10 @@ Respecto a la música y los efectos de sonido, tanto el menú principal como la 
 **Progreso del Juego:       **
 
 El juego no tiene ningún progreso, hablando en un ámbito de juego de historia. El único progreso que se puede evaluar es la evolución de la puntuación de los jugadores a medida que van haciendo carreras. A continuación se muestra un gráfico con un ejemplo de cómo podría ser la progresión en nuestro juego.
+
+![Progreso de Partida](Documentation/ImagesGDD/Progreso_Partida_GDD.png)
+
+![Progreso del juego completo](Documentation/ImagesGDD/Progreso Juego GDD.png)
 
 
 El primer esquema muestra la estructura de una partida; mientras que el segundo, muestra un diagrama del flujo de todo el juego, es decir, todas las pantallas que podemos visitar y desde donde podemos visitarlas.
