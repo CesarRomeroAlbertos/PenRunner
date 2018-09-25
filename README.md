@@ -8,7 +8,7 @@ This repository is for an university project making a simple online game with ja
 
 (working title)
 
-![Portada](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/Portada.png)</p>
+![Portada](Documentation/ImagesGDD/Portada.png)</p>
 <p align="justify">
 **Documento de diseño**
 
@@ -34,13 +34,13 @@ El jugador controlará un vehículo determinando la dirección en la que se va a
 
 **Ejemplo de mecánica de movimiento:**
 
-![Ejemplo1](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/1.png)
+![Ejemplo1](Documentation/ImagesGDD/1.png)
 
-![Ejemplo2](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/2.png)
+![Ejemplo2](Documentation/ImagesGDD/2.png)
 
-![Ejemplo3](https://github.com/CesarRomeroAlbertos/PenRunner/blob/carlos91643-actualizaci%C3%B3n-1/3.png)
+![Ejemplo3](Documentation/ImagesGDD/3.png)
 
-![Ejemplo4](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/4.png)
+![Ejemplo4](Documentation/ImagesGDD/4.png)
 
 **Tecnología:**
 
@@ -79,22 +79,22 @@ El juego tendrá las siguientes pantallas: Menú principal, pantalla de juego y 
 -
   - **Menú principal** : Nos permite acceder al juego, al menú de opciones y salir.
   
-  ![MenuPrincipal](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Pantalla%20principal.png)
+  ![MenuPrincipal](Documentation/ImagesGDD/Pantalla%20principal.png)
 
 -
   - **Menú opciones:** Nos da la opción de configurar varios aspectos del juego, como el volumen del mismo.
 
- ![MenuOpciones](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Men%C3%BA%20opciones.png)
+ ![MenuOpciones](Documentation/ImagesGDD/Men%C3%BA%20opciones.png)
 
 -
   - **Menú in-game:** Se trata del menú que aparece cuando quieres pausar el juego. Al ser un juego multijugador competitivo, dicho menú no congelará el juego, sino que simplemente nos dará paso a poder acceder al menú de opciones y también la opción de salir de la partida, volviendo al menú principal.
 
-![MenuInGame](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Men%C3%BA%20in-game.png)
+![MenuInGame](Documentation/ImagesGDD/Men%C3%BA%20in-game.png)
 
 -
   - **Pantalla de juego:** Esta será la pantalla principal del juego, se verá todo el desarrollo del juego. No poseerá ningún tipo de HUD más que los indicadores de dirección (el arco que indica la dirección a la que nos moveremos) y de potencia. A partir de esta pantalla sólo podremos acceder al menú pausa.
 
-![PantallaJuego](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Pantalla%20juego.png)
+![PantallaJuego](Documentation/ImagesGDD/Pantalla%20juego.png)
 
 **Niveles:**
 
@@ -135,7 +135,7 @@ Existen distintos ítems que se podrán encontrar a lo largo de los distintos es
 
 Además, el color del power up indica a quién va a afectar. Si es verde, afecta al jugador que lo coge, si es rojo, a su oponente; si es azul afecta a ambos y si es amarillo su efecto es aleatorio y puede afectar a cualquiera de los jugadores o a ambos.
 
-![PowerUps](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/fpowerpng.png)
+![PowerUps](Documentation/ImagesGDD/fpowerpng.png)
 
 **Guión:**
 
