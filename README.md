@@ -84,7 +84,7 @@ El juego tendrá las siguientes pantallas: Menú principal, pantalla de juego y 
 -
   - **Menú opciones:** Nos da la opción de configurar varios aspectos del juego, como el volumen del mismo.
 
- ![MenuOpciones](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Men%C3%BA%20opciones.pnghttps://raw.githubusercontent.com)
+ ![MenuOpciones](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Men%C3%BA%20opciones.png)
 
 -
   - **Menú in-game:** Se trata del menú que aparece cuando quieres pausar el juego. Al ser un juego multijugador competitivo, dicho menú no congelará el juego, sino que simplemente nos dará paso a poder acceder al menú de opciones y también la opción de salir de la partida, volviendo al menú principal.
