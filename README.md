@@ -2,18 +2,45 @@
 This repository is for an university project making a simple online game with javascript.
 
 #
-
-#
-
-#
-
+<p align="center">
+  
 # PEN RUNNER
 
 (working title)
 
+![Portada](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/Portada.png)</p>
+<p align="justify">
 **Documento de diseño**
 
+**Título:** Pen Runner (working title)
 
+**Estudio/Diseñadores:** Bongo Cats
+
+**Plataforma:** PC
+
+**Versión:** 1.0
+
+**Sinopsis de Jugabilidad y Contenido:**
+
+Pen Runner es un juego de carreras multijugador competitivo. Es una interpretación de las carreras de chapas o carreras de bolis en una hoja de papel, juegos de un ambiente escolar. Todo esto cambiando las mecánicas ligeramente para adaptarlo a la plataforma.
+
+**Categoría:**
+
+Carreras. Recuerda a la idea de jugabilidad del Mario Kart, por los diferentes “power-ups” que se tienen pensado incluir; o incluso, por su mecánica, a un juego de golf por el control que se tiene del vehículo.
+
+**Mecánica:**
+
+El jugador controlará un vehículo determinando la dirección en la que se va a desplazar y la fuerza con la que va a ser lanzado. Cogiendo la dirección del ratón tenemos un arco cuya bisectriz siempre apunta al ratón, y dentro de dicho arco la flecha se desplazará rápidamente, fijando su dirección con el primer click del jugador. Después tendremos un medidor indicando la fuerza que irá subiendo y bajando y se quedará en el punto que marque el jugador con su segundo click. Todo esto simultáneamente funciona para todos los jugadores, de forma que tienen que apresurarse para hacer rápido sus lanzamientos y así ir por delante de sus rivales, pero con las prisas se arriesgan a hacer un mal lanzamiento, pues la dirección y la fuerza dependen de la velocidad de reacción del jugador. Los jugadores empezarán en una línea inicial y tendrán que entrar en la zona pasada la línea de meta para que se considere que han ganado. Además habrá distintos power ups y desventajas delimitados en zonas en las que si cae el jugador se le aplicarán sus efectos.
+
+**Ejemplo de mecánica de movimiento:**
+
+![Ejemplo1](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/1.png)
+
+![Ejemplo2](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/2.png)
+
+![Ejemplo3](https://github.com/CesarRomeroAlbertos/PenRunner/blob/carlos91643-actualizaci%C3%B3n-1/3.png)
+
+![Ejemplo4](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/4.png)
 
 **Tecnología:**
 
@@ -51,17 +78,23 @@ El juego tendrá las siguientes pantallas: Menú principal, pantalla de juego y 
 
 -
   - **Menú principal** : Nos permite acceder al juego, al menú de opciones y salir.
+  
+  ![MenuPrincipal](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Pantalla%20principal.png)
 
 -
   - **Menú opciones:** Nos da la opción de configurar varios aspectos del juego, como el volumen del mismo.
 
- 
+ ![MenuOpciones](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Men%C3%BA%20opciones.pnghttps://raw.githubusercontent.com)
 
 -
   - **Menú in-game:** Se trata del menú que aparece cuando quieres pausar el juego. Al ser un juego multijugador competitivo, dicho menú no congelará el juego, sino que simplemente nos dará paso a poder acceder al menú de opciones y también la opción de salir de la partida, volviendo al menú principal.
 
+![MenuInGame](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Men%C3%BA%20in-game.png)
+
 -
   - **Pantalla de juego:** Esta será la pantalla principal del juego, se verá todo el desarrollo del juego. No poseerá ningún tipo de HUD más que los indicadores de dirección (el arco que indica la dirección a la que nos moveremos) y de potencia. A partir de esta pantalla sólo podremos acceder al menú pausa.
+
+![PantallaJuego](https://github.com/CesarRomeroAlbertos/PenRunner/raw/carlos91643-actualizaci%C3%B3n-1/Pantalla%20juego.png)
 
 **Niveles:**
 
@@ -102,7 +135,7 @@ Existen distintos ítems que se podrán encontrar a lo largo de los distintos es
 
 Además, el color del power up indica a quién va a afectar. Si es verde, afecta al jugador que lo coge, si es rojo, a su oponente; si es azul afecta a ambos y si es amarillo su efecto es aleatorio y puede afectar a cualquiera de los jugadores o a ambos.
 
-
+![PowerUps](https://raw.githubusercontent.com/CesarRomeroAlbertos/PenRunner/carlos91643-actualizaci%C3%B3n-1/fpowerpng.png)
 
 **Guión:**
 
@@ -145,7 +178,7 @@ A estas alturas todavía no se sabe cuantos efectos de sonido meteremos en el ju
 
 El proyecto se inició el día 19 de Septiembre de 2018 en Madrid, España. Se estima que tendrá una duración de, aproximadamente, 60 días, por lo que se acabará entre la primera y la segunda semana de noviembre.
 
-El presupuesto del que disponemos para realizar este proyecto es de 0 (cero) euros. Este trabajo, en una primera instancia, es para uso académico, y no precisará de estudio para lanzarlo al mercado.
+El presupuesto del que disponemos para realizar este proyecto es de 0 (cero) euros. Este trabajo, en una primera instancia, es para uso académico, y no precisará de estudio para lanzarlo al mercado.</p>
 
 
 
