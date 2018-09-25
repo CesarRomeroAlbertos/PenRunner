@@ -119,7 +119,7 @@ El juego no tiene ningún progreso, hablando en un ámbito de juego de historia.
 
 ![Progreso de Partida](Documentation/ImagesGDD/ProgresoPartidaGDD.png)
 
-![Progreso del juego completo](Documentation/ImagesGDD/Progreso%20Juego%20GDD.png)
+![Progreso del juego completo](Documentation/ImagesGDD/ProgresoJuegoGDD.png)
 
 
 El primer esquema muestra la estructura de una partida; mientras que el segundo, muestra un diagrama del flujo de todo el juego, es decir, todas las pantallas que podemos visitar y desde donde podemos visitarlas.
