@@ -169,19 +169,12 @@ A estas alturas todavía no se sabe cuantos efectos de sonido meteremos en el ju
 
 - ➔➔César Romero Albertos
   - ◆◆Programador
-  - ◆◆Contacto:
-    - Teléfono: +34 639 56 04 64
-    - e-mail: romeroal@alumnos.urjc.es
+
 - ➔➔Carlos Marques González
   - ◆◆Desarrollador
-  - ◆◆Contacto:
-    - Teléfono: +34 654 97 28 41
-    - e-mail: marques1@alumnos.urjc.es
+
 - ➔➔Juan Antonio Ruiz Ramírez
   - ◆◆Artista
-  - ◆◆Contacto:
-    - Teléfono: +34 660 73 50 71
-    - e-mail: ruizra@alumnos.urjc.es
 
 **Detalles de producción:**
 
