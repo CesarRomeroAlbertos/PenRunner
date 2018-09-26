@@ -30,13 +30,18 @@
 
 **Ejemplo de mecánica de movimiento:**
 
-![Ejemplo1](Documentation/ImagesGDD/1.png)
+<p align="center">
+ <img width="45%" height="45%" src="Documentation/ImagesGDD/1.png">
 
-![Ejemplo2](Documentation/ImagesGDD/2.png)
+ <img width="45%" height="45%" src="Documentation/ImagesGDD/2.png">
 
-![Ejemplo3](Documentation/ImagesGDD/3.png)
+</p>
+<p align="center">
 
-![Ejemplo4](Documentation/ImagesGDD/4.png)
+ <img width="45%" height="45%" src="Documentation/ImagesGDD/3.png">
+
+ <img width="45%" height="45%" src="Documentation/ImagesGDD/4.png">
+</p>
 
 **Tecnología:**
 
