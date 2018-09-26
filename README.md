@@ -1,15 +1,11 @@
-﻿# PenRunner
-This repository is for an university project making a simple online game with javascript.
 
-#
-<p align="center">
-  
+ 
 # PEN RUNNER
 
 (working title)
 
-![Portada](Documentation/ImagesGDD/Portada.png)</p>
-<p align="justify">
+![Portada](Documentation/ImagesGDD/Portada.png)
+
 **Documento de diseño**
 
 **Título:** Pen Runner (working title)
@@ -22,15 +18,15 @@ This repository is for an university project making a simple online game with ja
 
 **Sinopsis de Jugabilidad y Contenido:**
 
-Pen Runner es un juego de carreras multijugador competitivo. Es una interpretación de las carreras de chapas o carreras de bolis en una hoja de papel, juegos de un ambiente escolar. Todo esto cambiando las mecánicas ligeramente para adaptarlo a la plataforma.
+<p align="justify">Pen Runner es un juego de carreras multijugador competitivo. Es una interpretación de las carreras de chapas o carreras de bolis en una hoja de papel, juegos de un ambiente escolar. Todo esto cambiando las mecánicas ligeramente para adaptarlo a la plataforma.</p>
 
 **Categoría:**
 
-Carreras. Recuerda a la idea de jugabilidad del Mario Kart, por los diferentes “power-ups” que se tienen pensado incluir; o incluso, por su mecánica, a un juego de golf por el control que se tiene del vehículo.
+<p align="justify">Carreras. Recuerda a la idea de jugabilidad del Mario Kart, por los diferentes “power-ups” que se tienen pensado incluir; o incluso, por su mecánica, a un juego de golf por el control que se tiene del vehículo.</p>
 
 **Mecánica:**
 
-El jugador controlará un vehículo determinando la dirección en la que se va a desplazar y la fuerza con la que va a ser lanzado. Cogiendo la dirección del ratón tenemos un arco cuya bisectriz siempre apunta al ratón, y dentro de dicho arco la flecha se desplazará rápidamente, fijando su dirección con el primer click del jugador. Después tendremos un medidor indicando la fuerza que irá subiendo y bajando y se quedará en el punto que marque el jugador con su segundo click. Todo esto simultáneamente funciona para todos los jugadores, de forma que tienen que apresurarse para hacer rápido sus lanzamientos y así ir por delante de sus rivales, pero con las prisas se arriesgan a hacer un mal lanzamiento, pues la dirección y la fuerza dependen de la velocidad de reacción del jugador. Los jugadores empezarán en una línea inicial y tendrán que entrar en la zona pasada la línea de meta para que se considere que han ganado. Además habrá distintos power ups y desventajas delimitados en zonas en las que si cae el jugador se le aplicarán sus efectos.
+<p align="justify">El jugador controlará un vehículo determinando la dirección en la que se va a desplazar y la fuerza con la que va a ser lanzado. Cogiendo la dirección del ratón tenemos un arco cuya bisectriz siempre apunta al ratón, y dentro de dicho arco la flecha se desplazará rápidamente, fijando su dirección con el primer click del jugador. Después tendremos un medidor indicando la fuerza que irá subiendo y bajando y se quedará en el punto que marque el jugador con su segundo click. Todo esto simultáneamente funciona para todos los jugadores, de forma que tienen que apresurarse para hacer rápido sus lanzamientos y así ir por delante de sus rivales, pero con las prisas se arriesgan a hacer un mal lanzamiento, pues la dirección y la fuerza dependen de la velocidad de reacción del jugador. Los jugadores empezarán en una línea inicial y tendrán que entrar en la zona pasada la línea de meta para que se considere que han ganado. Además habrá distintos power ups y desventajas delimitados en zonas en las que si cae el jugador se le aplicarán sus efectos.</p>
 
 **Ejemplo de mecánica de movimiento:**
 
@@ -44,11 +40,11 @@ El jugador controlará un vehículo determinando la dirección en la que se va a
 
 **Tecnología:**
 
-Phaser, javascript, eclipse, photoshop, inkscape y adobe audition.
+<p align="justify">Phaser, javascript, eclipse, photoshop, inkscape y adobe audition.</p>
 
 **Público:**
 
-El juego va dirigido a todos los públicos, no tiene un perfil específico de jugador. Presenta un enfoque casual para sesiones de juego cortas entre varias personas, con una temática competitiva pero con un tono relajado.
+<p align="justify">El juego va dirigido a todos los públicos, no tiene un perfil específico de jugador. Presenta un enfoque casual para sesiones de juego cortas entre varias personas, con una temática competitiva pero con un tono relajado.</p>
 
 **Historial de versiones:**
 
@@ -56,28 +52,29 @@ El juego va dirigido a todos los públicos, no tiene un perfil específico de ju
 
 **Cámara:**
 
-Cenital en 2D y tercera persona. Se utilizará únicamente el ratón.
+<p align="justify">Cenital en 2D y tercera persona. Se utilizará únicamente el ratón.</p>
 
 **Controles:**
 
-El juego se controla únicamente con el ratón. Se nos mostrará un arco y una flecha dentro de dicho arco que empieza en una posición aleatoria del arco y que gira rápidamente en dicho arco. El arco como tal se orientará en torno al ratón, apuntando en todo momento su bisectriz al cursor. Cuando el jugador de un click la posición de la flecha se fijará y entonces pasará a decidirse la potencia del tiro. Un medidor irá subiendo y bajando rápidamente y el tamaño de la flecha escalará acorde con el tamaño actual de dicho medidor. Con el siguiente click del jugador se decidirá la potencia y entonces el vehículo del jugador se desplazará acorde a la dirección y potencia elegidos.
+<p align="justify">El juego se controla únicamente con el ratón. Se nos mostrará un arco y una flecha dentro de dicho arco que empieza en una posición aleatoria del arco y que gira rápidamente en dicho arco. El arco como tal se orientará en torno al ratón, apuntando en todo momento su bisectriz al cursor. Cuando el jugador de un click la posición de la flecha se fijará y entonces pasará a decidirse la potencia del tiro. Un medidor irá subiendo y bajando rápidamente y el tamaño de la flecha escalará acorde con el tamaño actual de dicho medidor. Con el siguiente click del jugador se decidirá la potencia y entonces el vehículo del jugador se desplazará acorde a la dirección y potencia elegidos.</p>
+
 ![Raton](Documentation/ImagesGDD/Raton.png)
 
 **Puntuación:**
 
-Se darán puntos en base a la posición de llegada a la meta y el número de jugadores. De esta forma el primer jugador en llegar a la meta recibirá tantos puntos como jugadores haya, el siguiente uno menos y así hasta llegar al último. Este sistema de puntuación sólo se aplica si se juegan varias carreras sucesivas, para una sola carrera sólo es relevante la posición final del jugador.
+<p align="justify">Se darán puntos en base a la posición de llegada a la meta y el número de jugadores. De esta forma el primer jugador en llegar a la meta recibirá tantos puntos como jugadores haya, el siguiente uno menos y así hasta llegar al último. Este sistema de puntuación sólo se aplica si se juegan varias carreras sucesivas, para una sola carrera sólo es relevante la posición final del jugador.</p>
 
 **Guardar/Cargar:**
 
-En este juego no es necesario implementar una función de guardado y cargado de partida, al menos no en la primera versión que se plantea del juego.
+<p align="justify">En este juego no es necesario implementar una función de guardado y cargado de partida, al menos no en la primera versión que se plantea del juego.</p>
 
 **Estados del juego:**
 
-El juego tendrá las siguientes pantallas: Menú principal, pantalla de juego y menú de opciones, al que se puede acceder desde el menú principal y desde la pantalla del juego. Habrá un menú durante la partida que nos permitirá abandonar la partida pero no la pausará ya que se trata de un juego online.
+<p align="justify">El juego tendrá las siguientes pantallas: Menú principal, pantalla de juego y menú de opciones, al que se puede acceder desde el menú principal y desde la pantalla del juego. Habrá un menú durante la partida que nos permitirá abandonar la partida pero no la pausará ya que se trata de un juego online.</p>
 
 **Matchmaking:**
 
-Dado que es un juego online losjugadores tendrán que ser capaces de encontrar partidas online de tal forma que el juego los empareje con otros jugadores. El algoritmo de matchmaking va a centrarse en dar la mejor experiencia posible, y por ello y dado que usaremos un sistema p2p el juego dará prioridad a las mejores conexiones, uniendo así a los jugadores con menor ping, siendo por tanto los más cercanos entre sí. El juego no tiene una gran curva de aprendizaje ni guarda resultados de las partidas así que no se considera necesario tener en cuenta el nivel de habilidad de los jugadores o su historial.
+<p align="justify">Dado que es un juego online losjugadores tendrán que ser capaces de encontrar partidas online de tal forma que el juego los empareje con otros jugadores. El algoritmo de matchmaking va a centrarse en dar la mejor experiencia posible, y por ello y dado que usaremos un sistema p2p el juego dará prioridad a las mejores conexiones, uniendo así a los jugadores con menor ping, siendo por tanto los más cercanos entre sí. El juego no tiene una gran curva de aprendizaje ni guarda resultados de las partidas así que no se considera necesario tener en cuenta el nivel de habilidad de los jugadores o su historial.</p>
 
 **Interfaces:**
 
@@ -92,49 +89,51 @@ Dado que es un juego online losjugadores tendrán que ser capaces de encontrar p
  ![MenuOpciones](Documentation/ImagesGDD/Men%C3%BA%20opciones.png)
 
 -
-  - **Menú in-game:** Se trata del menú que aparece cuando quieres pausar el juego. Al ser un juego multijugador competitivo, dicho menú no congelará el juego, sino que simplemente nos dará paso a poder acceder al menú de opciones y también la opción de salir de la partida, volviendo al menú principal.
+  - **Menú in-game:**
+<p align="justify">Se trata del menú que aparece cuando quieres pausar el juego. Al ser un juego multijugador competitivo, dicho menú no congelará el juego, sino que simplemente nos dará paso a poder acceder al menú de opciones y también la opción de salir de la partida, volviendo al menú principal.</p>
 
 ![MenuInGame](Documentation/ImagesGDD/Men%C3%BA%20in-game.png)
 
 -
-  - **Pantalla de juego:** Esta será la pantalla principal del juego, se verá todo el desarrollo del juego. No poseerá ningún tipo de HUD más que los indicadores de dirección (el arco que indica la dirección a la que nos moveremos) y de potencia. A partir de esta pantalla sólo podremos acceder al menú pausa.
+  - **Pantalla de juego:**
+<p align="justify">Esta será la pantalla principal del juego, se verá todo el desarrollo del juego. No poseerá ningún tipo de HUD más que los indicadores de dirección (el arco que indica la dirección a la que nos moveremos) y de potencia. A partir de esta pantalla sólo podremos acceder al menú pausa.</p>
 
 ![PantallaJuego](Documentation/ImagesGDD/Pantalla%20juego.png)
 
 **Niveles:**
 
-Los distintos niveles que tendrá el juego, serán escenarios con diferentes temáticas y ambientaciones. En algunos casos, representarán escenarios cotidianos; y en otros, escenarios más abstractos. No obstante, siempre tendrá un estudio detrás, para que no resulte en escenarios demasiado confusos o desorientadores. Siempre se tendrá una visión explícita de donde se encuentra el camino a seguir.
+<p align="justify">Los distintos niveles que tendrá el juego, serán escenarios con diferentes temáticas y ambientaciones. En algunos casos, representarán escenarios cotidianos; y en otros, escenarios más abstractos. No obstante, siempre tendrá un estudio detrás, para que no resulte en escenarios demasiado confusos o desorientadores. Siempre se tendrá una visión explícita de donde se encuentra el camino a seguir.</p>
 
-Si es la primera vez que se juega al juego, antes de poder jugar en modo competitivo se incluirá un pequeño tutorial para enseñar al jugador las mecánicas de juego. En este tutorial se explicará cómo funcionan los potenciadores de dirección y de fuerza, así como las funciones de los distintos &quot;power-ups&quot; que habrá. Este tutorial se ejecutará automáticamente al darle al botón de &quot;Jugar&quot;. Si no es la primera vez que se juega, el nivel o escenario donde se realizará la partida será sometido a votación por parte de los jugadores, o bien, será aleatorio.
+<p align="justify">Si es la primera vez que se juega al juego, antes de poder jugar en modo competitivo se incluirá un pequeño tutorial para enseñar al jugador las mecánicas de juego. En este tutorial se explicará cómo funcionan los potenciadores de dirección y de fuerza, así como las funciones de los distintos &quot;power-ups&quot; que habrá. Este tutorial se ejecutará automáticamente al darle al botón de &quot;Jugar&quot;. Si no es la primera vez que se juega, el nivel o escenario donde se realizará la partida será sometido a votación por parte de los jugadores, o bien, será aleatorio.</p>
 
-Dentro del juego no existe un enemigo al uso, es decir, no existen NPCs hostiles. El enemigo sería el otro u otros jugadores que haya jugando contra ti.
+<p align="justify">Dentro del juego no existe un enemigo al uso, es decir, no existen NPCs hostiles. El enemigo sería el otro u otros jugadores que haya jugando contra ti.</p>
 
-Existen unos objetos, llamados &quot;power-ups&quot;, como ya se mencionó antes, que serán consumibles por cualquiera de los jugadores de la partida, y que tendrán distintas ventajas para el jugador que lo consuma.
+<p align="justify">Existen unos objetos, llamados &quot;power-ups&quot;, como ya se mencionó antes, que serán consumibles por cualquiera de los jugadores de la partida, y que tendrán distintas ventajas para el jugador que lo consuma.</p>
 
-Respecto a la música y los efectos de sonido, tanto el menú principal como la pantalla de juego tendrán una música de fondo. Todavía no está claro si la música utilizada será original del equipo, o bien se buscará libre de copyright.
+<p align="justify">Respecto a la música y los efectos de sonido, tanto el menú principal como la pantalla de juego tendrán una música de fondo. Todavía no está claro si la música utilizada será original del equipo, o bien se buscará libre de copyright.</p>
 
 **Progreso del Juego:**
 
-El juego no tiene ningún progreso, hablando en un ámbito de juego de historia. El único progreso que se puede evaluar es la evolución de la puntuación de los jugadores a medida que van haciendo carreras. A continuación se muestra un gráfico con un ejemplo de cómo podría ser la progresión en nuestro juego.
+<p align="justify">El juego no tiene ningún progreso, hablando en un ámbito de juego de historia. El único progreso que se puede evaluar es la evolución de la puntuación de los jugadores a medida que van haciendo carreras. A continuación se muestra un gráfico con un ejemplo de cómo podría ser la progresión en nuestro juego.</p>
 
 ![Progreso de Partida](Documentation/ImagesGDD/ProgresoPartidaGDD.png)
 
 ![Progreso del juego completo](Documentation/ImagesGDD/ProgresoJuegoGDD.png)
 
 
-El primer esquema muestra la estructura de una partida; mientras que el segundo, muestra un diagrama del flujo de todo el juego, es decir, todas las pantallas que podemos visitar y desde donde podemos visitarlas.
+<p align="justify">El primer esquema muestra la estructura de una partida; mientras que el segundo, muestra un diagrama del flujo de todo el juego, es decir, todas las pantallas que podemos visitar y desde donde podemos visitarlas.</p>
 
 **Personajes y Enemigos:**
 
-Al ser un juego multijugador competitivo, no hay unos personajes y/o enemigos bien diferenciados o definidos. Cuando tú te unes a una partida, cada jugador tendrá un personaje, elegido aleatoriamente; ese será el número total de personajes que habrá en la partida, que se representará con la imagen de algún tipo de vehículo.
+<p align="justify">Al ser un juego multijugador competitivo, no hay unos personajes y/o enemigos bien diferenciados o definidos. Cuando tú te unes a una partida, cada jugador tendrá un personaje, elegido aleatoriamente; ese será el número total de personajes que habrá en la partida, que se representará con la imagen de algún tipo de vehículo.</p>
 
-Cuando hablamos de los enemigos, habría que mencionar que los enemigos son los demás jugadores que están en la partida. No hay enemigos NPCs, ni de ningún otro tipo.
+<p align="justify">Cuando hablamos de los enemigos, habría que mencionar que los enemigos son los demás jugadores que están en la partida. No hay enemigos NPCs, ni de ningún otro tipo.</p>
 
-Podría considerarse enemigo algún obstáculo animado que pudiese estar incluído en alguno de los mapas que se jugarán. Aún así, todavía no se ha decidido si esto último se incluirá.
+<p align="justify">Podría considerarse enemigo algún obstáculo animado que pudiese estar incluído en alguno de los mapas que se jugarán. Aún así, todavía no se ha decidido si esto último se incluirá.</p>
 
 **Items:**
 
-Existen distintos ítems que se podrán encontrar a lo largo de los distintos escenarios durante las partidas:
+<p align="justify">Existen distintos ítems que se podrán encontrar a lo largo de los distintos escenarios durante las partidas:</p>
 
 - ❖❖ **Maxvel:** Consiste en un objeto de mejora que nos da la habilidad de llegar más lejos en la próxima tirada que hagamos.
 - ❖❖ **Minvel:** Se trata de un objeto que nos penaliza disminuyendo la potencia máxima de la próxima tirada.
@@ -142,13 +141,13 @@ Existen distintos ítems que se podrán encontrar a lo largo de los distintos es
 - ❖❖ **Slower:** Si lo consumimos, en la próxima tirada, la flecha de dirección y de potencia irán un poco más lento.
 - ❖❖ **Faster:** Si lo consumimos, en la próxima tirada, la flecha de dirección y de potencia irán un poco más rápido.
 
-Además, el color del power up indica a quién va a afectar. Si es verde, afecta al jugador que lo coge, si es rojo, a su oponente; si es azul afecta a ambos y si es amarillo su efecto es aleatorio y puede afectar a cualquiera de los jugadores o a ambos.
+<p align="justify">Además, el color del power up indica a quién va a afectar. Si es verde, afecta al jugador que lo coge, si es rojo, a su oponente; si es azul afecta a ambos y si es amarillo su efecto es aleatorio y puede afectar a cualquiera de los jugadores o a ambos.</p>
 
 ![PowerUps](Documentation/ImagesGDD/fpowerpng.png)
 
 **Guión:**
 
-Nuestro videojuego no posee diálogos extensos, puesto que no se trata de un juego que tenga una historia concreta. Los diálogos se reducirán a posibles expresiones que puedan hacer los personajes cuando ocurra algún evento dentro del juego; o cuando el propio juego necesite decirte algo, de manera escrita.
+<p align="justify">Nuestro videojuego no posee diálogos extensos, puesto que no se trata de un juego que tenga una historia concreta. Los diálogos se reducirán a posibles expresiones que puedan hacer los personajes cuando ocurra algún evento dentro del juego; o cuando el propio juego necesite decirte algo, de manera escrita.</p>
 
 **Música:**
 
@@ -178,9 +177,9 @@ A estas alturas todavía no se sabe cuantos efectos de sonido meteremos en el ju
 
 **Detalles de producción:**
 
-El proyecto se inició el día 19 de Septiembre de 2018 en Madrid, España. Se estima que tendrá una duración de, aproximadamente, 60 días, por lo que se acabará entre la primera y la segunda semana de noviembre.
+<p align="justify">El proyecto se inició el día 19 de Septiembre de 2018 en Madrid, España. Se estima que tendrá una duración de, aproximadamente, 60 días, por lo que se acabará entre la primera y la segunda semana de noviembre.</p>
 
-El presupuesto del que disponemos para realizar este proyecto es de 0 (cero) euros. Este trabajo, en una primera instancia, es para uso académico, y no precisará de estudio para lanzarlo al mercado.</p>
+<p align="justify">El presupuesto del que disponemos para realizar este proyecto es de 0 (cero) euros. Este trabajo, en una primera instancia, es para uso académico, y no precisará de estudio para lanzarlo al mercado.</p>
 
 
 
