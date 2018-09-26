@@ -83,27 +83,31 @@
 
 **Interfaces:**
 
--
-  - **Menú principal** : Nos permite acceder al juego, al menú de opciones y salir.
+- **Menú principal:**
+<p align="justify">Nos permite acceder al juego, al menú de opciones y salir.</p>
   
   ![MenuPrincipal](Documentation/ImagesGDD/Pantalla%20principal.png)
 
--
-  - **Menú opciones:** Nos da la opción de configurar varios aspectos del juego, como el volumen del mismo.
+- **Menú opciones:**
+<p align="justify">Nos da la opción de configurar varios aspectos del juego, como el volumen del mismo.</p>
 
  ![MenuOpciones](Documentation/ImagesGDD/Men%C3%BA%20opciones.png)
 
--
-  - **Menú in-game:**
+- **Menú in-game:**
 <p align="justify">Se trata del menú que aparece cuando quieres pausar el juego. Al ser un juego multijugador competitivo, dicho menú no congelará el juego, sino que simplemente nos dará paso a poder acceder al menú de opciones y también la opción de salir de la partida, volviendo al menú principal.</p>
 
 ![MenuInGame](Documentation/ImagesGDD/Men%C3%BA%20in-game.png)
 
--
-  - **Pantalla de juego:**
+- **Pantalla de juego:**
 <p align="justify">Esta será la pantalla principal del juego, se verá todo el desarrollo del juego. No poseerá ningún tipo de HUD más que los indicadores de dirección (el arco que indica la dirección a la que nos moveremos) y de potencia. A partir de esta pantalla sólo podremos acceder al menú pausa.</p>
 
 ![PantallaJuego](Documentation/ImagesGDD/Pantalla%20juego.png)
+
+- **Pantalla de fin:**
+<p align="justify">En esta pantalla tenemos lo que aparecería cuando se acaba una partida, es decir, cuando acabamos todas las carreras, y salen las puntuaciones finales. A partir de esta pantalla, se podrá acceder de nuevo al menú de Jugar para buscar partida
+
+- **Pantalla de buscar partida:**
+<p align="justify">Aquí se nos mostrará la pantalla mediante la cual buscaremos una partida, y nos mostrará una sala de chat donde se podrá hablar con los otros jugadores y votar por el siguiente mapa.
 
 **Niveles:**
 
