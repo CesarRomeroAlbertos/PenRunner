@@ -1,4 +1,4 @@
-
+﻿
  
 # PEN RUNNER
 
@@ -81,7 +81,7 @@
 
 <p align="justify">Dado que es un juego online losjugadores tendrán que ser capaces de encontrar partidas online de tal forma que el juego los empareje con otros jugadores. El algoritmo de matchmaking va a centrarse en dar la mejor experiencia posible, y por ello y dado que usaremos un sistema p2p el juego dará prioridad a las mejores conexiones, uniendo así a los jugadores con menor ping, siendo por tanto los más cercanos entre sí. El juego no tiene una gran curva de aprendizaje ni guarda resultados de las partidas así que no se considera necesario tener en cuenta el nivel de habilidad de los jugadores o su historial.</p>
 
-**Interfaces:**
+**Escenas:**
 
 - **Menú principal:**
 <p align="justify">Nos permite acceder al juego, al menú de opciones y salir.</p>
@@ -106,8 +106,19 @@
 - **Pantalla de fin:**
 <p align="justify">En esta pantalla tenemos lo que aparecería cuando se acaba una partida, es decir, cuando acabamos todas las carreras, y salen las puntuaciones finales. A partir de esta pantalla, se podrá acceder de nuevo al menú de Jugar para buscar partida
 
+![PantallaFin](Documentation/ImagesGDD/Pantalla%20fin.png)
+
 - **Pantalla de buscar partida:**
 <p align="justify">Aquí se nos mostrará la pantalla mediante la cual buscaremos una partida, y nos mostrará una sala de chat donde se podrá hablar con los otros jugadores y votar por el siguiente mapa.
+
+![PantallaBuscarPartida](Documentation/ImagesGDD/Pantalla%20matchmaking.png)
+
+**Interfaces:**
+<p align="justify">Tenemos distintas interfaces en el juego. Para empezar, podemos hablar de HUD. Nuestro juego tiene un HUD bastante simple, que consiste en los medidores de potencia de un tiro cuando estamos jugando, mostrado en las imágenes anteriores como una barra de color verde que tiene un máximo y un mínimo.</p>
+	
+<p align="justify">También tenemos como interfaz los dos menús de opciones que tenemos en el juego, por un lado tenemos el menú que se accede desde el menú principal, y luego tenemos un menú de opciones, al cual se puede acceder dentro del juego, a través del menú de pausa.</p>
+
+<p align="justify">En el nivel de tutorial, cuando se juega por primera vez el juego, también tendría una interfaz propia, puesto que nos explicaría cómo se juega al juego, y, por lo tanto, usa distintas animaciones que forman parte de la interfaz.</p>
 
 **Niveles:**
 
