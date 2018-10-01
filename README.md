@@ -45,7 +45,7 @@
 
 **Tecnología:**
 
-<p align="justify">Phaser, javascript, eclipse, photoshop, inkscape y adobe audition.</p>
+<p align="justify">Phaser 2.6.2, javascript, eclipse, photoshop, inkscape y adobe audition.</p>
 
 **Público:**
 
