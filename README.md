@@ -75,7 +75,13 @@
 
 **Estados del juego:**
 
-<p align="justify">El juego tendrá las siguientes pantallas: Menú principal, pantalla de juego y menú de opciones, al que se puede acceder desde el menú principal y desde la pantalla del juego. Habrá un menú durante la partida que nos permitirá abandonar la partida pero no la pausará ya que se trata de un juego online.</p>
+<p align="justify">El juego tendrá las siguientes pantallas: Menú principal, pantalla de juego y menú de opciones, al que se puede acceder desde el menú principal y desde la pantalla del juego. Habrá un menú durante la partida que nos permitirá abandonar la partida pero no la pausará ya que se trata de un juego online:</p>
+	
+<p align="justify">El menú principal es invocado cuando iniciamos el juego, ya que no posee ninguna intro animada, con lo que saltaría directamente a esta pantalla. Desde este menú podemos invocar al menú de buscar partida, para empezar a jugar.</p>
+<p align="justify">El menú de opciones puede ser invocado por dos pantallas diferentes. Podemos acceder mediante el menú principal, o mediante el menú de pausa dentro de una partida. En el primer caso, podemos invocar de nuevo al menú principal, pero si nos encontramos en el menú de ajustes de la partida, podremos invocar solo el menú de pausa de partida.</p>
+<p align="justify">El menú de buscar partida es invocado por el menú principal, y es donde se buscan los jugadores para poder empezar una partida, algo así como una sala de espera. Puede invocar de nuevo al menú principal y a la pantalla de una partida.</p>
+<p align="justify">Desde la pantalla de una partida, podemos invocar al menú de pausa propio de una partida que, aunque no pause el juego, nos dejará salir de vuelta al menú de jugar; o bien, acceder al menú de opciones, un tanto simplificado, para que sea más rápido de ejecutar. Cuando acabamos una partida, se invoca la pantalla de fin, donde se muestran las puntuaciones finales de todos los jugadores que han jugado a lo largo de todas las carreras y aún siguen ahí.</p>
+<p align="justify">La pantalla de fin es invocada por la pantalla de una partida, y puede invocar a la pantalla del menú de jugar, para volver a buscar otra partida o salir al menú principal.</p>
 
 **Matchmaking:**
 
