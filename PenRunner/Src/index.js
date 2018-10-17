@@ -8,7 +8,9 @@ game.state.add('titleState', PenRunner.titleState)
 game.state.add('menuState', PenRunner.menuState)
 game.state.add('matchState', PenRunner.matchState)
 game.state.add('scoreState', PenRunner.scoreState)
+game.state.add('matchMakingState', PenRunner.matchMakingState)
+
 
  // llamamos a la scena boot
-game.state.start('preloadState')
+game.state.start('bootState')
 
