@@ -4,5 +4,7 @@ PenRunner.matchState = function(game) {
 
 PenRunner.matchState.prototype =
 {
-	create: function(){}
+	create: function(){},
+
+	update:function(){}
 }
