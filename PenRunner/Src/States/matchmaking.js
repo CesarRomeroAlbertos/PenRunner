@@ -4,6 +4,7 @@ PenRunner.matchState = function(game) {
 
 PenRunner.matchState.prototype =
 {
+<<<<<<< HEAD
     var background;
     var button;
     preload: function()
@@ -37,4 +38,7 @@ function actionOnClick () {
 
     background.visible =! background.visible;
 
+=======
+	create: function(){}
+>>>>>>> 82395a4f84dc24a01940ddb2cd0ea654e44ec978
 }
