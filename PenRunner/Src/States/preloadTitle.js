@@ -15,7 +15,7 @@ PenRunner.preloadTitleState.prototype =
 		
 		//Archivos a cargar:
 		
-		game.load.image('title','Assets/title.gif');
+		game.load.atlasJSONHash('title', 'Assets/titleSpritesheet.png', 'Src/json/titleSpritesheet.json');
 	},
 	update: function()
 	{

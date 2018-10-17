@@ -9,7 +9,11 @@ PenRunner.titleState.prototype =
 		//cambio el fondo a blanco para que no contraste con la imagen de la portada
 		game.stage.backgroundColor = "#FFFFFF";
 		//ponemos la imagen de título (en el futuro será un sprite animado)
-		s = game.add.image(0,40,'title')
+		s = game.add.sprite(0,40,'title')
+
+		s.animations.add('anim');
+
+		s.animations.play('anim', 30, true);
 
 		//texto para indicar al jugador que debe hacer click para avanzar
 		var text = "CLICK TO START";
