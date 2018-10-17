@@ -9,6 +9,6 @@ game.state.add('menuState', PenRunner.menuState)
 game.state.add('matchState', PenRunner.matchState)
 game.state.add('scoreState', PenRunner.scoreState)
 
-  llamamos a la scena boot
-game.state.start('bootState')
+ // llamamos a la scena boot
+game.state.start('matchState')
 
