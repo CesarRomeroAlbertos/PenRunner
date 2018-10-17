@@ -4,5 +4,11 @@ PenRunner.titleState = function(game) {
 
 PenRunner.titleState.prototype =
 {
-	create: function(){}
+	create: function(){},
+	update: function()
+	{
+
+		game.state.start('preloadMenuState');
+
+	}
 }

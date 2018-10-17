@@ -1,8 +1,8 @@
-PenRunner.preloadState = function(game) {
+PenRunner.preloadMatchmakingState = function(game) {
 
 }
 
-PenRunner.preloadState.prototype =
+PenRunner.preloadMatchmakingState.prototype =
 {
 	preload:function()
 	{
@@ -19,7 +19,7 @@ PenRunner.preloadState.prototype =
 	update: function()
 	{
 
-		game.state.start('menuState');
+		game.state.start('matchmakingState');
 
 	}
 }

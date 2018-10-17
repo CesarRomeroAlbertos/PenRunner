@@ -1,9 +1,9 @@
-PenRunner.matchMakingState = function(game) {
+PenRunner.matchmakingState = function(game) {
     var background;
     var button;
 }
 
-PenRunner.matchMakingState.prototype =
+PenRunner.matchmakingState.prototype =
 {
 
     preload: function()
