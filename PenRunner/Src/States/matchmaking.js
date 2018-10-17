@@ -1,33 +1,30 @@
-PenRunner.matchState = function(game) {
-
-}
-
-PenRunner.matchState.prototype =
-{
-<<<<<<< HEAD
+PenRunner.matchMakingState = function(game) {
     var background;
     var button;
+}
+
+PenRunner.matchMakingState.prototype =
+{
+
     preload: function()
     {
-        game.load.spritesheet('button', 'assets/buttons/button_sprite_sheet.png', 193, 71);
-        game.load.image('background','assets/misc/starfield.jpg'); //Esta imagen se cambiará posteriormente.
+        
 
-    }
+    },
 
     create: function(){
-
+        
+        game.stage.backgroundColor = '#182d3b';
         background = game.add.tileSprite(0, 0, 800, 600, 'background');
         button = game.add.button(game.world.centerX - 95, 400, 'button', actionOnClick, this, 2, 1, 0)
 
-      
-
-        
-
-
-    }
+        button.onInputOver.add(over, this);
+        button.onInputOut.add(out, this);
+        button.onInputUp.add(up, this);
+    },
 
     update: function(){
-      //  if(this.)
+      
     }
   
 
@@ -38,7 +35,17 @@ function actionOnClick () {
 
     background.visible =! background.visible;
 
-=======
-	create: function(){}
->>>>>>> 82395a4f84dc24a01940ddb2cd0ea654e44ec978
+
+}
+
+function up() {
+    console.log('button up', arguments);
+}
+
+function over() {
+    console.log('button over');
+}
+
+function out() {
+    console.log('button out');
 }

@@ -13,6 +13,9 @@ PenRunner.bootState.prototype =
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		//llamamos a la escena preload
-		game.state.start('preloadState');	
+			
+	},
+	update: function(){
+		game.state.start('preloadState');
 	}
 }
