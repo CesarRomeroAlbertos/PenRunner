@@ -12,10 +12,12 @@ PenRunner.bootState.prototype =
 		//en boot lo único que hacemos es activar las físicas
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.physics.startSystem(Phaser.Physics.P2JS);
-		//llamamos a la escena preload
+		
 			
 	},
 	update: function(){
+		
+		//llamamos a la escena preload
 		game.state.start('preloadTitleState');
 	}
 }
