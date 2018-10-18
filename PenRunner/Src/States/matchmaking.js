@@ -1,25 +1,35 @@
-PenRunner.matchmakingState = function(game) {
-    
-    
-    var buttonMap2;
-    var buttonMap3;
-    
-    
-}
+PenRunner.matchmakingState = function(game) {}
+
+
 var background; //Define el fondo de la pantalla
 var text = 0; //Texto utilizado para el contador de iniciar partida
+var text2 = 'Vacío';
+
+//Variables que muestran los votos de los 3 mapas disponibles a elegir
 var votos1 = 0;
+var votos2 = 0;
+var votos3 = 0;
 
 
 //Estilos de fuente
 var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
-var style2 =  { font: "30px Arial", fill: "#ffffff", align: "center" };
+var style2 =  { font: "30px Arial", fill: "#000000", align: "center"};
 
 
-var contador = 30;
+var contador = 30; //Tiempo restante para que comience la partida
+
+//Variables que guardan el numero de votos de cada mapa
 var numeroDeVotos1 = 0;
+var numeroDeVotos2 = 0;
+var numeroDeVotos3 = 0;
 
-var buttonMap; //Variable que define y gestiona el boton de la izquierda de la pantalla
+//Variables que definen y gestionan los botones de la izquierda, centro y derecha de los mapas de la pantalla, respectivamente.
+var buttonMap; 
+var buttonMap2;
+var buttonMap3;
+
+var chosenCircuit = -1;
+var jugador, jugador2, jugador3, jugador4, jugador5, jugador6;
 
 
 PenRunner.matchmakingState.prototype =
@@ -36,28 +46,70 @@ PenRunner.matchmakingState.prototype =
         game.stage.backgroundColor = '#182d3b';
 
         background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Añadimos un sprite al background
-        buttonMap = game.add.button(game.world.x + 50, 150, 'button', actionOnClick, this, 2, 1, 0) //Establecemos las caracteristicas del primer boton
-        text = game.add.text(game.world.centerX-270, game.world.centerY+200, 'Tiempo Restante para iniciar partida: 30', style2);  //ponemos la variable text en el recinto y la editamos 
 
-        votos1 = game.add.text(game.world.centerX-50, game.world.centerY-100, numeroDeVotos1, style);
+        buttonMap = game.add.button(game.world.x + 40, 40, 'button', null, this, 10, 10, 0) //Establecemos las caracteristicas del primer boton
+        buttonMap2 = game.add.button(game.world.x + 300, 40, 'button2', null, this, 10, 10, 0) //Establecemos las caracteristicas del segundo boton
+        buttonMap3 = game.add.button(game.world.x + 560, 40, 'button3', null, this, 10, 10, 0) //Establecemos las caracteristicas del tercer boton
 
+        //Establecemos el tamaño de los tres botones
+        buttonMap.width = buttonMap2.width = buttonMap3.width = 200; 
+        buttonMap.height = buttonMap2.height = buttonMap3.height = 200;
+        
+        text = game.add.text(game.world.centerX-270, game.world.centerY+250, 'Tiempo restante para iniciar partida: 30', style2);  //ponemos la variable text en el recinto y la editamos 
 
+        votos1 = game.add.text(game.world.x+120, 250, numeroDeVotos1, style);
+        votos2 = game.add.text(game.world.x+380, 250, numeroDeVotos2, style);
+        votos3 = game.add.text(game.world.x+640, 250, numeroDeVotos3, style);
+
+        //Boton izquierda
         buttonMap.onInputOver.add(over, this); //Cuando ponemos el raton en el recinto del boton, ejecuta la función over()
         buttonMap.onInputOut.add(out, this); //Cuando quitamos el raton del recinto del boton, ejecuta la función out()
         buttonMap.onInputUp.add(up, this); //Cuando clickamos el boton, ejecuta la función up()
 
+        //Boton centro
+        buttonMap2.onInputOver.add(over, this); //Cuando ponemos el raton en el recinto del boton, ejecuta la función over()
+        buttonMap2.onInputOut.add(out, this); //Cuando quitamos el raton del recinto del boton, ejecuta la función out()
+        buttonMap2.onInputUp.add(up2, this); //Cuando clickamos el boton, ejecuta la función up()
+
+        //Boton derecha
+        buttonMap3.onInputOver.add(over, this); //Cuando ponemos el raton en el recinto del boton, ejecuta la función over()
+        buttonMap3.onInputOut.add(out, this); //Cuando quitamos el raton del recinto del boton, ejecuta la función out()
+        buttonMap3.onInputUp.add(up3, this); //Cuando clickamos el boton, ejecuta la función up()
+
         game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
+        jugador = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador');
+        jugador2 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador').alignTo(jugador, Phaser.RIGHT_CENTER, -240);
+        jugador3 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador').alignTo(jugador2, Phaser.RIGHT_CENTER, -240);
+        jugador4 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugador');
+        jugador5 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugador').alignTo(jugador4, Phaser.RIGHT_CENTER, -240);
+        jugador6 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugador').alignTo(jugador5, Phaser.RIGHT_CENTER, -240);
+
+        jugador.scale.setTo(0.4, 0.5);
+        jugador2.scale.setTo(0.4, 0.5);
+        jugador3.scale.setTo(0.4, 0.5);
+        jugador4.scale.setTo(0.4, 0.5);
+        jugador5.scale.setTo(0.4, 0.5);
+        jugador6.scale.setTo(0.4, 0.5);
+
+  
+        game.add.text(game.world.x+100, game.world.y+382, text2, style2);
+        game.add.text(game.world.x+360, game.world.y+382, text2, style2);
+        game.add.text(game.world.x+620, game.world.y+382, text2, style2);
+        game.add.text(game.world.x+100, game.world.y+482, text2, style2);
+        game.add.text(game.world.x+360, game.world.y+482, text2, style2);
+        game.add.text(game.world.x+620, game.world.y+482, text2, style2);
+    
     },
 
     update: function(){
+        if(contador == 0){
+           // contador = 30;
+           game.state.start('preloadMatch');
+        }
         
         
       
     }
-}
-function actionOnClick () 
-{
-    background.visible =! background.visible;
 }
 function showSeconds()
 {
@@ -68,10 +120,24 @@ function showSeconds()
 function up() 
 {
     console.log('button up', arguments);
+    if(numeroDeVotos1<9)
     numeroDeVotos1++; //Aumentamos el número de votos del mapa de la izquierda
+
     votos1.setText(numeroDeVotos1); //Imprimimos el resultado por pantalla.
 }
+function up2(){
+    if(numeroDeVotos2<9)
+    numeroDeVotos2++;
 
+    votos2.setText(numeroDeVotos2); 
+}
+
+function up3(){
+    if(numeroDeVotos3<9)
+    numeroDeVotos3++;
+
+    votos3.setText(numeroDeVotos3);
+}
 function over() 
 {
     console.log('button over');

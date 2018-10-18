@@ -15,8 +15,12 @@ PenRunner.preloadMatchmakingState.prototype =
 		
 		//Archivos a cargar:
 
-    	game.load.spritesheet('button', 'Assets/button_sprite_sheet.png', 193, 71);
-        game.load.image('background','Assets/starfield.jpg');
+		game.load.image('button', 'Assets/Mapa1.png', 200, 70);
+		game.load.image('button2', 'Assets/Mapa2.png', 200, 70);
+		game.load.image('button3', 'Assets/Mapa3.png', 200, 70);
+		game.load.image('jugador', 'Assets/jugadores.png', 200, 70);
+		game.load.image('background','Assets/starfield.jpg');
+		
 
 	},
 	update: function()
