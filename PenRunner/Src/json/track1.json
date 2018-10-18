@@ -1,3 +1,5 @@
 {
-    "track":"test1"
+    "track":"test1",
+    "wallsImage":"Assets/wallsTrack1.png",
+    "wallsCollisionJson":"Src/json/Track1CollisionWalls.json"
 }

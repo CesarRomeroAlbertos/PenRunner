@@ -1,12 +1,11 @@
-PenRunner.preloadMatchState = function(game) {
+PenRunner.preloadTrackBuildState = function(game) {
 
 }
 
-PenRunner.preloadMatchState.prototype =
+PenRunner.preloadTrackBuildState.prototype =
 {
 	preload:function()
 	{
-		var chosenTrack = 'Src/json/track1.json';
 		//Poner texto, imágenes, y todo lo que tenga que salir en la pantalla de carga ANTES de cargar las imágenes
 
         var text = "Loading...";
@@ -16,12 +15,15 @@ PenRunner.preloadMatchState.prototype =
 		
 		//Archivos a cargar:
 
-		game.load.json('track',chosenTrack);
+		var trackJson = game.cache.getJSON('track');
+
+		game.load.image('walls',trackJson.wallsImage);
+		game.load.json('wallsCollision',trackJson.wallsCollisionJson);
 	},
 	update: function()
 	{
 
-		game.state.start('preloadTrackBuildState');
+		game.state.start('matchState');
 
 	}
 }
