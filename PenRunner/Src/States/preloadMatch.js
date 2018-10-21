@@ -16,6 +16,7 @@ PenRunner.preloadMatchState.prototype =
 		
 		//Archivos a cargar:
 
+		//leemos el json del circuito elegido
 		game.load.json('track',chosenTrack);
 	},
 	update: function()
