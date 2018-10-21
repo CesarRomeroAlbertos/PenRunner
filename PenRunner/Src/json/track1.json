@@ -1,5 +1,13 @@
 {
     "track":"test1",
     "wallsImage":"Assets/wallsTrack1.png",
-    "wallsCollisionJson":"Src/json/Track1CollisionWalls.json"
+    "wallsCollisionJson":"Src/json/Track1CollisionWalls.json",
+    "wallsPositionX": 0,
+    "wallsPositionY": 0,
+    "startImage":"Assets/startTrack1.png",
+    "startPositionX":45,
+    "startPositionY":565,
+    "goalImage":"Assets/goalTrack1.png",
+    "goalPositionX":575,
+    "goalPositionY":0
 }

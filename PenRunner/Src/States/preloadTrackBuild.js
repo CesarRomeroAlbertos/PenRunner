@@ -19,6 +19,8 @@ PenRunner.preloadTrackBuildState.prototype =
 
 		game.load.image('walls',trackJson.wallsImage);
 		game.load.json('wallsCollision',trackJson.wallsCollisionJson);
+		game.load.image('start',trackJson.startImage);
+		game.load.image('goal',trackJson.goalImage);
 	},
 	update: function()
 	{
