@@ -113,6 +113,12 @@ PenRunner.matchmakingState.prototype =
     update: function(){
         if(contador == 0){
             contador = 30;
+            if(numeroDeVotos1 > numeroDeVotos2 && numeroDeVotos1 > numeroDeVotos3)
+                chosenCircuit = 1;
+            else if(numeroDeVotos2 > numeroDeVotos1 && numeroDeVotos2 > numeroDeVotos3)
+                chosenCircuit = 2;
+            else
+                chosenCircuit = 3;
            game.state.start('preloadMatch');
         }
         if(joinKey.isDown){
