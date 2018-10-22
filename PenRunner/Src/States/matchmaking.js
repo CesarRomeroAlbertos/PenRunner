@@ -5,6 +5,9 @@ var background; //Define el fondo de la pantalla
 var text = 0; //Texto utilizado para el contador de iniciar partida
 var text2 = 'Vacío';
 
+var textPlayer = 'Vacío';
+var textPlayer2 = 'Vacío';
+
 //Variables que muestran los votos de los 3 mapas disponibles a elegir
 var votos1 = 0;
 var votos2 = 0;
@@ -14,6 +17,7 @@ var votos3 = 0;
 //Estilos de fuente
 var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
 var style2 =  { font: "30px Arial", fill: "#000000", align: "center"};
+var style3 =  { font: "30px Arial", fill: "#ffffff", align: "center"};
 
 
 var contador = 30; //Tiempo restante para que comience la partida
@@ -27,6 +31,8 @@ var numeroDeVotos3 = 0;
 var buttonMap; 
 var buttonMap2;
 var buttonMap3;
+var joinKey = 0;
+var joinKey2 = 0;
 
 var chosenCircuit = -1;
 var jugador, jugador2, jugador3, jugador4, jugador5, jugador6;
@@ -47,7 +53,7 @@ PenRunner.matchmakingState.prototype =
 
         background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Añadimos un sprite al background
 
-        buttonMap = game.add.button(game.world.x + 40, 40, 'button', null, this, 10, 10, 0) //Establecemos las caracteristicas del primer boton
+        buttonMap = game.add.button(game.world.x + 40, 40, 'button', null, this, 1, 0, 2) //Establecemos las caracteristicas del primer boton
         buttonMap2 = game.add.button(game.world.x + 300, 40, 'button2', null, this, 10, 10, 0) //Establecemos las caracteristicas del segundo boton
         buttonMap3 = game.add.button(game.world.x + 560, 40, 'button3', null, this, 10, 10, 0) //Establecemos las caracteristicas del tercer boton
 
@@ -55,7 +61,7 @@ PenRunner.matchmakingState.prototype =
         buttonMap.width = buttonMap2.width = buttonMap3.width = 200; 
         buttonMap.height = buttonMap2.height = buttonMap3.height = 200;
         
-        text = game.add.text(game.world.centerX-270, game.world.centerY+250, 'Tiempo restante para iniciar partida: 30', style2);  //ponemos la variable text en el recinto y la editamos 
+        text = game.add.text(game.world.centerX-270, game.world.centerY+250, 'Tiempo restante para iniciar partida: 30', style3);  //ponemos la variable text en el recinto y la editamos 
 
         votos1 = game.add.text(game.world.x+120, 250, numeroDeVotos1, style);
         votos2 = game.add.text(game.world.x+380, 250, numeroDeVotos2, style);
@@ -92,29 +98,36 @@ PenRunner.matchmakingState.prototype =
         jugador6.scale.setTo(0.4, 0.5);
 
   
-        game.add.text(game.world.x+100, game.world.y+382, text2, style2);
-        game.add.text(game.world.x+360, game.world.y+382, text2, style2);
+       textPlayer = game.add.text(game.world.x+80, game.world.y+382, textPlayer, style2);
+       textPlayer2 = game.add.text(game.world.x+340, game.world.y+382, textPlayer2, style2);
         game.add.text(game.world.x+620, game.world.y+382, text2, style2);
         game.add.text(game.world.x+100, game.world.y+482, text2, style2);
         game.add.text(game.world.x+360, game.world.y+482, text2, style2);
         game.add.text(game.world.x+620, game.world.y+482, text2, style2);
-    
+
+        joinKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
+        joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
+
     },
 
     update: function(){
         if(contador == 0){
-           // contador = 30;
+            contador = 30;
            game.state.start('preloadMatch');
         }
-        
-        
-      
+        if(joinKey.isDown){
+            textPlayer.setText('Jugador 1')
+        }
+        if(joinKey2.isDown){
+            textPlayer2.setText('Jugador 2')
+        }
     }
 }
 function showSeconds()
 {
    contador--;
    text.setText('Tiempo restante para iniciar partida: ' + contador);
+  
 }
 
 function up() 
@@ -122,17 +135,18 @@ function up()
     console.log('button up', arguments);
     if(numeroDeVotos1<9)
     numeroDeVotos1++; //Aumentamos el número de votos del mapa de la izquierda
-
     votos1.setText(numeroDeVotos1); //Imprimimos el resultado por pantalla.
 }
-function up2(){
+function up2()
+{
     if(numeroDeVotos2<9)
     numeroDeVotos2++;
 
     votos2.setText(numeroDeVotos2); 
 }
 
-function up3(){
+function up3()
+{
     if(numeroDeVotos3<9)
     numeroDeVotos3++;
 
@@ -140,6 +154,7 @@ function up3(){
 }
 function over() 
 {
+    
     console.log('button over');
     
 }
