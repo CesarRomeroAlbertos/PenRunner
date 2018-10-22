@@ -2,6 +2,13 @@ PenRunner.matchState = function(game) {
 
 }
 
+var player1State;
+var player2State;
+var player1ArrowDirection;
+var player2ArrowDirection;
+var DirectionArrowP1;
+var DirectionArrowP2;
+
 PenRunner.matchState.prototype =
 {
 	create: function()
@@ -66,6 +73,16 @@ PenRunner.matchState.prototype =
     	leftKeyP2 = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
 		rightKeyP2 = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 		forwardKeyP2 = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+
+		//inicializamos variables de la escena
+
+		player1State = 0;
+		player2State = 0;
+		player1ArrowDirection = true;
+		player2ArrowDirection = true;
+
+		setArrow1();
+		setArrow2();
 	},
 
 	update:function()
@@ -93,9 +110,46 @@ PenRunner.matchState.prototype =
 			AngleLineLeftP2.angle+=5;
 			AngleLineRightP2.angle+=5;
 			DirectionArrowP2.angle+=5;
-        }
+		}
+		if (forwardKeyP1.isDown)
+        {
+			if(player1State==0)
+			{
+				player1State = 1;
+			}
+			else if(player1State==1)
+			{
+				player1State = 0;
+			}
+		}
+		if (forwardKeyP2.isDown)
+        {
+			if(player2State==0)
+			{
+				player2State = 1;
+			}
+			else if(player2State==1)
+			{
+				player2State = 0;
+			}
+		}
+		
 
 
 	}
+}
+
+function setArrow1()
+{
+	var angle = game.rnd.integerInRange(0, 60);
+	DirectionArrowP1.angle = -60-angle;
+	player1ArrowDirection = true;
+}
+
+function setArrow2()
+{
+	var angle = game.rnd.integerInRange(0, 60);
+	DirectionArrowP2.angle = -60-angle;
+	player2ArrowDirection = true;
 }
 
