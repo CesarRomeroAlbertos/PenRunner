@@ -80,6 +80,8 @@ PenRunner.matchState.prototype =
 		player2State = 0;
 		player1ArrowDirection = true;
 		player2ArrowDirection = true;
+		timeCounter1 = 0;
+		timeCounter2 = 0;
 
 		setArrow1();
 		setArrow2();
@@ -87,29 +89,25 @@ PenRunner.matchState.prototype =
 
 	update:function()
 	{
-		if (leftKeyP1.isDown)
+		if (leftKeyP1.isDown && player1State==0)
         {
 			AngleLineLeftP1.angle-=5;
 			AngleLineRightP1.angle-=5;
-			DirectionArrowP1.angle-=5;
 		}
-		else if (rightKeyP1.isDown)
+		else if (rightKeyP1.isDown && player1State==0)
         {
 			AngleLineLeftP1.angle+=5;
 			AngleLineRightP1.angle+=5;
-			DirectionArrowP1.angle+=5;
 		}
-		if (leftKeyP2.isDown)
+		if (leftKeyP2.isDown && player2State==0)
         {
 			AngleLineLeftP2.angle-=5;
 			AngleLineRightP2.angle-=5;
-			DirectionArrowP2.angle-=5;
 		}
-		else if (rightKeyP2.isDown)
+		else if (rightKeyP2.isDown && player2State==0)
         {
 			AngleLineLeftP2.angle+=5;
 			AngleLineRightP2.angle+=5;
-			DirectionArrowP2.angle+=5;
 		}
 		if (forwardKeyP1.isDown)
         {
@@ -133,6 +131,25 @@ PenRunner.matchState.prototype =
 				player2State = 0;
 			}
 		}
+
+		if (player1State==0)
+		{
+			moveArrow1();
+		}
+		else
+		{
+
+		}
+
+		if (player2State==0)
+		{
+			moveArrow2();
+		}
+		else
+		{
+
+		}
+		
 		
 
 
@@ -151,5 +168,43 @@ function setArrow2()
 	var angle = game.rnd.integerInRange(0, 60);
 	DirectionArrowP2.angle = -60-angle;
 	player2ArrowDirection = true;
+}
+
+var timeCounter1;
+function moveArrow1()
+{
+	timeCounter1+=game.time.elapsedMS/1000;
+	if(player1ArrowDirection)
+	{
+		DirectionArrowP1.angle = AngleLineLeftP1.angle+game.math.linear(0, 60, timeCounter1/0.5); 
+	}
+	else
+	{
+		DirectionArrowP1.angle = AngleLineRightP1.angle-game.math.linear(0, 60, timeCounter1/0.5);
+	}
+	if(timeCounter1>=0.5)
+	{
+		timeCounter1=0;
+		player1ArrowDirection=!player1ArrowDirection;
+	}
+}
+
+var timeCounter2;
+function moveArrow2()
+{
+	timeCounter2+=game.time.elapsedMS/1000;
+	if(player2ArrowDirection)
+	{
+		DirectionArrowP2.angle = AngleLineLeftP2.angle+game.math.linear(0, 60, timeCounter2/0.5); 
+	}
+	else
+	{
+		DirectionArrowP2.angle = AngleLineRightP2.angle-game.math.linear(0, 60, timeCounter2/0.5);
+	}
+	if(timeCounter2>=0.5)
+	{
+		timeCounter2=0;
+		player2ArrowDirection=!player2ArrowDirection;
+	}
 }
 
