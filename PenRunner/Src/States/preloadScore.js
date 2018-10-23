@@ -14,7 +14,9 @@ PenRunner.preloadScoreState.prototype =
 		var t = game.add.text(game.world.centerX-150, game.world.centerY-100, text, style);
 		
 		//Archivos a cargar:
-
+		game.load.image('background','Assets/starfield.jpg');
+		game.load.image('jugador', 'Assets/jugadores.png', 200, 70);
+		game.load.image('return', 'Assets/atras.png', 200, 70);
 		
 	},
 	update: function()

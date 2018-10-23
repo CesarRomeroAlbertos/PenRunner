@@ -113,13 +113,14 @@ PenRunner.matchmakingState.prototype =
     update: function(){
         if(contador == 0){
             contador = 30;
+            //En función de los mapas votados, asignamos un valor a la variable chosenCircuit, para luego elegirlo desde el json
             if(numeroDeVotos1 > numeroDeVotos2 && numeroDeVotos1 > numeroDeVotos3)
                 chosenCircuit = 1;
             else if(numeroDeVotos2 > numeroDeVotos1 && numeroDeVotos2 > numeroDeVotos3)
                 chosenCircuit = 2;
             else
                 chosenCircuit = 3;
-           game.state.start('preloadMatch');
+           game.state.start('preloadMatchState');
         }
         if(joinKey.isDown){
             textPlayer.setText('Jugador 1')
