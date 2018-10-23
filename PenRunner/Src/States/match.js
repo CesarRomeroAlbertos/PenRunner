@@ -140,15 +140,14 @@ function changeState1()
 	if(player1State==0)
 			{
 				player1State = 1;
-				timeCounter1 = 0;
+				timeCounter1 = game.rnd.integerInRange(0, 50)/100;
 				player1ArrowDirection=true;
 			}
 			else if(player1State==1)
 			{
 				player1State = 0;
-				timeCounter1 = 0;
-				player1ArrowDirection=true;
 				DirectionArrowP1.scale.setTo(0.4, 0.3);
+				setArrow1();
 			}
 }
 
@@ -157,29 +156,30 @@ function changeState2()
 	if(player2State==0)
 			{
 				player2State = 1;
-				timeCounter2 = 0;
+				timeCounter2 = game.rnd.integerInRange(0, 50)/100;
 				player2ArrowDirection=true;
 			}
 			else if(player2State==1)
 			{
 				player2State = 0;
-				timeCounter2 = 0;
-				player2ArrowDirection=true;
 				DirectionArrowP2.scale.setTo(0.4, 0.3);
+				setArrow2();
 			}
 }
 
 function setArrow1()
 {
 	var angle = game.rnd.integerInRange(0, 60);
-	DirectionArrowP1.angle = -60-angle;
+	timeCounter1 = game.math.linear(0,0.5,angle/60);
+	DirectionArrowP1.angle = AngleLineRightP1.angle-angle;
 	player1ArrowDirection = true;
 }
 
 function setArrow2()
 {
 	var angle = game.rnd.integerInRange(0, 60);
-	DirectionArrowP2.angle = -60-angle;
+	timeCounter2 = game.math.linear(0,0.5,angle/60);
+	DirectionArrowP2.angle = AngleLineRightP2.angle-angle;
 	player2ArrowDirection = true;
 }
 
