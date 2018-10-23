@@ -8,6 +8,8 @@ var player1ArrowDirection;
 var player2ArrowDirection;
 var DirectionArrowP1;
 var DirectionArrowP2;
+var timeCounter1;
+var timeCounter2;
 
 PenRunner.matchState.prototype =
 {
@@ -74,6 +76,9 @@ PenRunner.matchState.prototype =
 		rightKeyP2 = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 		forwardKeyP2 = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 
+		forwardKeyP1.onDown.add(changeState1, this);
+		forwardKeyP2.onDown.add(changeState2, this);
+
 		//inicializamos variables de la escena
 
 		player1State = 0;
@@ -109,28 +114,6 @@ PenRunner.matchState.prototype =
 			AngleLineLeftP2.angle+=5;
 			AngleLineRightP2.angle+=5;
 		}
-		if (forwardKeyP1.isDown)
-        {
-			if(player1State==0)
-			{
-				player1State = 1;
-			}
-			else if(player1State==1)
-			{
-				player1State = 0;
-			}
-		}
-		if (forwardKeyP2.isDown)
-        {
-			if(player2State==0)
-			{
-				player2State = 1;
-			}
-			else if(player2State==1)
-			{
-				player2State = 0;
-			}
-		}
 
 		if (player1State==0)
 		{
@@ -138,7 +121,7 @@ PenRunner.matchState.prototype =
 		}
 		else
 		{
-
+			powerArrow1();
 		}
 
 		if (player2State==0)
@@ -147,13 +130,43 @@ PenRunner.matchState.prototype =
 		}
 		else
 		{
-
+			powerArrow2();
 		}
-		
-		
-
-
 	}
+}
+
+function changeState1()
+{
+	if(player1State==0)
+			{
+				player1State = 1;
+				timeCounter1 = 0;
+				player1ArrowDirection=true;
+			}
+			else if(player1State==1)
+			{
+				player1State = 0;
+				timeCounter1 = 0;
+				player1ArrowDirection=true;
+				DirectionArrowP1.scale.setTo(0.4, 0.3);
+			}
+}
+
+function changeState2()
+{
+	if(player2State==0)
+			{
+				player2State = 1;
+				timeCounter2 = 0;
+				player2ArrowDirection=true;
+			}
+			else if(player2State==1)
+			{
+				player2State = 0;
+				timeCounter2 = 0;
+				player2ArrowDirection=true;
+				DirectionArrowP2.scale.setTo(0.4, 0.3);
+			}
 }
 
 function setArrow1()
@@ -170,7 +183,6 @@ function setArrow2()
 	player2ArrowDirection = true;
 }
 
-var timeCounter1;
 function moveArrow1()
 {
 	timeCounter1+=game.time.elapsedMS/1000;
@@ -189,7 +201,6 @@ function moveArrow1()
 	}
 }
 
-var timeCounter2;
 function moveArrow2()
 {
 	timeCounter2+=game.time.elapsedMS/1000;
@@ -205,6 +216,46 @@ function moveArrow2()
 	{
 		timeCounter2=0;
 		player2ArrowDirection=!player2ArrowDirection;
+	}
+}
+
+function powerArrow1()
+{
+	timeCounter1+=game.time.elapsedMS/1000;
+	if(timeCounter1>0.5)
+	{
+		timeCounter1=0;
+		player1ArrowDirection=!player1ArrowDirection;
+	}
+	if(player1ArrowDirection)
+	{
+		var length = game.math.linear(0, 0.4, timeCounter1/0.5);
+		DirectionArrowP1.scale.setTo(length, 0.3);
+	}
+	else
+	{
+		var length = game.math.linear(0, 0.4, (0.5-timeCounter1)/0.5);
+		DirectionArrowP1.scale.setTo(length, 0.3);
+	}
+}
+
+function powerArrow2()
+{
+	timeCounter2+=game.time.elapsedMS/1000;
+	if(timeCounter2>=0.5)
+	{
+		timeCounter2=0;
+		player2ArrowDirection=!player2ArrowDirection;
+	}
+	if(player2ArrowDirection)
+	{
+		var length = game.math.linear(0, 0.4, timeCounter2/0.5);
+		DirectionArrowP2.scale.setTo(length, 0.3);
+	}
+	else
+	{
+		var length = game.math.linear(0, 0.4, (0.5-timeCounter2)/0.5);
+		DirectionArrowP2.scale.setTo(length, 0.3);
 	}
 }
 
