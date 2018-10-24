@@ -27,7 +27,9 @@ PenRunner.matchState.prototype =
 		goal = game.add.sprite(trackJson.goalPositionX,trackJson.goalPositionY,'goal');
 		game.physics.enable(goal, Phaser.Physics.ARCADE);
 
-		walls.body.data.shapes[0].sensor = true;
+		//game.physics.p2.enable(walls, true);
+		//walls.body.static = true;
+		//walls.body.data.shape.sensor = true;
 
 		player1 = game.add.sprite(trackJson.startPositionX+40,trackJson.startPositionY,'player1');
 		player1.anchor.setTo(0, 0);
@@ -147,7 +149,7 @@ PenRunner.matchState.prototype =
 function checkPos(x,y)
 {
 	var point = new Phaser.Point(x,y);
-	checkPoint = new sprite(x,y);
+	checkPoint = game.add.sprite(x,y);
 	game.physics.p2.enable(checkPoint, true);
 	checkPoint.body.setCircle(1);
 	var check = game.physics.p2.hitTest(point, [walls, checkPoint]);
