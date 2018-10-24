@@ -2,6 +2,7 @@ PenRunner.matchState = function(game) {
 
 }
 
+var walls;
 var player1State;
 var player2State;
 var player1ArrowDirection;
@@ -26,11 +27,15 @@ PenRunner.matchState.prototype =
 		goal = game.add.sprite(trackJson.goalPositionX,trackJson.goalPositionY,'goal');
 		game.physics.enable(goal, Phaser.Physics.ARCADE);
 
+		walls.body.data.shapes[0].sensor = true;
+
 		player1 = game.add.sprite(trackJson.startPositionX+40,trackJson.startPositionY,'player1');
 		player1.anchor.setTo(0, 0);
+		player1.scale.setTo(0.15,0.15);
 		player1.angle += 45;
 		player2 = game.add.sprite(trackJson.startPositionX+90,trackJson.startPositionY,'player2');
 		player2.anchor.setTo(0, 0);
+		player2.scale.setTo(0.15,0.15);
 		player2.angle += 45;
 
 
@@ -98,21 +103,25 @@ PenRunner.matchState.prototype =
         {
 			AngleLineLeftP1.angle-=5;
 			AngleLineRightP1.angle-=5;
+			player1.angle-=5;
 		}
 		else if (rightKeyP1.isDown && player1State==0)
         {
 			AngleLineLeftP1.angle+=5;
 			AngleLineRightP1.angle+=5;
+			player1.angle+=5;
 		}
 		if (leftKeyP2.isDown && player2State==0)
         {
 			AngleLineLeftP2.angle-=5;
 			AngleLineRightP2.angle-=5;
+			player2.angle-=5;
 		}
 		else if (rightKeyP2.isDown && player2State==0)
         {
 			AngleLineLeftP2.angle+=5;
 			AngleLineRightP2.angle+=5;
+			player2.angle+=5;
 		}
 
 		if (player1State==0)
@@ -135,6 +144,17 @@ PenRunner.matchState.prototype =
 	}
 }
 
+function checkPos(x,y)
+{
+	var point = new Phaser.Point(x,y);
+	checkPoint = new sprite(x,y);
+	game.physics.p2.enable(checkPoint, true);
+	checkPoint.body.setCircle(1);
+	var check = game.physics.p2.hitTest(point, [walls, checkPoint]);
+	checkPoint.destroy();
+	return !check;
+}
+
 function changeState1()
 {
 	if(player1State==0)
@@ -145,6 +165,19 @@ function changeState1()
 			}
 			else if(player1State==1)
 			{
+				var positionXcheck = Math.cos(DirectionArrowP1.angle)*DirectionArrowP1.width;
+				var positionYcheck = Math.sin(DirectionArrowP1.angle)*DirectionArrowP1.width;
+				if(checkPos(positionXcheck+DirectionArrowP1.world.x,positionYcheck+DirectionArrowP1.world.y))
+				{
+					player1.x+=positionXcheck;
+					player1.y+=positionYcheck;
+					AngleLineLeftP1.x+=positionXcheck;
+					AngleLineLeftP1.y+=positionYcheck;
+					AngleLineRightP1.x+=positionXcheck;
+					AngleLineRightP1.y+=positionYcheck;
+					DirectionArrowP1.x+=positionXcheck;
+					DirectionArrowP1.y+=positionYcheck;
+				}
 				player1State = 0;
 				DirectionArrowP1.scale.setTo(0.4, 0.3);
 				setArrow1();
@@ -161,6 +194,19 @@ function changeState2()
 			}
 			else if(player2State==1)
 			{
+				var positionXcheck = Math.cos(DirectionArrowP2.angle)*DirectionArrowP2.width;
+				var positionYcheck = Math.sin(DirectionArrowP2.angle)*DirectionArrowP2.width;
+				if(checkPos(positionXcheck+DirectionArrowP2.world.x,positionYcheck+DirectionArrowP2.world.y))
+				{
+					player2.x+=positionXcheck;
+					player2.y+=positionYcheck;
+					AngleLineLeftP2.x+=positionXcheck;
+					AngleLineLeftP2.y+=positionYcheck;
+					AngleLineRightP2.x+=positionXcheck;
+					AngleLineRightP2.y+=positionYcheck;
+					DirectionArrowP2.x+=positionXcheck;
+					DirectionArrowP2.y+=positionYcheck;
+				}
 				player2State = 0;
 				DirectionArrowP2.scale.setTo(0.4, 0.3);
 				setArrow2();
