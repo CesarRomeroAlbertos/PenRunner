@@ -60,7 +60,7 @@ function start(){
 }
 
 function settings(){
-	//game.state.start('preloadSettingsState');
+	game.state.start('preloadSettingsState');
 }
 
 function exit(){

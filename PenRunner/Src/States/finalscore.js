@@ -6,7 +6,7 @@ var background;
 var buttonReturn;
 var jugador1, jugador2, jugador3, jugador4, jugador5, jugador6;
 var text = 'Puntuación Final';
-var style3 =  { font: "60px Arial", fill: "#ffffff", align: "center"};
+var style4 =  { font: "60px Arial", fill: "#ffffff", align: "center"};
 
 
 PenRunner.scoreState.prototype =
@@ -37,7 +37,7 @@ PenRunner.scoreState.prototype =
 	    jugador5.scale.setTo(1.2, 0.5);
 		jugador6.scale.setTo(1.2, 0.5);
 		
-		text = game.add.text(game.world.centerX-220, game.world.centerY-230, 'Puntuación Final', style3);
+		text = game.add.text(game.world.centerX-220, game.world.centerY-230, 'Puntuación Final', style4);
 	},
 	update: function()
 	{
