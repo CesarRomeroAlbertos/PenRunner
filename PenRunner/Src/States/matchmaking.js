@@ -15,7 +15,7 @@ var votos3 = 0;
 
 
 //Estilos de fuente
-var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
+var style1 = { font: "65px Arial", fill: "#ffffff", align: "center" };
 var style2 =  { font: "30px Arial", fill: "#000000", align: "center"};
 var style3 =  { font: "30px Arial", fill: "#ffffff", align: "center"};
 
@@ -63,9 +63,9 @@ PenRunner.matchmakingState.prototype =
         
         text = game.add.text(game.world.centerX-270, game.world.centerY+250, 'Tiempo restante para iniciar partida: 30', style3);  //ponemos la variable text en el recinto y la editamos 
 
-        votos1 = game.add.text(game.world.x+120, 250, numeroDeVotos1, style);
-        votos2 = game.add.text(game.world.x+380, 250, numeroDeVotos2, style);
-        votos3 = game.add.text(game.world.x+640, 250, numeroDeVotos3, style);
+        votos1 = game.add.text(game.world.x+120, 250, numeroDeVotos1, style1);
+        votos2 = game.add.text(game.world.x+380, 250, numeroDeVotos2, style1);
+        votos3 = game.add.text(game.world.x+640, 250, numeroDeVotos3, style1);
 
         //Boton izquierda
         buttonMap.onInputOver.add(over, this); //Cuando ponemos el raton en el recinto del boton, ejecuta la función over()

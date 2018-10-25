@@ -14,43 +14,43 @@ PenRunner.menuState.prototype =
 
 		background = game.add.tileSprite(0, 0, 800, 600, 'background');
 		
-		buttonStart = game.add.button(game.world.x + 250, 350, 'button', start, this, 0, 0, 0);
-        buttonSettings = game.add.button(game.world.x + 730, 20, 'button2', settings, this, 0, 0, 0);
-		buttonExit = game.add.button(game.world.x + 20, 20, 'button3', exit, this, 0, 0, 0);
+		buttonStart = game.add.button(game.world.x + 250, 350, 'buttonStart', start, this, 0, 0, 0);
+        buttonSettings = game.add.button(game.world.x + 730, 20, 'buttonSettings', settings, this, 0, 0, 0);
+		buttonExit = game.add.button(game.world.x + 20, 20, 'buttonExit', exit, this, 0, 0, 0);
 		
         buttonStart.width = 300; 
 		buttonStart.height = 100;
 		buttonSettings.width = buttonExit.width = 50;
 		buttonSettings.height = buttonExit.height = 50;
 
-		buttonStart.onInputOver.add(over, this);
-        buttonStart.onInputOut.add(out, this);
-		buttonStart.onInputUp.add(up, this);
+		buttonStart.onInputOver.add(overMenu, this);
+        buttonStart.onInputOut.add(outMenu, this);
+		buttonStart.onInputUp.add(upMenu, this);
 		
-		buttonSettings.onInputOver.add(over, this);
-        buttonSettings.onInputOut.add(out, this);
-		buttonSettings.onInputUp.add(up, this);
+		buttonSettings.onInputOver.add(overMenu, this);
+        buttonSettings.onInputOut.add(outMenu, this);
+		buttonSettings.onInputUp.add(upMenu, this);
 		
-		buttonExit.onInputOver.add(over, this);
-        buttonExit.onInputOut.add(out, this);
-		buttonExit.onInputUp.add(up, this);
+		buttonExit.onInputOver.add(overMenu, this);
+        buttonExit.onInputOut.add(outMenu, this);
+		buttonExit.onInputUp.add(upMenu, this);
 	},
 	update:function() {
 
 	}
 }
 
-function up() 
+function upMenu() 
 {
     console.log('button up', arguments);
 }
 
-function over() 
+function overMenu() 
 {
     console.log('button over');
 }
 
-function out() 
+function outMenu() 
 {
     console.log('button out');
 }
