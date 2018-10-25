@@ -14,6 +14,8 @@ game.state.add('scoreState', PenRunner.scoreState)
 game.state.add('preloadMatchmakingState', PenRunner.preloadMatchmakingState)
 game.state.add('matchmakingState', PenRunner.matchmakingState)
 game.state.add('preloadTrackBuildState', PenRunner.preloadTrackBuildState)
+game.state.add('preloadSettingsState', PenRunner.preloadSettingsState)
+game.state.add('settingsState', PenRunner.settingsState)
 
 
  // llamamos a la scena boot
