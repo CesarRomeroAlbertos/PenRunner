@@ -20,7 +20,7 @@ PenRunner.preloadTrackBuildState.prototype =
 
 		//cargamos todos los assets leyendo las direcciones recogidas en el json del circuito
 		game.load.image('walls',trackJson.wallsImage);
-		game.load.json('wallsCollision',trackJson.wallsCollisionJson);
+		game.load.physics('wallsCollision',trackJson.wallsCollisionJson);
 		game.load.image('start',trackJson.startImage);
 		game.load.image('goal',trackJson.goalImage);
 		game.load.image('player1',"Assets/cursor_azul.png");

@@ -20,16 +20,26 @@ PenRunner.matchState.prototype =
 		game.stage.backgroundColor = "#FFFFFF";
 		//cogemos los jsons necesarios de la cache
 		var trackJson = game.cache.getJSON('track');
-		var collisionJson = game.cache.getJSON('wallsCollision');
+		//var collisionJson = game.cache.getJSON('wallsCollision');
 		//metemos los sprites con sus colliders cuando son necesarios
-		walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls',{shape: collisionJson.wallsTrack});
+		walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls');//,{shape: collisionJson.wallsTrack});
 		start = game.add.sprite(trackJson.startPositionX,trackJson.startPositionY,'start');
 		goal = game.add.sprite(trackJson.goalPositionX,trackJson.goalPositionY,'goal');
 		game.physics.enable(goal, Phaser.Physics.ARCADE);
 
-		//game.physics.p2.enable(walls, true);
-		//walls.body.static = true;
-		//walls.body.data.shape.sensor = true;
+		
+		game.physics.p2.enable(walls, true);
+		walls.body.x+=walls.width/2;
+		walls.body.y+=walls.height/2;
+		
+		walls.body.clearShapes();
+		walls.body.loadPolygon('wallsCollision', 'wallsTrack');
+		//walls.body.offset.x += trackJson.wallsPositionX;
+		//walls.body.offset.y += trackJson.wallsPositionY;
+		walls.body.static = true;
+		console.log(walls.body.data.shapes.length);
+		for(var i=0; i< walls.body.data.shapes.length;i++)
+			walls.body.data.shapes[0].sensor = true;
 
 		player1 = game.add.sprite(trackJson.startPositionX+40,trackJson.startPositionY,'player1');
 		player1.anchor.setTo(0, 0);
