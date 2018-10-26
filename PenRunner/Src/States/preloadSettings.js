@@ -16,6 +16,8 @@ PenRunner.preloadSettingsState.prototype =
 		//Archivos a cargar:
 
 		game.load.image('buttonBackSettings', 'Assets/atras.png', 200, 70);
+		game.load.image('buttonUp', 'Assets/subir.png', 200, 70);
+		game.load.image('buttonDown', 'Assets/bajar.png', 200, 70);
 		game.load.image('background','Assets/starfield.jpg');
         
 	},
