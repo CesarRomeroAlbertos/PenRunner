@@ -162,10 +162,13 @@ function checkPos(checkPositionX,checkPositionY)
 	game.physics.p2.enable(checkPoint, true);
 	checkPoint.body.clearShapes();
 	checkPoint.body.setCircle(1);
-	var check = game.physics.p2.hitTest(checkPoint.position, [walls, checkPoint]);
+	var check = game.physics.p2.hitTest(point, [walls.body]);
 	checkPoint.destroy();
-	console.log(!check);
-	return !check;
+	console.log(check);
+	if(check.length)
+		return false;
+	else
+		return true;
 }
 
 function changeState1()

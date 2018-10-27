@@ -16,6 +16,6 @@ PenRunner.bootState.prototype =
 			
 	},
 	update: function(){
-		game.state.start('preloadMatchState');
+		game.state.start('preloadTitleState');
 	}
 }
