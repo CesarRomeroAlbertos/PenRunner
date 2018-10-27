@@ -37,7 +37,6 @@ PenRunner.matchState.prototype =
 		//walls.body.offset.x += trackJson.wallsPositionX;
 		//walls.body.offset.y += trackJson.wallsPositionY;
 		walls.body.static = true;
-		console.log(walls.body.data.shapes.length);
 		for(var i=0; i< walls.body.data.shapes.length;i++)
 			walls.body.data.shapes[0].sensor = true;
 
@@ -156,14 +155,16 @@ PenRunner.matchState.prototype =
 	}
 }
 
-function checkPos(x,y)
+function checkPos(checkPositionX,checkPositionY)
 {
-	var point = new Phaser.Point(x,y);
-	checkPoint = game.add.sprite(x,y);
+	checkPoint = game.add.sprite(checkPositionX,checkPositionY);
+	var point = new Phaser.Point(checkPositionX,checkPositionY);
 	game.physics.p2.enable(checkPoint, true);
+	checkPoint.body.clearShapes();
 	checkPoint.body.setCircle(1);
-	var check = game.physics.p2.hitTest(point, [walls, checkPoint]);
+	var check = game.physics.p2.hitTest(checkPoint.position, [walls, checkPoint]);
 	checkPoint.destroy();
+	console.log(!check);
 	return !check;
 }
 
@@ -177,9 +178,9 @@ function changeState1()
 			}
 			else if(player1State==1)
 			{
-				var positionXcheck = Math.cos(DirectionArrowP1.angle)*DirectionArrowP1.width;
-				var positionYcheck = Math.sin(DirectionArrowP1.angle)*DirectionArrowP1.width;
-				if(checkPos(positionXcheck+DirectionArrowP1.world.x,positionYcheck+DirectionArrowP1.world.y))
+				var positionXcheck = Math.cos(DirectionArrowP1.rotation)*DirectionArrowP1.width;
+				var positionYcheck = Math.sin(DirectionArrowP1.rotation)*DirectionArrowP1.width;
+				if(checkPos(positionXcheck+DirectionArrowP1.x,positionYcheck+DirectionArrowP1.y))
 				{
 					player1.x+=positionXcheck;
 					player1.y+=positionYcheck;
