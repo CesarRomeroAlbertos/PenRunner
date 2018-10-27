@@ -210,9 +210,9 @@ function changeState2()
 			}
 			else if(player2State==1)
 			{
-				var positionXcheck = Math.cos(DirectionArrowP2.angle)*DirectionArrowP2.width;
-				var positionYcheck = Math.sin(DirectionArrowP2.angle)*DirectionArrowP2.width;
-				if(checkPos(positionXcheck+DirectionArrowP2.world.x,positionYcheck+DirectionArrowP2.world.y))
+				var positionXcheck = Math.cos(DirectionArrowP2.rotation)*DirectionArrowP2.width;
+				var positionYcheck = Math.sin(DirectionArrowP2.rotation)*DirectionArrowP2.width;
+				if(checkPos(positionXcheck+DirectionArrowP2.x,positionYcheck+DirectionArrowP2.y))
 				{
 					player2.x+=positionXcheck;
 					player2.y+=positionYcheck;
