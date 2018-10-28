@@ -1,6 +1,6 @@
 {
     "track":"test2",
-    "wallsImage":"Assets/circuito2.png",
+    "wallsImage":"Assets/wallsTrack2.png",
     "wallsCollisionJson":"Src/json/Track2CollisionWalls.json",
     "wallsPositionX": 0,
     "wallsPositionY": 0,
