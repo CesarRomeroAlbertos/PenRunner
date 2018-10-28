@@ -7,6 +7,10 @@ PenRunner.bootState = function(game) {
 
 PenRunner.bootState.prototype =
 {
+	preload: function()
+	{
+
+	},
 	create: function()
 	{
 		//en boot lo único que hacemos es activar las físicas
