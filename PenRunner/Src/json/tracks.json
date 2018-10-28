@@ -8,10 +8,6 @@
         {
             "name":"track2",
             "json":"Src/json/track2.json"
-        },
-        {
-            "name":"track3",
-            "json":"Src/json/track3.json"
         }
     ]
 }

@@ -6,22 +6,8 @@ PenRunner.preloadMatchState.prototype =
 {
 	preload:function()
 	{
-		switch(chosenCircuit)
-        {
-            case 1:
-				chosenTrack = 'Src/json/track1.json';
-                break;
-			case 2:
-				chosenTrack = 'Src/json/track2.json';
-                break;
-            case 3:
-				break;
-			default:
-
-			game.state.start('matchmakingState');
-
-
-        }
+		var trackList = game.cache.getJSON('trackList');
+		chosenTrack = trackList.tracks[chosenCircuit].json;
 		
 		//Poner texto, imágenes, y todo lo que tenga que salir en la pantalla de carga ANTES de cargar las imágenes
 

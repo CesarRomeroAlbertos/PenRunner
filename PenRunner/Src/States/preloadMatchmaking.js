@@ -20,7 +20,7 @@ PenRunner.preloadMatchmakingState.prototype =
 		game.load.image('button3', 'Assets/Mapa3.png', 200, 70);
 		game.load.image('jugador', 'Assets/jugadores.png', 200, 70);
 		game.load.image('background','Assets/starfield.jpg');
-		
+		game.load.json('trackList',"Src/json/tracks.json");
 
 	},
 	update: function()
