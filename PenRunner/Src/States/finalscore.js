@@ -19,7 +19,8 @@ PenRunner.scoreState.prototype =
 	},
 	create: function()
 	{
-		background = game.add.sprite(game.world.x, game.world.y, 'background'); //Añadimos un sprite al background
+		background = game.add.sprite(game.world.x, game.world.y-25, 'background'); //Añadimos un sprite al background
+		background.scale.setTo(0.65, 1);
 		buttonReturn = game.add.button(game.world.x+20, game.world.y+20, 'return', actionONClick, this, 1, 0, 2); //Botón para volver al menú principal
 		buttonReturn.width = 50;
 		buttonReturn.height = 50;
