@@ -11,6 +11,7 @@ var DirectionArrowP1;
 var DirectionArrowP2;
 var timeCounter1;
 var timeCounter2;
+var goalOrder;
 
 PenRunner.matchState.prototype =
 {
@@ -20,13 +21,19 @@ PenRunner.matchState.prototype =
 		game.stage.backgroundColor = "#FFFFFF";
 		//cogemos los jsons necesarios de la cache
 		var trackJson = game.cache.getJSON('track');
-		//var collisionJson = game.cache.getJSON('wallsCollision');
 		//metemos los sprites con sus colliders cuando son necesarios
 		walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls');//,{shape: collisionJson.wallsTrack});
 		start = game.add.sprite(trackJson.startPositionX,trackJson.startPositionY,'start');
 		goal = game.add.sprite(trackJson.goalPositionX,trackJson.goalPositionY,'goal');
-		game.physics.enable(goal, Phaser.Physics.ARCADE);
 
+		game.physics.p2.enable(goal, true);
+		for(var i=0; i< goal.body.data.shapes.length;i++)
+			goal.body.data.shapes[i].sensor = true;
+		
+		goal.body.static = true;
+		goal.body.x+=goal.width/2;
+		goal.body.y+=goal.height/2;
+		goal.body.debug=false;
 		
 		game.physics.p2.enable(walls, true);
 		walls.body.x+=walls.width/2;
@@ -34,11 +41,10 @@ PenRunner.matchState.prototype =
 		
 		walls.body.clearShapes();
 		walls.body.loadPolygon('wallsCollision', 'wallsTrack');
-		//walls.body.offset.x += trackJson.wallsPositionX;
-		//walls.body.offset.y += trackJson.wallsPositionY;
 		walls.body.static = true;
+		walls.body.debug=false;
 		for(var i=0; i< walls.body.data.shapes.length;i++)
-			walls.body.data.shapes[0].sensor = true;
+			walls.body.data.shapes[i].sensor = true;
 
 		player1 = game.add.sprite(trackJson.startPositionX+40,trackJson.startPositionY,'player1');
 		player1.anchor.setTo(0, 0);
@@ -103,6 +109,7 @@ PenRunner.matchState.prototype =
 		player2ArrowDirection = true;
 		timeCounter1 = 0;
 		timeCounter2 = 0;
+		goalOrder = new Array();
 
 		setArrow1();
 		setArrow2();
@@ -139,7 +146,7 @@ PenRunner.matchState.prototype =
 		{
 			moveArrow1();
 		}
-		else
+		else if(player1State==1)
 		{
 			powerArrow1();
 		}
@@ -148,9 +155,14 @@ PenRunner.matchState.prototype =
 		{
 			moveArrow2();
 		}
-		else
+		else if(player2State==1)
 		{
 			powerArrow2();
+		}
+
+		if(goalOrder.length>=2)
+		{
+			game.state.start('preloadScoreState');
 		}
 	}
 }
@@ -164,27 +176,56 @@ function checkPos(checkPositionX,checkPositionY)
 	checkPoint.body.setCircle(1);
 	var check = game.physics.p2.hitTest(point, [walls.body]);
 	checkPoint.destroy();
-	console.log(check);
 	if(check.length)
 		return false;
 	else
 		return true;
 }
 
+function checkWin(checkPositionX,checkPositionY)
+{
+	checkPoint = game.add.sprite(checkPositionX,checkPositionY);
+	var point = new Phaser.Point(checkPositionX,checkPositionY);
+	game.physics.p2.enable(checkPoint, true);
+	checkPoint.body.clearShapes();
+	checkPoint.body.setCircle(1);
+	var check = game.physics.p2.hitTest(point, [goal.body]);
+	checkPoint.destroy();
+	if(check.length)
+		return true;
+	else
+		return false;
+}
+
 function changeState1()
 {
-	if(player1State==0)
+	if(player1State===0)
 			{
 				player1State = 1;
 				timeCounter1 = game.rnd.integerInRange(0, 50)/100;
 				player1ArrowDirection=true;
+				AngleLineLeftP2.visible = false;
+				AngleLineRightP2.visible = false;
 			}
-			else if(player1State==1)
+			else if(player1State===1)
 			{
 				var positionXcheck = Math.cos(DirectionArrowP1.rotation)*DirectionArrowP1.width;
 				var positionYcheck = Math.sin(DirectionArrowP1.rotation)*DirectionArrowP1.width;
-				if(checkPos(positionXcheck+DirectionArrowP1.x,positionYcheck+DirectionArrowP1.y))
+				player1State = 0;
+				AngleLineLeftP2.visible = true;
+				AngleLineRightP2.visible = true;
+				if(checkPos(positionXcheck+DirectionArrowP1.x,positionYcheck+DirectionArrowP1.y)
+				&& positionXcheck+DirectionArrowP1.x>0 && positionXcheck+DirectionArrowP1.x<800
+				&& positionYcheck+DirectionArrowP1.y>0 && positionYcheck+DirectionArrowP1.y<600)
 				{
+					if(checkWin(positionXcheck+DirectionArrowP1.x,positionYcheck+DirectionArrowP1.y))
+					{
+						goalOrder.push(1);
+						player1State=2;
+						AngleLineLeftP1.visible = false;
+						AngleLineRightP1.visible = false;
+						DirectionArrowP1.visible = false
+					}
 					player1.x+=positionXcheck;
 					player1.y+=positionYcheck;
 					AngleLineLeftP1.x+=positionXcheck;
@@ -194,7 +235,6 @@ function changeState1()
 					DirectionArrowP1.x+=positionXcheck;
 					DirectionArrowP1.y+=positionYcheck;
 				}
-				player1State = 0;
 				DirectionArrowP1.scale.setTo(0.4, 0.3);
 				setArrow1();
 			}
@@ -202,18 +242,33 @@ function changeState1()
 
 function changeState2()
 {
-	if(player2State==0)
+	if(player2State===0)
 			{
 				player2State = 1;
 				timeCounter2 = game.rnd.integerInRange(0, 50)/100;
 				player2ArrowDirection=true;
+				AngleLineLeftP2.visible = false;
+				AngleLineRightP2.visible = false;
 			}
-			else if(player2State==1)
+			else if(player2State===1)
 			{
 				var positionXcheck = Math.cos(DirectionArrowP2.rotation)*DirectionArrowP2.width;
 				var positionYcheck = Math.sin(DirectionArrowP2.rotation)*DirectionArrowP2.width;
-				if(checkPos(positionXcheck+DirectionArrowP2.x,positionYcheck+DirectionArrowP2.y))
+				player2State = 0;
+				AngleLineLeftP2.visible = true;
+				AngleLineRightP2.visible = true;
+				if(checkPos(positionXcheck+DirectionArrowP2.x,positionYcheck+DirectionArrowP2.y)
+				&& positionXcheck+DirectionArrowP2.x>0 && positionXcheck+DirectionArrowP2.x<800
+				&& positionYcheck+DirectionArrowP2.y>0 && positionYcheck+DirectionArrowP2.y<600)
 				{
+					if(checkWin(positionXcheck+DirectionArrowP2.x,positionYcheck+DirectionArrowP2.y))
+					{
+						goalOrder.push(2);
+						player2State=2;
+						AngleLineLeftP2.visible = false;
+						AngleLineRightP2.visible = false;
+						DirectionArrowP2.visible = false;
+					}
 					player2.x+=positionXcheck;
 					player2.y+=positionYcheck;
 					AngleLineLeftP2.x+=positionXcheck;
@@ -223,7 +278,6 @@ function changeState2()
 					DirectionArrowP2.x+=positionXcheck;
 					DirectionArrowP2.y+=positionYcheck;
 				}
-				player2State = 0;
 				DirectionArrowP2.scale.setTo(0.4, 0.3);
 				setArrow2();
 			}
