@@ -26,6 +26,11 @@ PenRunner.matchState.prototype =
 		start = game.add.sprite(trackJson.startPositionX,trackJson.startPositionY,'start');
 		goal = game.add.sprite(trackJson.goalPositionX,trackJson.goalPositionY,'goal');
 
+		start.angle=trackJson.startRotation;
+		start.scale.setTo(trackJson.startScaleX,1);
+		goal.angle=trackJson.goalRotation;
+		goal.scale.setTo(trackJson.goalScaleX,1);
+
 		game.physics.p2.enable(goal, true);
 		for(var i=0; i< goal.body.data.shapes.length;i++)
 			goal.body.data.shapes[i].sensor = true;
@@ -44,29 +49,32 @@ PenRunner.matchState.prototype =
 		walls.body.static = true;
 		walls.body.debug=false;
 		for(var i=0; i< walls.body.data.shapes.length;i++)
+		{
 			walls.body.data.shapes[i].sensor = true;
+		}
 
-		player1 = game.add.sprite(trackJson.startPositionX+40,trackJson.startPositionY,'player1');
+		player1 = game.add.sprite(game.math.linear(trackJson.playerPositionXzero,trackJson.playerPositionXone,1/3),
+		game.math.linear(trackJson.playerPositionYzero,trackJson.playerPositionYone,1/3),'player1');
 		player1.anchor.setTo(0, 0);
 		player1.scale.setTo(0.15,0.15);
-		player1.angle += 45;
-		player2 = game.add.sprite(trackJson.startPositionX+90,trackJson.startPositionY,'player2');
+		player1.angle += trackJson.playerAngle;
+		player2 = game.add.sprite(game.math.linear(trackJson.playerPositionXzero,trackJson.playerPositionXone,2/3),
+		game.math.linear(trackJson.playerPositionYzero,trackJson.playerPositionYone,2/3),'player2');
 		player2.anchor.setTo(0, 0);
 		player2.scale.setTo(0.15,0.15);
-		player2.angle += 45;
-
+		player2.angle += trackJson.playerAngle;
 
 		//flecha y ángulo del primer jugador
-		AngleLineLeftP1 = game.add.sprite(trackJson.startPositionX+40,trackJson.startPositionY,'angleLine');
-		AngleLineRightP1= game.add.sprite(trackJson.startPositionX+40,trackJson.startPositionY,'angleLine');
-		DirectionArrowP1= game.add.sprite(trackJson.startPositionX+40,trackJson.startPositionY,'angleLine');
+		AngleLineLeftP1 = game.add.sprite(player1.x,player1.y,'angleLine');
+		AngleLineRightP1= game.add.sprite(player1.x,player1.y,'angleLine');
+		DirectionArrowP1= game.add.sprite(player1.x,player1.y,'angleLine');
 
 		AngleLineLeftP1.anchor.setTo(0, 0.5);
-		AngleLineLeftP1.angle-=120;
+		AngleLineLeftP1.angle=trackJson.directionAngle-30;
 		AngleLineRightP1.anchor.setTo(0, 0.5);
-		AngleLineRightP1.angle-=60;
+		AngleLineRightP1.angle=trackJson.directionAngle+30;
 		DirectionArrowP1.anchor.setTo(0, 0.5);
-		DirectionArrowP1.angle-=90;
+		DirectionArrowP1.angle=trackJson.directionAngle;
 
 		AngleLineLeftP1.scale.setTo(0.5, 0.5);
 		AngleLineRightP1.scale.setTo(0.5, 0.5);
@@ -74,21 +82,21 @@ PenRunner.matchState.prototype =
 
 		//flecha y ángulo del segundo jugador
 
-		AngleLineLeftP2 = game.add.sprite(trackJson.startPositionX+90,trackJson.startPositionY,'angleLine');
-		AngleLineRightP2= game.add.sprite(trackJson.startPositionX+90,trackJson.startPositionY,'angleLine');
-		DirectionArrowP2= game.add.sprite(trackJson.startPositionX+90,trackJson.startPositionY,'angleLine');
+		AngleLineLeftP2 = game.add.sprite(player2.x,player2.y,'angleLine');
+		AngleLineRightP2= game.add.sprite(player2.x,player2.y,'angleLine');
+		DirectionArrowP2= game.add.sprite(player2.x,player2.y,'angleLine');
 
 		AngleLineLeftP2.anchor.setTo(0, 0.5);
-		AngleLineLeftP2.angle-=120;
+		AngleLineLeftP2.angle=trackJson.directionAngle-30;
 		AngleLineRightP2.anchor.setTo(0, 0.5);
-		AngleLineRightP2.angle-=60;
+		AngleLineRightP2.angle=trackJson.directionAngle+30;
 		DirectionArrowP2.anchor.setTo(0, 0.5);
-		DirectionArrowP2.angle-=90;
+		DirectionArrowP2.angle=trackJson.directionAngle;
 
 		AngleLineLeftP2.scale.setTo(0.5, 0.5);
 		AngleLineRightP2.scale.setTo(0.5, 0.5);
 		DirectionArrowP2.scale.setTo(0.4, 0.3);
-
+		
 		//controles
 
 		leftKeyP1 = game.input.keyboard.addKey(Phaser.Keyboard.A);
