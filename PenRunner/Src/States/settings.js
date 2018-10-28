@@ -13,7 +13,8 @@ var musica = 'Música';
 var sonido = 'Sonido';
 var musicaValor = 0;
 var sonidoValor = 0;
-var volumen = 10;
+var volumenMusica = 10;
+var volumenSonido = 10;
 
 PenRunner.settingsState.prototype =
 {
@@ -32,35 +33,16 @@ PenRunner.settingsState.prototype =
 		buttonUp1.height = buttonUp2.height = buttonDown1.height = buttonDown2.height = 40;
 		buttonUp1.width = buttonUp2.width = buttonDown1.width = buttonDown2.width = 35;
 
-		buttonBack.onInputOver.add(overSettings, this);
-        buttonBack.onInputOut.add(outSettings, this);
-		buttonBack.onInputUp.add(upSettings, this);
-
 		game.add.text(game.world.centerX-150, 20, opciones, style1);
 		game.add.text(200, 250, musica, style3);
 		game.add.text(200, 350, sonido, style3);
 
-		musicaValor = game.add.text(490, 250, volumen, style3);
-        sonidoValor = game.add.text(490, 350, volumen, style3);
+		musicaValor = game.add.text(490, 250, volumenMusica, style3);
+        sonidoValor = game.add.text(490, 350, volumenSonido, style3);
 	},
 	update:function() {
 
 	}
-}
-
-function upSettings() 
-{
-    console.log('button up', arguments);
-}
-
-function overSettings() 
-{
-    console.log('button over');
-}
-
-function outSettings() 
-{
-    console.log('button out');
 }
 
 function backSettings(){
@@ -68,25 +50,25 @@ function backSettings(){
 }
 
 function subirMusica(){
-	if(volumen<10)
-    volumen++;
-    musicaValor.setText(volumen);
+	if(volumenMusica<10)
+    volumenMusica++;
+    musicaValor.setText(volumenMusica);
 }
 
 function bajarMusica(){
-	if(volumen>0)
-    volumen--;
-    musicaValor.setText(volumen);
+	if(volumenMusica>0)
+    volumenMusica--;
+    musicaValor.setText(volumenMusica);
 }
 
 function subirSonido(){
-	if(volumen<10)
-    volumen++;
-    sonidoValor.setText(volumen);
+	if(volumenSonido<10)
+    volumenSonido++;
+    sonidoValor.setText(volumenSonido);
 }
 
 function bajarSonido(){
-	if(volumen>0)
-    volumen--;
-    sonidoValor.setText(volumen);
+	if(volumenSonido>0)
+    volumenSonido--;
+    sonidoValor.setText(volumenSonido);
 }

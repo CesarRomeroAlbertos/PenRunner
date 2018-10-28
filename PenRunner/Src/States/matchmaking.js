@@ -118,8 +118,20 @@ PenRunner.matchmakingState.prototype =
                 chosenCircuit = 0;
             else if(numeroDeVotos2 > numeroDeVotos1 && numeroDeVotos2 > numeroDeVotos3)
                 chosenCircuit = 1;
-            else
+            else if(numeroDeVotos3 > numeroDeVotos1 && numeroDeVotos3 > numeroDeVotos2)
                 chosenCircuit = 2;
+            else if (numeroDeVotos1 == numeroDeVotos2 == numeroDeVotos3)
+                chosenCircuit = Math.floor(Math.random()*3);
+            else if(numeroDeVotos1 == numeroDeVotos2)
+                chosenCircuit = Math.floor(Math.random()*2);
+            else if(numeroDeVotos2 == numeroDeVotos3)
+                chosenCircuit = Math.floor((Math.random()*2)+1);
+            else if(numeroDeVotos1 == numeroDeVotos3)
+                var rnd = Math.round(Math.random());
+                if(rnd == 0)
+                    chosenCircuit = 0;
+                else
+                    chosenCircuit = 2;
            game.state.start('preloadMatchState');
         }
         if(joinKey.isDown){
