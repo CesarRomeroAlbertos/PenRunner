@@ -20,16 +20,25 @@ PenRunner.matchState.prototype =
 		game.stage.backgroundColor = "#FFFFFF";
 		//cogemos los jsons necesarios de la cache
 		var trackJson = game.cache.getJSON('track');
-		var collisionJson = game.cache.getJSON('wallsCollision');
+		//var collisionJson = game.cache.getJSON('wallsCollision');
 		//metemos los sprites con sus colliders cuando son necesarios
-		walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls',{shape: collisionJson.wallsTrack});
+		walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls');//,{shape: collisionJson.wallsTrack});
 		start = game.add.sprite(trackJson.startPositionX,trackJson.startPositionY,'start');
 		goal = game.add.sprite(trackJson.goalPositionX,trackJson.goalPositionY,'goal');
 		game.physics.enable(goal, Phaser.Physics.ARCADE);
 
-		//game.physics.p2.enable(walls, true);
-		//walls.body.static = true;
-		//walls.body.data.shape.sensor = true;
+		
+		game.physics.p2.enable(walls, true);
+		walls.body.x+=walls.width/2;
+		walls.body.y+=walls.height/2;
+		
+		walls.body.clearShapes();
+		walls.body.loadPolygon('wallsCollision', 'wallsTrack');
+		//walls.body.offset.x += trackJson.wallsPositionX;
+		//walls.body.offset.y += trackJson.wallsPositionY;
+		walls.body.static = true;
+		for(var i=0; i< walls.body.data.shapes.length;i++)
+			walls.body.data.shapes[0].sensor = true;
 
 		player1 = game.add.sprite(trackJson.startPositionX+40,trackJson.startPositionY,'player1');
 		player1.anchor.setTo(0, 0);
@@ -146,15 +155,20 @@ PenRunner.matchState.prototype =
 	}
 }
 
-function checkPos(x,y)
+function checkPos(checkPositionX,checkPositionY)
 {
-	var point = new Phaser.Point(x,y);
-	checkPoint = game.add.sprite(x,y);
+	checkPoint = game.add.sprite(checkPositionX,checkPositionY);
+	var point = new Phaser.Point(checkPositionX,checkPositionY);
 	game.physics.p2.enable(checkPoint, true);
+	checkPoint.body.clearShapes();
 	checkPoint.body.setCircle(1);
-	var check = game.physics.p2.hitTest(point, [walls, checkPoint]);
+	var check = game.physics.p2.hitTest(point, [walls.body]);
 	checkPoint.destroy();
-	return !check;
+	console.log(check);
+	if(check.length)
+		return false;
+	else
+		return true;
 }
 
 function changeState1()
@@ -167,9 +181,9 @@ function changeState1()
 			}
 			else if(player1State==1)
 			{
-				var positionXcheck = Math.cos(DirectionArrowP1.angle)*DirectionArrowP1.width;
-				var positionYcheck = Math.sin(DirectionArrowP1.angle)*DirectionArrowP1.width;
-				if(checkPos(positionXcheck+DirectionArrowP1.world.x,positionYcheck+DirectionArrowP1.world.y))
+				var positionXcheck = Math.cos(DirectionArrowP1.rotation)*DirectionArrowP1.width;
+				var positionYcheck = Math.sin(DirectionArrowP1.rotation)*DirectionArrowP1.width;
+				if(checkPos(positionXcheck+DirectionArrowP1.x,positionYcheck+DirectionArrowP1.y))
 				{
 					player1.x+=positionXcheck;
 					player1.y+=positionYcheck;
@@ -196,9 +210,9 @@ function changeState2()
 			}
 			else if(player2State==1)
 			{
-				var positionXcheck = Math.cos(DirectionArrowP2.angle)*DirectionArrowP2.width;
-				var positionYcheck = Math.sin(DirectionArrowP2.angle)*DirectionArrowP2.width;
-				if(checkPos(positionXcheck+DirectionArrowP2.world.x,positionYcheck+DirectionArrowP2.world.y))
+				var positionXcheck = Math.cos(DirectionArrowP2.rotation)*DirectionArrowP2.width;
+				var positionYcheck = Math.sin(DirectionArrowP2.rotation)*DirectionArrowP2.width;
+				if(checkPos(positionXcheck+DirectionArrowP2.x,positionYcheck+DirectionArrowP2.y))
 				{
 					player2.x+=positionXcheck;
 					player2.y+=positionYcheck;
