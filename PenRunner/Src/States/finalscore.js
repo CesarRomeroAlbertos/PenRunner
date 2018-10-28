@@ -7,7 +7,7 @@ var buttonReturn;
 var jugador1, jugador2, jugador3, jugador4, jugador5, jugador6; //Variables asociadas a los sprites de fondo de cada uno de los jugadores
 var text = 'Puntuación Final';
 var style4 =  { font: "60px Arial", fill: "#ffffff", align: "center"};
-var puntuacion1, puntuacion2, puntuacion3, puntuacion4, puntuacion5, puntuacion6; //Variables que guardan la puntuacion de cada uno de los jugadores
+var puntuacion1, puntuacion2, puntuacion3, puntuacion4, puntuacion5, puntuacion6 = 0; //Variables que guardan la puntuacion de cada uno de los jugadores
 
 
 
@@ -26,8 +26,19 @@ PenRunner.scoreState.prototype =
 		buttonReturn.height = 50;
 
 		//De momento, las puntuaciones son estaticas, más adelante, se guardarán en función de la escena anterior
-		puntuacion1 = 10;
-		puntuacion2 = 8;
+		for(var i= 0; i < goalOrder; i+2)
+		{
+			if(goalOrder[i]==1)
+			{
+				puntuacion1+=10;
+				puntuacion2+=8;
+			}
+			else
+			{
+				puntuacion2+=10;
+				puntuacion1+=8;
+			}
+		}
 
 		//Creamos los sprites para los fondos de puntuación de los jugadores
 		jugador = game.add.sprite(game.world.x+100, game.world.y+150, 'jugador');
