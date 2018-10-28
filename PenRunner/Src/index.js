@@ -3,12 +3,21 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv')
   
   //aquí se añaden las escenas al juego, si queréis añadir alguna más hay que hacerlo aquí
 game.state.add('bootState', PenRunner.bootState)
-game.state.add('preloadState', PenRunner.preloadState)
+game.state.add('preloadTitleState', PenRunner.preloadTitleState)
 game.state.add('titleState', PenRunner.titleState)
+game.state.add('preloadMenuState', PenRunner.preloadMenuState)
 game.state.add('menuState', PenRunner.menuState)
+game.state.add('preloadMatchState', PenRunner.preloadMatchState)
 game.state.add('matchState', PenRunner.matchState)
+game.state.add('preloadScoreState', PenRunner.preloadScoreState)
 game.state.add('scoreState', PenRunner.scoreState)
+game.state.add('preloadMatchmakingState', PenRunner.preloadMatchmakingState)
+game.state.add('matchmakingState', PenRunner.matchmakingState)
+game.state.add('preloadTrackBuildState', PenRunner.preloadTrackBuildState)
+game.state.add('preloadSettingsState', PenRunner.preloadSettingsState)
+game.state.add('settingsState', PenRunner.settingsState)
 
-  llamamos a la scena boot
+
+ // llamamos a la scena boot
 game.state.start('bootState')
 

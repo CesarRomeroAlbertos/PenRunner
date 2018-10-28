@@ -1,0 +1,23 @@
+{
+    "track":"test2",
+    "wallsImage":"Assets/wallsTrack2.png",
+    "wallsCollisionJson":"Src/json/Track2CollisionWalls.json",
+    "wallsPositionX": 0,
+    "wallsPositionY": 0,
+    "startImage":"Assets/startTrack1.png",
+    "startPositionX":35,
+    "startPositionY":45,
+    "startRotation":90,
+    "startScaleX":1.1,
+    "goalImage":"Assets/goalTrack1.png",
+    "goalPositionX":573,
+    "goalPositionY":550,
+    "goalRotation":0,
+    "goalScaleX":1.5,
+    "playerPositionXzero":35,
+    "playerPositionXone":35,
+    "playerPositionYzero":45,
+    "playerPositionYone":200,
+    "playerAngle":135,
+    "directionAngle":0
+}
