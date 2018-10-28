@@ -22,37 +22,10 @@ PenRunner.menuState.prototype =
 		buttonStart.height = 100;
 		buttonSettings.width = buttonExit.width = 50;
 		buttonSettings.height = buttonExit.height = 50;
-
-		buttonStart.onInputOver.add(overMenu, this);
-        buttonStart.onInputOut.add(outMenu, this);
-		buttonStart.onInputUp.add(upMenu, this);
-		
-		buttonSettings.onInputOver.add(overMenu, this);
-        buttonSettings.onInputOut.add(outMenu, this);
-		buttonSettings.onInputUp.add(upMenu, this);
-		
-		buttonExit.onInputOver.add(overMenu, this);
-        buttonExit.onInputOut.add(outMenu, this);
-		buttonExit.onInputUp.add(upMenu, this);
 	},
 	update:function() {
 
 	}
-}
-
-function upMenu() 
-{
-    console.log('button up', arguments);
-}
-
-function overMenu() 
-{
-    console.log('button over');
-}
-
-function outMenu() 
-{
-    console.log('button out');
 }
 
 function start(){
