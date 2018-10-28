@@ -34,7 +34,7 @@ var buttonMap3;
 var joinKey = 0;
 var joinKey2 = 0;
 
-var chosenCircuit = -1;
+var chosenCircuit;
 var jugador, jugador2, jugador3, jugador4, jugador5, jugador6;
 
 
@@ -114,7 +114,30 @@ PenRunner.matchmakingState.prototype =
         if(contador == 0){
             contador = 30;
             //En función de los mapas votados, asignamos un valor a la variable chosenCircuit, para luego elegirlo desde el json
-            if(numeroDeVotos1 > numeroDeVotos2 && numeroDeVotos1 > numeroDeVotos3)
+            var select = [];
+            var max = 0;
+            var puntos = [numeroDeVotos1,numeroDeVotos2,numeroDeVotos3];
+            for(var i = 0; i<puntos.length; i++)
+            {
+                if(puntos[i]>max)
+                {
+                    select=[];
+                    select.push(i);
+                    max = puntos[i];
+                }
+                else if(puntos[i]==max)
+                {
+                    select.push(i);
+                }
+            }
+            if(select.length>1)
+            {
+                var index = game.rnd.integerInRange(0,select.length-1);
+                chosenCircuit = select[index];
+            }
+            else
+                chosenCircuit = select[0];
+            /*if(numeroDeVotos1 > numeroDeVotos2 && numeroDeVotos1 > numeroDeVotos3)
                 chosenCircuit = 0;
             else if(numeroDeVotos2 > numeroDeVotos1 && numeroDeVotos2 > numeroDeVotos3)
                 chosenCircuit = 1;
@@ -131,7 +154,7 @@ PenRunner.matchmakingState.prototype =
                 if(rnd == 0)
                     chosenCircuit = 0;
                 else
-                    chosenCircuit = 2;
+                    chosenCircuit = 2;*/
            game.state.start('preloadMatchState');
         }
         if(joinKey.isDown){
@@ -153,7 +176,6 @@ function showSeconds()
 
 function up() 
 {
-    console.log('button up', arguments);
     if(numeroDeVotos1<9)
     numeroDeVotos1++; //Aumentamos el número de votos del mapa de la izquierda
     votos1.setText(numeroDeVotos1); //Imprimimos el resultado por pantalla.
@@ -172,15 +194,4 @@ function up3()
     numeroDeVotos3++;
 
     votos3.setText(numeroDeVotos3);
-}
-function over() 
-{
-    
-    console.log('button over');
-    
-}
-
-function out() 
-{
-    console.log('button out');
 }
