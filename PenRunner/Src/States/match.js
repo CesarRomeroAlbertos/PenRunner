@@ -21,8 +21,8 @@ PenRunner.matchState.prototype =
 		game.stage.backgroundColor = "#FFFFFF";
 		//cogemos los jsons necesarios de la cache
 		var trackJson = game.cache.getJSON('track');
-		//metemos los sprites con sus colliders cuando son necesarios
-		walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls');//,{shape: collisionJson.wallsTrack});
+		//metemos los sprites con sus colliders cuando son necesarios, todo leyendo del json del circuito
+		walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls');
 		start = game.add.sprite(trackJson.startPositionX,trackJson.startPositionY,'start');
 		goal = game.add.sprite(trackJson.goalPositionX,trackJson.goalPositionY,'goal');
 
@@ -125,6 +125,7 @@ PenRunner.matchState.prototype =
 
 	update:function()
 	{
+		//usamos update para los distintos controles
 		if (leftKeyP1.isDown && player1State==0)
         {
 			AngleLineLeftP1.angle-=5;
@@ -175,6 +176,7 @@ PenRunner.matchState.prototype =
 	}
 }
 
+//comprobamos si se puede mover un jugador a una posición o está en un muro
 function checkPos(checkPositionX,checkPositionY)
 {
 	checkPoint = game.add.sprite(checkPositionX,checkPositionY);
@@ -190,6 +192,7 @@ function checkPos(checkPositionX,checkPositionY)
 		return true;
 }
 
+//comprobamos si una posición se encuentra en la meta
 function checkWin(checkPositionX,checkPositionY)
 {
 	checkPoint = game.add.sprite(checkPositionX,checkPositionY);
@@ -205,6 +208,7 @@ function checkWin(checkPositionX,checkPositionY)
 		return false;
 }
 
+//cambiamos el estado del primer jugador y hacemos las comprobaciones y acciones necesarias dados estos cambios de estado
 function changeState1()
 {
 	if(player1State===0)
@@ -248,6 +252,7 @@ function changeState1()
 			}
 }
 
+//cambiamos el estado del segundo jugador y hacemos las comprobaciones y acciones necesarias dados estos cambios de estado
 function changeState2()
 {
 	if(player2State===0)
@@ -291,6 +296,7 @@ function changeState2()
 			}
 }
 
+//recalculaos una posición para la flecha de dirección del primer jugador
 function setArrow1()
 {
 	var angle = game.rnd.integerInRange(0, 60);
@@ -299,6 +305,7 @@ function setArrow1()
 	player1ArrowDirection = true;
 }
 
+//recalculaos una posición para la flecha de dirección del segundo jugador
 function setArrow2()
 {
 	var angle = game.rnd.integerInRange(0, 60);
@@ -307,6 +314,7 @@ function setArrow2()
 	player2ArrowDirection = true;
 }
 
+//hacemos que gire la flecha del primer jugador
 function moveArrow1()
 {
 	timeCounter1+=game.time.elapsedMS/1000;
@@ -325,6 +333,7 @@ function moveArrow1()
 	}
 }
 
+//hacemos que gire la flecha del segundo jugador
 function moveArrow2()
 {
 	timeCounter2+=game.time.elapsedMS/1000;
@@ -343,6 +352,7 @@ function moveArrow2()
 	}
 }
 
+//cambiamos el tamaño de la flecha y ajustamos la distancia del movimiento del primer jugador
 function powerArrow1()
 {
 	timeCounter1+=game.time.elapsedMS/1000;
@@ -363,6 +373,7 @@ function powerArrow1()
 	}
 }
 
+//cambiamos el tamaño de la flecha y ajustamos la distancia del segundo del primer jugador
 function powerArrow2()
 {
 	timeCounter2+=game.time.elapsedMS/1000;

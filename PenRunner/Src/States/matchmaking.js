@@ -68,18 +68,12 @@ PenRunner.matchmakingState.prototype =
         votos3 = game.add.text(game.world.x+640, 250, numeroDeVotos3, style1);
 
         //Boton izquierda
-        buttonMap.onInputOver.add(over, this); //Cuando ponemos el raton en el recinto del boton, ejecuta la función over()
-        buttonMap.onInputOut.add(out, this); //Cuando quitamos el raton del recinto del boton, ejecuta la función out()
         buttonMap.onInputUp.add(up, this); //Cuando clickamos el boton, ejecuta la función up()
 
         //Boton centro
-        buttonMap2.onInputOver.add(over, this); //Cuando ponemos el raton en el recinto del boton, ejecuta la función over()
-        buttonMap2.onInputOut.add(out, this); //Cuando quitamos el raton del recinto del boton, ejecuta la función out()
         buttonMap2.onInputUp.add(up2, this); //Cuando clickamos el boton, ejecuta la función up()
 
         //Boton derecha
-        buttonMap3.onInputOver.add(over, this); //Cuando ponemos el raton en el recinto del boton, ejecuta la función over()
-        buttonMap3.onInputOut.add(out, this); //Cuando quitamos el raton del recinto del boton, ejecuta la función out()
         buttonMap3.onInputUp.add(up3, this); //Cuando clickamos el boton, ejecuta la función up()
 
         game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
@@ -137,24 +131,6 @@ PenRunner.matchmakingState.prototype =
             }
             else
                 chosenCircuit = select[0];
-            /*if(numeroDeVotos1 > numeroDeVotos2 && numeroDeVotos1 > numeroDeVotos3)
-                chosenCircuit = 0;
-            else if(numeroDeVotos2 > numeroDeVotos1 && numeroDeVotos2 > numeroDeVotos3)
-                chosenCircuit = 1;
-            else if(numeroDeVotos3 > numeroDeVotos1 && numeroDeVotos3 > numeroDeVotos2)
-                chosenCircuit = 2;
-            else if (numeroDeVotos1 == numeroDeVotos2 == numeroDeVotos3)
-                chosenCircuit = Math.floor(Math.random()*3);
-            else if(numeroDeVotos1 == numeroDeVotos2)
-                chosenCircuit = Math.floor(Math.random()*2);
-            else if(numeroDeVotos2 == numeroDeVotos3)
-                chosenCircuit = Math.floor((Math.random()*2)+1);
-            else if(numeroDeVotos1 == numeroDeVotos3)
-                var rnd = Math.round(Math.random());
-                if(rnd == 0)
-                    chosenCircuit = 0;
-                else
-                    chosenCircuit = 2;*/
            game.state.start('preloadMatchState');
         }
         if(joinKey.isDown){
