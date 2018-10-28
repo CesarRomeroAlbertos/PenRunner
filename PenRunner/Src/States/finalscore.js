@@ -21,9 +21,10 @@ PenRunner.scoreState.prototype =
 	{
 		background = game.add.sprite(game.world.x, game.world.y-25, 'background'); //Añadimos un sprite al background
 		background.scale.setTo(0.65, 1);
-		buttonReturn = game.add.button(game.world.x+20, game.world.y+20, 'return', actionONClick, this, 1, 0, 2); //Botón para volver al menú principal
+		buttonReturn = game.add.button(game.world.x+20, game.world.y+20, 'return', null, this, 0, 0, 0); //Botón para volver al menú principal
 		buttonReturn.width = 50;
 		buttonReturn.height = 50;
+		buttonReturn.onInputUp.add(actionONClickScore, this);
 
 		//De momento, las puntuaciones son estaticas, más adelante, se guardarán en función de la escena anterior
 	//	for(var i= 0; i < 2; i++)
@@ -69,7 +70,8 @@ PenRunner.scoreState.prototype =
 	}
 
 }
-function actionONClick()
+
+function actionONClickScore()
 {
 	game.state.start('preloadMenuState');
 }
