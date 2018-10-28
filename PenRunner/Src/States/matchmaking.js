@@ -128,6 +128,8 @@ PenRunner.matchmakingState.prototype =
         if(joinKey2.isDown){
             textPlayer2.setText('Jugador 2')
         }
+
+    
     }
 }
 function showSeconds()
