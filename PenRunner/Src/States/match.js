@@ -123,34 +123,39 @@ PenRunner.matchState.prototype =
 		setArrow2();
 	},
 
+	//usamos update para los distintos controles
 	update:function()
 	{
-		//usamos update para los distintos controles
+		
+		//tecla izquierda jugador 1
 		if (leftKeyP1.isDown && player1State==0)
         {
 			AngleLineLeftP1.angle-=5;
 			AngleLineRightP1.angle-=5;
 			player1.angle-=5;
 		}
+		//tecla derecha jugador 1
 		else if (rightKeyP1.isDown && player1State==0)
         {
 			AngleLineLeftP1.angle+=5;
 			AngleLineRightP1.angle+=5;
 			player1.angle+=5;
 		}
+		//tecla izquierda jugador 2
 		if (leftKeyP2.isDown && player2State==0)
         {
 			AngleLineLeftP2.angle-=5;
 			AngleLineRightP2.angle-=5;
 			player2.angle-=5;
 		}
+		//tecla derecha jugador 2
 		else if (rightKeyP2.isDown && player2State==0)
         {
 			AngleLineLeftP2.angle+=5;
 			AngleLineRightP2.angle+=5;
 			player2.angle+=5;
 		}
-
+		//aquí llamamos a los métodos que giran la dirección de los jugadores o cambian la distancia que se mueven en función de su estado
 		if (player1State==0)
 		{
 			moveArrow1();
@@ -168,7 +173,7 @@ PenRunner.matchState.prototype =
 		{
 			powerArrow2();
 		}
-
+		//aquí comprobamos que han llegado ambos jugadores a la meta
 		if(goalOrder.length>=2)
 		{
 			game.state.start('preloadScoreState');
@@ -176,7 +181,8 @@ PenRunner.matchState.prototype =
 	}
 }
 
-//comprobamos si se puede mover un jugador a una posición o está en un muro
+//comprobamos si se puede mover un jugador a una posición o da a un muro
+//recibe las coordenadas a comprobar y devuelve true si se puede mover (no hay muro) y false en caso contrario (hay muro)
 function checkPos(checkPositionX,checkPositionY)
 {
 	checkPoint = game.add.sprite(checkPositionX,checkPositionY);
@@ -208,7 +214,8 @@ function checkWin(checkPositionX,checkPositionY)
 		return false;
 }
 
-//cambiamos el estado del primer jugador y hacemos las comprobaciones y acciones necesarias dados estos cambios de estado
+//cambiamos el estado del primer jugador y hacemos las comprobaciones y acciones necesarias dados estos cambios de estado,
+//viendo si el jugador puede moverse a la posición que ha elegido y en caso afirmativo viendo si esa posición está en la meta
 function changeState1()
 {
 	if(player1State===0)
@@ -216,8 +223,8 @@ function changeState1()
 				player1State = 1;
 				timeCounter1 = game.rnd.integerInRange(0, 50)/100;
 				player1ArrowDirection=true;
-				AngleLineLeftP2.visible = false;
-				AngleLineRightP2.visible = false;
+				AngleLineLeftP1.visible = false;
+				AngleLineRightP1.visible = false;
 			}
 			else if(player1State===1)
 			{
@@ -252,7 +259,8 @@ function changeState1()
 			}
 }
 
-//cambiamos el estado del segundo jugador y hacemos las comprobaciones y acciones necesarias dados estos cambios de estado
+//cambiamos el estado del segundo jugador y hacemos las comprobaciones y acciones necesarias dados estos cambios de estado,
+//viendo si el jugador puede moverse a la posición que ha elegido y en caso afirmativo viendo si esa posición está en la meta
 function changeState2()
 {
 	if(player2State===0)
@@ -296,7 +304,7 @@ function changeState2()
 			}
 }
 
-//recalculaos una posición para la flecha de dirección del primer jugador
+//recalculamos una posición para la flecha de dirección del primer jugador
 function setArrow1()
 {
 	var angle = game.rnd.integerInRange(0, 60);
@@ -305,7 +313,7 @@ function setArrow1()
 	player1ArrowDirection = true;
 }
 
-//recalculaos una posición para la flecha de dirección del segundo jugador
+//recalculamos una posición para la flecha de dirección del segundo jugador
 function setArrow2()
 {
 	var angle = game.rnd.integerInRange(0, 60);
