@@ -231,8 +231,8 @@ function changeState1()
 				var positionXcheck = Math.cos(DirectionArrowP1.rotation)*DirectionArrowP1.width;
 				var positionYcheck = Math.sin(DirectionArrowP1.rotation)*DirectionArrowP1.width;
 				player1State = 0;
-				AngleLineLeftP2.visible = true;
-				AngleLineRightP2.visible = true;
+				AngleLineLeftP1.visible = true;
+				AngleLineRightP1.visible = true;
 				if(checkPos(positionXcheck+DirectionArrowP1.x,positionYcheck+DirectionArrowP1.y)
 				&& positionXcheck+DirectionArrowP1.x>0 && positionXcheck+DirectionArrowP1.x<800
 				&& positionYcheck+DirectionArrowP1.y>0 && positionYcheck+DirectionArrowP1.y<600)
