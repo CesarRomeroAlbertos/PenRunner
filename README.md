@@ -146,6 +146,11 @@
 
 ![Progreso del juego completo](Documentation/ImagesGDD/ProgresoJuegoGDD.png)
 
+**Diagrama de escenas final:**
+
+<p align="justify">Este es el diagrama de escenas tal cual se encuentra estructurado en phaser.</p>
+
+![Diagrama de Escenas](Documentation/ImagesGDD/SceneDiagram.png)
 
 <p align="justify">El primer esquema muestra la estructura de una partida; mientras que el segundo, muestra un diagrama del flujo de todo el juego, es decir, todas las pantallas que podemos visitar y desde donde podemos visitarlas.</p>
 
