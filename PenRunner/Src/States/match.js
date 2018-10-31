@@ -111,8 +111,8 @@ PenRunner.matchState.prototype =
 
 		//inicializamos variables de la escena
 
-		player1State = 0;
-		player2State = 0;
+		player1State = 2;
+		player2State = 2;
 		player1ArrowDirection = true;
 		player2ArrowDirection = true;
 		timeCounter1 = 0;
@@ -121,6 +121,17 @@ PenRunner.matchState.prototype =
 
 		setArrow1();
 		setArrow2();
+
+		//semaforo
+		semaforo = game.add.sprite(game.world.centerX, game.world.centerY,'semaforo');
+		semaforo.scale.setTo(1/3, 1/3);
+		semaforo.x-=semaforo.width/2;
+		semaforo.y-=semaforo.height/2;
+
+		semaforoAnimation = semaforo.animations.add('semaforoAnim');
+
+		game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
+
 	},
 
 	//usamos update para los distintos controles
@@ -188,6 +199,10 @@ function checkPos(checkPositionX,checkPositionY)
 	checkPoint = game.add.sprite(checkPositionX,checkPositionY);
 	var point = new Phaser.Point(checkPositionX,checkPositionY);
 	game.physics.p2.enable(checkPoint, true);
+
+	checkPoint.body.x+=checkPoint.width/2;
+	checkPoint.body.y+=checkPoint.height/2;
+
 	checkPoint.body.clearShapes();
 	checkPoint.body.setCircle(1);
 	var check = game.physics.p2.hitTest(point, [walls.body]);
@@ -400,5 +415,20 @@ function powerArrow2()
 		var length = game.math.linear(0, 0.4, (0.5-timeCounter2)/0.5);
 		DirectionArrowP2.scale.setTo(length, 0.3);
 	}
+}
+
+function semaforoCounter()
+{
+    if (semaforoAnimation.frame < semaforoAnimation.frameTotal-1) {
+		console.log("frame " + semaforoAnimation.frame);
+		console.log("total " + semaforoAnimation.frameTotal);
+        semaforoAnimation.frame += 1;
+    }
+    else {
+		player1State = 0;
+		player2State = 0;
+		semaforo.destroy();
+		game.time.events.stop();
+    }   
 }
 
