@@ -84,6 +84,7 @@ PenRunner.matchmakingState.prototype =
         jugador5 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugador').alignTo(jugador4, Phaser.RIGHT_CENTER, -240);
         jugador6 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugador').alignTo(jugador5, Phaser.RIGHT_CENTER, -240);
 
+        //escalamos los botones donde iran el nombres de los jugadores.
         jugador.scale.setTo(0.4, 0.5);
         jugador2.scale.setTo(0.4, 0.5);
         jugador3.scale.setTo(0.4, 0.5);
