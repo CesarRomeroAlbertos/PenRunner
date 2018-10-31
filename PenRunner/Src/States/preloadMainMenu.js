@@ -15,9 +15,9 @@ PenRunner.preloadMenuState.prototype =
 		
 		//Archivos a cargar:
 
-		game.load.image('buttonStart', 'Assets/start.png', 200, 70);
-		game.load.image('buttonSettings', 'Assets/opciones.png', 200, 70);
-		game.load.image('buttonExit', 'Assets/salir.png', 200, 70);
+		game.load.image('buttonStartMenu', 'Assets/start.png', 200, 70);
+		game.load.image('buttonSettingsMenu', 'Assets/opciones.png', 200, 70);
+		game.load.image('buttonExitMenu', 'Assets/salir.png', 200, 70);
 		game.load.image('background','Assets/starfield.jpg');
         
 	},

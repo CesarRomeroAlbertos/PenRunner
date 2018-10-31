@@ -92,8 +92,8 @@ PenRunner.matchmakingState.prototype =
         jugador6.scale.setTo(0.4, 0.5);
 
   
-        textPlayer = game.add.text(game.world.x+80, game.world.y+382, textPlayer, style2);
-        textPlayer2 = game.add.text(game.world.x+340, game.world.y+382, textPlayer2, style2);
+        textPlayer = game.add.text(game.world.x+100, game.world.y+382, text2, style2);
+        textPlayer2 = game.add.text(game.world.x+360, game.world.y+382, text2, style2);
         game.add.text(game.world.x+620, game.world.y+382, text2, style2);
         game.add.text(game.world.x+100, game.world.y+482, text2, style2);
         game.add.text(game.world.x+360, game.world.y+482, text2, style2);
@@ -134,10 +134,12 @@ PenRunner.matchmakingState.prototype =
            game.state.start('preloadMatchState');
         }
         if(joinKey.isDown){
-            textPlayer.setText('Jugador 1')
+            textPlayer2.destroy();
+            game.add.text(game.world.x+340, game.world.y+382,'Jugador 2', style2);
         }
         if(joinKey2.isDown){
-            textPlayer2.setText('Jugador 2')
+            textPlayer.destroy();
+            game.add.text(game.world.x+80, game.world.y+382, 'Jugador 1', style2);
         }
 
     

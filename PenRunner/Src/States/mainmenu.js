@@ -9,33 +9,39 @@ var buttonExit;
 
 PenRunner.menuState.prototype =
 {
-	create: function() {
+	create: function() 
+	{
 		game.stage.backgroundColor = '#182d3b';
 
 		background = game.add.tileSprite(0, 0, 800, 600, 'background');
 		
-		buttonStart = game.add.button(game.world.x + 250, 350, 'buttonStart', start, this, 0, 0, 0);
-        buttonSettings = game.add.button(game.world.x + 730, 20, 'buttonSettings', settings, this, 0, 0, 0);
-		buttonExit = game.add.button(game.world.x + 20, 20, 'buttonExit', exit, this, 0, 0, 0);
+        buttonStartMenu = game.add.button(game.world.x + 250, 400, 'buttonStartMenu', startMenu, this, 1, 0, 2);
+        buttonSettingsMenu = game.add.button(game.world.x + 730, 20, 'buttonSettingsMenu', settingsMenu, this, 1, 0, 2);
+		buttonExitMenu = game.add.button(game.world.x + 20, 20, 'buttonExitMenu', exitMenu, this, 1, 0, 2);
 		
-        buttonStart.width = 300; 
-		buttonStart.height = 100;
-		buttonSettings.width = buttonExit.width = 50;
-		buttonSettings.height = buttonExit.height = 50;
+        buttonStartMenu.width = 300; 
+		buttonStartMenu.height = 100;
+		buttonSettingsMenu.width = buttonExitMenu.width = 50;
+		buttonSettingsMenu.height = buttonExitMenu.height = 50;
+
 	},
-	update:function() {
+	update:function() 
+	{
 
 	}
 }
 
-function start(){
+function startMenu()
+{
     game.state.start('preloadMatchmakingState');
 }
 
-function settings(){
+function settingsMenu()
+{
 	game.state.start('preloadSettingsState');
 }
 
-function exit(){
+function exitMenu()
+{
 	window.close();
 }

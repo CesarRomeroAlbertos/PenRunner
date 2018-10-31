@@ -29,16 +29,16 @@ PenRunner.scoreState.prototype =
 		//De momento, las puntuaciones son estaticas, más adelante, se guardarán en función de la escena anterior
 	//	for(var i= 0; i < 2; i++)
 		//{
-			if(goalOrder[0]==1)
-			{
+		////	if(goalOrder[0]==1)
+		//	{
 				puntuacion1+=10;
 				puntuacion2+=8;
-			}
+		/*}
 			else
 			{
 				puntuacion2+=10;
 				puntuacion1+=8;
-			}
+			}*/
 		//}
 
 		//Creamos los sprites para los fondos de puntuación de los jugadores
@@ -50,8 +50,8 @@ PenRunner.scoreState.prototype =
 		jugador6 = game.add.sprite(game.world.x+100, game.world.y+500, 'jugador');
 		
 		//Ponemos el texto de la puntuacion en el fondo correspondiente.
-		game.add.text(game.world.x+120, game.world.y+165, '1. Jugador ' + goalOrder[0] + '.......................................... ' + puntuacion1 + ' pts');
-		game.add.text(game.world.x+120, game.world.y+235, '2. Jugador ' + goalOrder[1] + '............................................ ' + puntuacion2 + ' pts');
+		game.add.text(game.world.x+120, game.world.y+165, '1. Jugador ' + goalOrder[0] + '.......................................... ' + puntuacion1 + ' pts'); //Imprime la posicion del primer jugador
+		game.add.text(game.world.x+120, game.world.y+235, '2. Jugador ' + goalOrder[1] + '............................................ ' + puntuacion2 + ' pts'); //Imprime la posicion de
 
 		//Se escala el fondo de puntuacion de los jugadores, a priori es un sprite muy básico, se cambiará mas adelante
 	 	jugador.scale.setTo(1.2, 0.5);
