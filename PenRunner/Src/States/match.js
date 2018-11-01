@@ -260,6 +260,9 @@ function changeState1()
 						AngleLineRightP1.visible = false;
 						DirectionArrowP1.visible = false
 					}
+					var line = game.add.sprite(player1.x,player1.y,'angleLineBlue');
+					line.angle = DirectionArrowP1.angle;
+					line.scale.setTo(DirectionArrowP1.scale.x, DirectionArrowP1.scale.y);
 					player1.x+=positionXcheck;
 					player1.y+=positionYcheck;
 					AngleLineLeftP1.x+=positionXcheck;
@@ -268,6 +271,7 @@ function changeState1()
 					AngleLineRightP1.y+=positionYcheck;
 					DirectionArrowP1.x+=positionXcheck;
 					DirectionArrowP1.y+=positionYcheck;
+					
 				}
 				DirectionArrowP1.scale.setTo(0.4, 0.3);
 				setArrow1();
@@ -305,6 +309,9 @@ function changeState2()
 						AngleLineRightP2.visible = false;
 						DirectionArrowP2.visible = false;
 					}
+					var line = game.add.sprite(player2.x,player2.y,'angleLineRed');
+					line.angle = DirectionArrowP2.angle;
+					line.scale.setTo(DirectionArrowP2.scale.x, DirectionArrowP2.scale.y);
 					player2.x+=positionXcheck;
 					player2.y+=positionYcheck;
 					AngleLineLeftP2.x+=positionXcheck;

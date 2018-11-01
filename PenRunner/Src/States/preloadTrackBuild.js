@@ -27,6 +27,8 @@ PenRunner.preloadTrackBuildState.prototype =
 		game.load.image('player1',"Assets/cursor_azul.png");
 		game.load.image('player2',"Assets/cursor_rojo.png");
 		game.load.image('angleLine',"Assets/AngleBar.png");
+		game.load.image('angleLineBlue',"Assets/AngleBarBlue.png");
+		game.load.image('angleLineRed',"Assets/AngleBarRed.png");
 
 		//
 		game.load.atlasJSONHash('semaforo', 'Assets/semaforo.png', 'Src/json/semaforo.json');
