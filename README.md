@@ -164,9 +164,13 @@
 
 ![Captura Menu](Documentation/ImagesGDD/Menu.png)
 
+<p align="justify"><b>Settings:</b> Esta escena permite ajustar el juego, cambiando el volumen del mismo, por ejemplo.</p>
+
+![Captura Settings](Documentation/ImagesGDD/Settings.png)
+
 <p align="justify"><b>Matchmaking:</b> Esta escena permite elegir qué circuito se quiere jugar y en un futuro será la escena donde se buscarán jugadores.</p>
 
-![Captura Matchmaking](Documentation/ImagesGDD/Matchmaking.png)
+![Captura Matchmaking](Documentation/ImagesGDD/MatchMaking.png)
 
 <p align="justify"><b>Match:</b> Esta escena alberga el juego como tal. La escena carga un circuito, lo construye y luego podemos jugar en él.</p>
 
