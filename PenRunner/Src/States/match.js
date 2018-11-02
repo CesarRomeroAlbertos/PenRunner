@@ -19,9 +19,12 @@ PenRunner.matchState.prototype =
 	{
 		//nos aseguramos de que el fondo sea blanco	
 		game.stage.backgroundColor = "#FFFFFF";
+
 		//cogemos los jsons necesarios de la cache
 		var trackJson = game.cache.getJSON('track');
-		//metemos los sprites con sus colliders cuando son necesarios, todo leyendo del json del circuito
+
+		//metemos los sprites con sus colliders cuando son necesarios, todo leyendo del json del circuito,
+		//y con las variables del mismo colocamos todo y construimos el circuito además de activar sus físicas
 		walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls');
 		start = game.add.sprite(trackJson.startPositionX,trackJson.startPositionY,'start');
 		goal = game.add.sprite(trackJson.goalPositionX,trackJson.goalPositionY,'goal');
@@ -134,7 +137,7 @@ PenRunner.matchState.prototype =
 
 	},
 
-	//usamos update para los distintos controles
+	//usamos update para los distintos controles de la partida
 	update:function()
 	{
 		
@@ -193,7 +196,11 @@ PenRunner.matchState.prototype =
 }
 
 //comprobamos si se puede mover un jugador a una posición o da a un muro
-//recibe las coordenadas a comprobar y devuelve true si se puede mover (no hay muro) y false en caso contrario (hay muro)
+//Para ello recibimos la posición a comprobar y en ella generamos un sprite sin imagen
+//Luego creamos un collider circular de 1 pixel de radio para ese objeto y usamos hitscan para ver
+//si colisiona con los muros. Devolvemos un booleano en base al resultado.
+//VARIABLES DE ENTRADA: Coordenadas X e Y respectivamente del punto a comprobar
+//VARIABLES DE SALIDA: Un booleano, true si no hay colisión con los muros, false en caso contrario
 function checkPos(checkPositionX,checkPositionY)
 {
 	checkPoint = game.add.sprite(checkPositionX,checkPositionY);
@@ -214,6 +221,11 @@ function checkPos(checkPositionX,checkPositionY)
 }
 
 //comprobamos si una posición se encuentra en la meta
+//Para ello recibimos la posición a comprobar y en ella generamos un sprite sin imagen
+//Luego creamos un collider circular de 1 pixel de radio para ese objeto y usamos hitscan para ver
+//si colisiona con la meta. Devolvemos un booleano en base al resultado.
+//VARIABLES DE ENTRADA: Coordenadas X e Y respectivamente del punto a comprobar
+//VARIABLES DE SALIDA: Un booleano, true si  hay colisión con la meta, false en caso contrario
 function checkWin(checkPositionX,checkPositionY)
 {
 	checkPoint = game.add.sprite(checkPositionX,checkPositionY);
@@ -230,7 +242,14 @@ function checkWin(checkPositionX,checkPositionY)
 }
 
 //cambiamos el estado del primer jugador y hacemos las comprobaciones y acciones necesarias dados estos cambios de estado,
-//viendo si el jugador puede moverse a la posición que ha elegido y en caso afirmativo viendo si esa posición está en la meta
+//viendo si el jugador puede moverse a la posición que ha elegido y en caso afirmativo viendo si esa posición está en la meta.
+//En su estado 0 el jugador elegirá el ángulo de lanzamiento por lo que su flecha direccional se moverá en un ángulo y a su vez
+//el jugador podrá mover ese ángulo.
+//En el estado 1 el jugador ya ha decidido su ángulo y no puede modificarlo, por lo que estará escogiendo la distancia que recorre.
+//La flecha crecerá y decrecerá intermitentemente en este estado y al decidirse una distancia se comprobará si el punto elegido
+//está dentro de un muro y en caso negativo si está en la meta.
+//Si puede moverse lo hará y si no ha dado con la meta o no se ha movido pasará al estado 0 de nuevo.
+//El estado 2 hace que el jugador esté inactivo. Se usa antes de empezar la carrera y al llegar a la meta
 function changeState1()
 {
 	if(player1State===0)
@@ -280,6 +299,13 @@ function changeState1()
 
 //cambiamos el estado del segundo jugador y hacemos las comprobaciones y acciones necesarias dados estos cambios de estado,
 //viendo si el jugador puede moverse a la posición que ha elegido y en caso afirmativo viendo si esa posición está en la meta
+//En su estado 0 el jugador elegirá el ángulo de lanzamiento por lo que su flecha direccional se moverá en un ángulo y a su vez
+//el jugador podrá mover ese ángulo.
+//En el estado 1 el jugador ya ha decidido su ángulo y no puede modificarlo, por lo que estará escogiendo la distancia que recorre.
+//La flecha crecerá y decrecerá intermitentemente en este estado y al decidirse una distancia se comprobará si el punto elegido
+//está dentro de un muro y en caso negativo si está en la meta.
+//Si puede moverse lo hará y si no ha dado con la meta o no se ha movido pasará al estado 0 de nuevo.
+//El estado 2 hace que el jugador esté inactivo. Se usa antes de empezar la carrera y al llegar a la meta
 function changeState2()
 {
 	if(player2State===0)
@@ -326,7 +352,7 @@ function changeState2()
 			}
 }
 
-//recalculamos una posición para la flecha de dirección del primer jugador
+//Reasignamos un ángulo aleatorio a la flecha de dirección del primer jugador
 function setArrow1()
 {
 	var angle = game.rnd.integerInRange(0, 60);
@@ -335,7 +361,7 @@ function setArrow1()
 	player1ArrowDirection = true;
 }
 
-//recalculamos una posición para la flecha de dirección del segundo jugador
+//Reasignamos un ángulo aleatorio a la flecha de dirección del segundo jugador
 function setArrow2()
 {
 	var angle = game.rnd.integerInRange(0, 60);
@@ -344,7 +370,7 @@ function setArrow2()
 	player2ArrowDirection = true;
 }
 
-//hacemos que gire la flecha del primer jugador
+//Hacemos que gire la flecha del primer jugador con una interpolación y un contador de tiempo.
 function moveArrow1()
 {
 	timeCounter1+=game.time.elapsedMS/1000;
@@ -363,7 +389,7 @@ function moveArrow1()
 	}
 }
 
-//hacemos que gire la flecha del segundo jugador
+//Hacemos que gire la flecha del segundo jugador con una interpolación y un contador de tiempo.
 function moveArrow2()
 {
 	timeCounter2+=game.time.elapsedMS/1000;
@@ -382,7 +408,8 @@ function moveArrow2()
 	}
 }
 
-//cambiamos el tamaño de la flecha y ajustamos la distancia del movimiento del primer jugador
+//cambiamos el tamaño de la flecha y ajustamos la distancia del movimiento del primer jugador con una interpolación
+//y un contador de tiempo
 function powerArrow1()
 {
 	timeCounter1+=game.time.elapsedMS/1000;
@@ -403,7 +430,8 @@ function powerArrow1()
 	}
 }
 
-//cambiamos el tamaño de la flecha y ajustamos la distancia del segundo del primer jugador
+//cambiamos el tamaño de la flecha y ajustamos la distancia del segundo del segundo jugador con una interpolación
+//y un contador de tiempo
 function powerArrow2()
 {
 	timeCounter2+=game.time.elapsedMS/1000;
@@ -423,7 +451,8 @@ function powerArrow2()
 		DirectionArrowP2.scale.setTo(length, 0.3);
 	}
 }
-
+//Esta función se utiliza para avanzar la animación del semáforo inicial
+//y activar los controles de los jugadores una vez esta ha terminado
 function semaforoCounter()
 {
     if (semaforoAnimation.frame < semaforoAnimation.frameTotal-1) {
