@@ -154,6 +154,28 @@
 
 <p align="justify">El primer esquema muestra la estructura de una partida; mientras que el segundo, muestra un diagrama del flujo de todo el juego, es decir, todas las pantallas que podemos visitar y desde donde podemos visitarlas.</p>
 
+**Escenas finales:**
+
+<p align="justify"><b>Title:</b> Esta escena simplemente muestra una animación con el título del juego y basta con hacer click para pasar a la siguiente escena.</p>
+
+![Captura Title](Documentation/ImagesGDD/Title.png)
+
+<p align="justify"><b>Main Menu:</b> Esta escena presenta el menú principal con la opción de ir al menú de ajustes o simplemente jugar.</p>
+
+![Captura Menu](Documentation/ImagesGDD/Menu.png)
+
+<p align="justify"><b>Matchmaking:</b> Esta escena permite elegir qué circuito se quiere jugar y en un futuro será la escena donde se buscarán jugadores.</p>
+
+![Captura Matchmaking](Documentation/ImagesGDD/Matchmaking.png)
+
+<p align="justify"><b>Match:</b> Esta escena alberga el juego como tal. La escena carga un circuito, lo construye y luego podemos jugar en él.</p>
+
+![Captura Match](Documentation/ImagesGDD/Match.png)
+
+<p align="justify"><b>Score:</b> Esta escena muestra las puntuaciones después de haber jugado una partida y permite volver a la pantalla de matchmaking.</p>
+
+![Captura Score](Documentation/ImagesGDD/Score.png)
+
 **Personajes y Enemigos:**
 
 <p align="justify">Al ser un juego multijugador competitivo, no hay unos personajes y/o enemigos bien diferenciados o definidos. Cuando tú te unes a una partida, cada jugador tendrá un personaje, elegido aleatoriamente; ese será el número total de personajes que habrá en la partida, que se representará con la imagen de algún tipo de vehículo.</p>
