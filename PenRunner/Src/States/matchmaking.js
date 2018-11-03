@@ -33,6 +33,7 @@ var buttonMap2;
 var buttonMap3;
 var joinKey = 0;
 var joinKey2 = 0;
+var sceneTime = 0;
 
 var chosenCircuit;
 var jugador, jugador2, jugador3, jugador4, jugador5, jugador6;
@@ -43,7 +44,16 @@ PenRunner.matchmakingState.prototype =
 
     preload: function()
     {
-       
+     numeroDeVotos1 = 0;
+     numeroDeVotos2 = 0;
+     numeroDeVotos3 = 0;
+     this.joinKey = 0;
+     this.joinKey2 = 0;
+     if(sceneTime > 1)
+     game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
+
+
+
 
     },
 
@@ -76,7 +86,8 @@ PenRunner.matchmakingState.prototype =
         //Boton derecha
         buttonMap3.onInputUp.add(up3, this); //Cuando clickamos el boton, ejecuta la función up()
 
-        game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
+        var timer = game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
+        //Estalbecemos las posiciones de los sprites de cada uno de los huecos donde se pueden poner los nombres de los jugadores.
         jugador = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador');
         jugador2 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador').alignTo(jugador, Phaser.RIGHT_CENTER, -240);
         jugador3 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador').alignTo(jugador2, Phaser.RIGHT_CENTER, -240);
@@ -92,26 +103,31 @@ PenRunner.matchmakingState.prototype =
         jugador5.scale.setTo(0.4, 0.5);
         jugador6.scale.setTo(0.4, 0.5);
 
-  
+        //Aquí guardamos los nombres de los jugadores, de momento, están establecidos por defecto a jugador 1 y jugador 2. Pero se estudiará el hecho de incluir nombres personalizados
         textPlayer = game.add.text(game.world.x+100, game.world.y+382, text2, style2);
         textPlayer2 = game.add.text(game.world.x+360, game.world.y+382, text2, style2);
+
+        //Mostramos el resto de textos donde pone "Vacío"
         game.add.text(game.world.x+620, game.world.y+382, text2, style2);
         game.add.text(game.world.x+100, game.world.y+482, text2, style2);
         game.add.text(game.world.x+360, game.world.y+482, text2, style2);
         game.add.text(game.world.x+620, game.world.y+482, text2, style2);
 
+        //Hemos declarado dos variables con las que hacemos que los jugadores se unan a la partida
         joinKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
     },
 
-    update: function(){
+    update: function(){ //Función que se ejecuta una vez por frame
+        //Si el contador se queda a 0, lo ponemos a 5 para la siguiente vez que se cargue la escena
         if(contador == 0){
-            contador = 5;
+           contador = 5;
             //En función de los mapas votados, asignamos un valor a la variable chosenCircuit, para luego elegirlo desde el json
             var select = [];
             var max = 0;
             var puntos = [numeroDeVotos1,numeroDeVotos2,numeroDeVotos3];
+
             for(var i = 0; i<puntos.length; i++)
             {
                 if(puntos[i]>max)
@@ -132,12 +148,16 @@ PenRunner.matchmakingState.prototype =
             }
             else
                 chosenCircuit = select[0];
+                game.state.clearCurrentState();
+                sceneTime++;
            game.state.start('preloadMatchState');
         }
+        //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
         if(joinKey.isDown){
             textPlayer2.destroy();
             game.add.text(game.world.x+340, game.world.y+382,'Jugador 2', style2);
         }
+        //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
         if(joinKey2.isDown){
             textPlayer.destroy();
             game.add.text(game.world.x+80, game.world.y+382, 'Jugador 1', style2);
@@ -146,20 +166,22 @@ PenRunner.matchmakingState.prototype =
     
     }
 }
-function showSeconds()
+//esta funcion se encarga de actualizar la cuenta atrás para iniciar la partida, se llama una vez cada segundo, como bien se indica en la instrucción de game.loop(Línea 82)
+function showSeconds() 
 {
    contador--;
    text.setText('Tiempo restante para iniciar partida: ' + contador);
+   console.log(contador);
   
 }
 
-function up() 
+function up() //Función que se llama cuando clickamos sobre el mapa que esta situado más a la izquierda
 {
     if(numeroDeVotos1<9)
     numeroDeVotos1++; //Aumentamos el número de votos del mapa de la izquierda
     votos1.setText(numeroDeVotos1); //Imprimimos el resultado por pantalla.
 }
-function up2()
+function up2()//Función que se llama cuando clickamos sobre el mapa que esta situado en el centro
 {
     if(numeroDeVotos2<9)
     numeroDeVotos2++;
@@ -167,7 +189,7 @@ function up2()
     votos2.setText(numeroDeVotos2); 
 }
 
-function up3()
+function up3()//Función que se llama cuando clickamos sobre el mapa que esta situado más a la derecha
 {
     if(numeroDeVotos3<9)
     numeroDeVotos3++;
