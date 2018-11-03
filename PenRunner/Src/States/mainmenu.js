@@ -21,12 +21,12 @@ PenRunner.menuState.prototype =
 
 		background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Ponemos una imagen de fondo
 
-		//Creamos e inicializamos los tres botones que están en el menú principal.
+		//Asignamos los tres botones que están en el menú principal a las variables creadas previamente
         buttonStartMenu = game.add.button(game.world.x + 250, 400, 'buttonStartMenu', startMenu, this, 1, 0, 2);
         buttonSettingsMenu = game.add.button(game.world.x + 730, 20, 'buttonSettingsMenu', settingsMenu, this, 1, 0, 2);
 		buttonExitMenu = game.add.button(game.world.x + 20, 20, 'buttonExitMenu', exitMenu, this, 1, 0, 2);
 
-		//Añadimos el titulo del menú principal
+		//Añadimos el título del menú principal
 		game.add.text(game.world.x+140, game.world.y+200, tituloMenu, style1)
 
 		//Escalamos los tres botones para que se vean adecuadamente en la pantalla
@@ -42,17 +42,17 @@ PenRunner.menuState.prototype =
 	}
 }
 
-function startMenu() //Funcion llamada cuando pulsamos el boton de start, llama al script de carga de matchmaking
+function startMenu() //Función llamada cuando pulsamos el botón de start, llama al script de carga de matchmaking
 {
     game.state.start('preloadMatchmakingState');
 }
 
-function settingsMenu() //Funcion llamada cuando pulsamos el boton de opciones, llama al script de carga de settings
+function settingsMenu() //Función llamada cuando pulsamos el botón de opciones, llama al script de carga de settings
 {
 	game.state.start('preloadSettingsState');
 }
 
-function exitMenu() //Funcion llamada cuando pulsamos el boton de salir, cierra la ventana
+function exitMenu() //Función llamada cuando pulsamos el botón de salir, cierra la ventana
 {
 	window.close();
 }
