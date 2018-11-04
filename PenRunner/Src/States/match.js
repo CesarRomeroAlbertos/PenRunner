@@ -2,16 +2,25 @@ PenRunner.matchState = function(game) {
 
 }
 
+//variables para los sprites
 var walls;
-var player1State;
-var player2State;
 var player1ArrowDirection;
 var player2ArrowDirection;
 var DirectionArrowP1;
 var DirectionArrowP2;
+
+//variables para el estado de los jugadores
+var player1State;
+var player2State;
+//variables para los timers de cada jugador
 var timeCounter1;
 var timeCounter2;
+
+//variable para registrar el orden en el que llegan los jugadores
 var goalOrder;
+
+//variable para el loop que avanza la animación del semáforo
+var timerSemaforo;
 
 PenRunner.matchState.prototype =
 {
@@ -133,7 +142,7 @@ PenRunner.matchState.prototype =
 
 		semaforoAnimation = semaforo.animations.add('semaforoAnim');
 
-		game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
+		timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
 
 	},
 
@@ -464,7 +473,7 @@ function semaforoCounter()
 		player1State = 0;
 		player2State = 0;
 		semaforo.destroy();
-		game.time.events.stop();
+		game.time.events.remove(timerSemaforo);
     }   
 }
 

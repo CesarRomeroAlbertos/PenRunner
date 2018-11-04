@@ -19,8 +19,11 @@ var style1 = { font: "65px Arial", fill: "#ffffff", align: "center" };
 var style2 =  { font: "30px Arial", fill: "#000000", align: "center"};
 var style3 =  { font: "30px Arial", fill: "#ffffff", align: "center"};
 
+//Tiempo restante para que comience la partida
+var contador; 
 
-var contador = 5; //Tiempo restante para que comience la partida
+//Loop para el contador
+var timerMatchmaking;
 
 //Variables que guardan el numero de votos de cada mapa
 var numeroDeVotos1 = 0;
@@ -42,23 +45,16 @@ var jugador, jugador2, jugador3, jugador4, jugador5, jugador6;
 PenRunner.matchmakingState.prototype =
 {
 
-    preload: function()
-    {
-     numeroDeVotos1 = 0;
-     numeroDeVotos2 = 0;
-     numeroDeVotos3 = 0;
-     this.joinKey = 0;
-     this.joinKey2 = 0;
-     if(sceneTime > 1)
-     game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
-
-
-
-
-    },
-
     create: function(){
-        
+
+        console.log("create");
+        contador = 5;
+        numeroDeVotos1 = 0;
+        numeroDeVotos2 = 0;
+        numeroDeVotos3 = 0;
+        this.joinKey = 0;
+        this.joinKey2 = 0;
+
         game.stage.backgroundColor = '#182d3b';
 
         background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Añadimos un sprite al background
@@ -86,7 +82,7 @@ PenRunner.matchmakingState.prototype =
         //Boton derecha
         buttonMap3.onInputUp.add(up3, this); //Cuando clickamos el boton, ejecuta la función up()
 
-        var timer = game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
+        timerMatchmaking = game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
         //Estalbecemos las posiciones de los sprites de cada uno de los huecos donde se pueden poner los nombres de los jugadores.
         jugador = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador');
         jugador2 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador').alignTo(jugador, Phaser.RIGHT_CENTER, -240);
@@ -121,8 +117,8 @@ PenRunner.matchmakingState.prototype =
 
     update: function(){ //Función que se ejecuta una vez por frame
         //Si el contador se queda a 0, lo ponemos a 5 para la siguiente vez que se cargue la escena
-        if(contador == 0){
-           contador = 5;
+        if(contador <= 0){
+           //contador = 5;
             //En función de los mapas votados, asignamos un valor a la variable chosenCircuit, para luego elegirlo desde el json
             var select = [];
             var max = 0;
@@ -148,8 +144,6 @@ PenRunner.matchmakingState.prototype =
             }
             else
                 chosenCircuit = select[0];
-                game.state.clearCurrentState();
-                sceneTime++;
            game.state.start('preloadMatchState');
         }
         //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
