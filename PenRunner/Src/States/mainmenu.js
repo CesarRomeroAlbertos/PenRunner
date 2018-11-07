@@ -1,17 +1,4 @@
-PenRunner.menuState = function(game) {
-
-}
-
-//Define el fondo de la pantalla
-var background;
-
-//Variables para los tres botones que va a tener la escena
-var buttonStartMenu;
-var buttonSettingsMenu;
-var buttonExitMenu;
-
-//Variable que recoge el nombre de la escena para ponerlo en ésta posteriormente
-var tituloMenu = 'Menú Principal';
+PenRunner.menuState = function(game) {}
 
 PenRunner.menuState.prototype =
 {
@@ -19,14 +6,15 @@ PenRunner.menuState.prototype =
 	{
 		game.stage.backgroundColor = '#182d3b'; //Establecemos un color de fondo, que no se ve por el sprite del background
 
-		background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Ponemos una imagen de fondo
+		var background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Ponemos una imagen de fondo
 
 		//Asignamos los tres botones que están en el menú principal a las variables creadas previamente
-        buttonStartMenu = game.add.button(game.world.x + 250, 400, 'buttonStartMenu', startMenu, this, 1, 0, 2);
-        buttonSettingsMenu = game.add.button(game.world.x + 730, 20, 'buttonSettingsMenu', settingsMenu, this, 1, 0, 2);
-		buttonExitMenu = game.add.button(game.world.x + 20, 20, 'buttonExitMenu', exitMenu, this, 1, 0, 2);
+        var buttonStartMenu = game.add.button(game.world.x + 250, 400, 'buttonStartMenu', startMenu, this, 1, 0, 2);
+        var buttonSettingsMenu = game.add.button(game.world.x + 730, 20, 'buttonSettingsMenu', settingsMenu, this, 1, 0, 2);
+		var buttonExitMenu = game.add.button(game.world.x + 20, 20, 'buttonExitMenu', exitMenu, this, 1, 0, 2);
 
 		//Añadimos el título del menú principal
+		var tituloMenu = 'Menú Principal';
 		game.add.text(game.world.x+140, game.world.y+200, tituloMenu, style1)
 
 		//Escalamos los tres botones para que se vean adecuadamente en la pantalla

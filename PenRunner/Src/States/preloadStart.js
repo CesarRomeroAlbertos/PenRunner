@@ -1,6 +1,15 @@
-PenRunner.preloadStart = function(game) {
+PenRunner.preloadStart = function(game) {}
 
-}
+//Variables globales:
+
+//Estilos de fuente
+var style1 = { font: "65px Arial", fill: "#ffffff", align: "center" };
+var style2 =  { font: "30px Arial", fill: "#000000", align: "center"};
+var style3 =  { font: "30px Arial", fill: "#ffffff", align: "center"};
+var style4 =  { font: "60px Arial", fill: "#ffffff", align: "center"};
+
+//variable de elección de circuito
+var chosenCircuit;
 
 PenRunner.preloadStart.prototype =
 {

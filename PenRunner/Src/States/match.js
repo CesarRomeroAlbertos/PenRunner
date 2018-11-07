@@ -1,31 +1,14 @@
-PenRunner.matchState = function(game) {
+PenRunner.matchState = function(game) {}
 
-}
-
-//variables para los sprites
-var walls;
-var player1ArrowDirection;
-var player2ArrowDirection;
-var DirectionArrowP1;
-var DirectionArrowP2;
-
-//variables para el estado de los jugadores
-var player1State;
-var player2State;
-//variables para los timers de cada jugador
-var timeCounter1;
-var timeCounter2;
-
-//variable para registrar el orden en el que llegan los jugadores
-var goalOrder;
-
-//variable para el loop que avanza la animación del semáforo
-var timerSemaforo;
+//variable global donde están encapsuladas las variables a las que necesitamos acceder desde fuera del prototype de la escena
+var match={};
+function matchData(){return this;}
 
 PenRunner.matchState.prototype =
 {
 	create: function()
 	{
+		match = matchData();
 		//nos aseguramos de que el fondo sea blanco	
 		game.stage.backgroundColor = "#FFFFFF";
 
@@ -34,7 +17,7 @@ PenRunner.matchState.prototype =
 
 		//metemos los sprites con sus colliders cuando son necesarios, todo leyendo del json del circuito,
 		//y con las variables del mismo colocamos todo y construimos el circuito además de activar sus físicas
-		walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls');
+		match.walls = game.add.sprite(trackJson.wallsPositionX,trackJson.wallsPositionY,'walls');
 		start = game.add.sprite(trackJson.startPositionX,trackJson.startPositionY,'start');
 		goal = game.add.sprite(trackJson.goalPositionX,trackJson.goalPositionY,'goal');
 
@@ -52,17 +35,17 @@ PenRunner.matchState.prototype =
 		goal.body.y+=goal.height/2;
 		goal.body.debug=false;
 		
-		game.physics.p2.enable(walls, true);
-		walls.body.x+=walls.width/2;
-		walls.body.y+=walls.height/2;
+		game.physics.p2.enable(match.walls, true);
+		match.walls.body.x+=match.walls.width/2;
+		match.walls.body.y+=match.walls.height/2;
 		
-		walls.body.clearShapes();
-		walls.body.loadPolygon('wallsCollision', 'wallsTrack');
-		walls.body.static = true;
-		walls.body.debug=false;
+		match.walls.body.clearShapes();
+		match.walls.body.loadPolygon('wallsCollision', 'wallsTrack');
+		match.walls.body.static = true;
+		match.walls.body.debug=false;
 		for(var i=0; i< walls.body.data.shapes.length;i++)
 		{
-			walls.body.data.shapes[i].sensor = true;
+			match.walls.body.data.shapes[i].sensor = true;
 		}
 
 		player1 = game.add.sprite(game.math.linear(trackJson.playerPositionXzero,trackJson.playerPositionXone,1/3),
@@ -79,35 +62,35 @@ PenRunner.matchState.prototype =
 		//flecha y ángulo del primer jugador
 		AngleLineLeftP1 = game.add.sprite(player1.x,player1.y,'angleLine');
 		AngleLineRightP1= game.add.sprite(player1.x,player1.y,'angleLine');
-		DirectionArrowP1= game.add.sprite(player1.x,player1.y,'angleLine');
+		match.DirectionArrowP1= game.add.sprite(player1.x,player1.y,'angleLine');
 
 		AngleLineLeftP1.anchor.setTo(0, 0.5);
 		AngleLineLeftP1.angle=trackJson.directionAngle-30;
 		AngleLineRightP1.anchor.setTo(0, 0.5);
 		AngleLineRightP1.angle=trackJson.directionAngle+30;
-		DirectionArrowP1.anchor.setTo(0, 0.5);
-		DirectionArrowP1.angle=trackJson.directionAngle;
+		match.DirectionArrowP1.anchor.setTo(0, 0.5);
+		match.DirectionArrowP1.angle=trackJson.directionAngle;
 
 		AngleLineLeftP1.scale.setTo(0.5, 0.5);
 		AngleLineRightP1.scale.setTo(0.5, 0.5);
-		DirectionArrowP1.scale.setTo(0.4, 0.3);
+		match.DirectionArrowP1.scale.setTo(0.4, 0.3);
 
 		//flecha y ángulo del segundo jugador
 
 		AngleLineLeftP2 = game.add.sprite(player2.x,player2.y,'angleLine');
 		AngleLineRightP2= game.add.sprite(player2.x,player2.y,'angleLine');
-		DirectionArrowP2= game.add.sprite(player2.x,player2.y,'angleLine');
+		match.DirectionArrowP2= game.add.sprite(player2.x,player2.y,'angleLine');
 
 		AngleLineLeftP2.anchor.setTo(0, 0.5);
 		AngleLineLeftP2.angle=trackJson.directionAngle-30;
 		AngleLineRightP2.anchor.setTo(0, 0.5);
 		AngleLineRightP2.angle=trackJson.directionAngle+30;
-		DirectionArrowP2.anchor.setTo(0, 0.5);
-		DirectionArrowP2.angle=trackJson.directionAngle;
+		match.DirectionArrowP2.anchor.setTo(0, 0.5);
+		match.DirectionArrowP2.angle=trackJson.directionAngle;
 
 		AngleLineLeftP2.scale.setTo(0.5, 0.5);
 		AngleLineRightP2.scale.setTo(0.5, 0.5);
-		DirectionArrowP2.scale.setTo(0.4, 0.3);
+		match.DirectionArrowP2.scale.setTo(0.4, 0.3);
 		
 		//controles
 
@@ -123,13 +106,13 @@ PenRunner.matchState.prototype =
 
 		//inicializamos variables de la escena
 
-		player1State = 2;
-		player2State = 2;
-		player1ArrowDirection = true;
-		player2ArrowDirection = true;
-		timeCounter1 = 0;
-		timeCounter2 = 0;
-		goalOrder = new Array();
+		match.player1State = 2;
+		match.player2State = 2;
+		match.player1ArrowDirection = true;
+		match.player2ArrowDirection = true;
+		match.timeCounter1 = 0;
+		match.timeCounter2 = 0;
+		match.goalOrder = new Array();
 
 		setArrow1();
 		setArrow2();
@@ -142,7 +125,7 @@ PenRunner.matchState.prototype =
 
 		semaforoAnimation = semaforo.animations.add('semaforoAnim');
 
-		timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
+		match.timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
 
 	},
 
@@ -151,53 +134,53 @@ PenRunner.matchState.prototype =
 	{
 		
 		//tecla izquierda jugador 1
-		if (leftKeyP1.isDown && player1State==0)
+		if (leftKeyP1.isDown && match.player1State==0)
         {
 			AngleLineLeftP1.angle-=5;
 			AngleLineRightP1.angle-=5;
 			player1.angle-=5;
 		}
 		//tecla derecha jugador 1
-		else if (rightKeyP1.isDown && player1State==0)
+		else if (rightKeyP1.isDown && match.player1State==0)
         {
 			AngleLineLeftP1.angle+=5;
 			AngleLineRightP1.angle+=5;
 			player1.angle+=5;
 		}
 		//tecla izquierda jugador 2
-		if (leftKeyP2.isDown && player2State==0)
+		if (leftKeyP2.isDown && match.player2State==0)
         {
 			AngleLineLeftP2.angle-=5;
 			AngleLineRightP2.angle-=5;
 			player2.angle-=5;
 		}
 		//tecla derecha jugador 2
-		else if (rightKeyP2.isDown && player2State==0)
+		else if (rightKeyP2.isDown && match.player2State==0)
         {
 			AngleLineLeftP2.angle+=5;
 			AngleLineRightP2.angle+=5;
 			player2.angle+=5;
 		}
 		//aquí llamamos a los métodos que giran la dirección de los jugadores o cambian la distancia que se mueven en función de su estado
-		if (player1State==0)
+		if (match.player1State==0)
 		{
 			moveArrow1();
 		}
-		else if(player1State==1)
+		else if(match.player1State==1)
 		{
 			powerArrow1();
 		}
 
-		if (player2State==0)
+		if (match.player2State==0)
 		{
 			moveArrow2();
 		}
-		else if(player2State==1)
+		else if(match.player2State==1)
 		{
 			powerArrow2();
 		}
 		//aquí comprobamos que han llegado ambos jugadores a la meta
-		if(goalOrder.length>=2)
+		if(match.goalOrder.length>=2)
 		{
 			game.state.start('scoreState');
 		}
@@ -221,7 +204,7 @@ function checkPos(checkPositionX,checkPositionY)
 
 	checkPoint.body.clearShapes();
 	checkPoint.body.setCircle(1);
-	var check = game.physics.p2.hitTest(point, [walls.body]);
+	var check = game.physics.p2.hitTest(point, [match.walls.body]);
 	checkPoint.destroy();
 	if(check.length)
 		return false;
@@ -261,47 +244,47 @@ function checkWin(checkPositionX,checkPositionY)
 //El estado 2 hace que el jugador esté inactivo. Se usa antes de empezar la carrera y al llegar a la meta
 function changeState1()
 {
-	if(player1State===0)
+	if(match.player1State===0)
 			{
-				player1State = 1;
-				timeCounter1 = game.rnd.integerInRange(0, 50)/100;
-				player1ArrowDirection=true;
+				match.player1State = 1;
+				match.timeCounter1 = game.rnd.integerInRange(0, 50)/100;
+				match.player1ArrowDirection=true;
 				AngleLineLeftP1.visible = false;
 				AngleLineRightP1.visible = false;
 			}
-			else if(player1State===1)
+			else if(match.player1State===1)
 			{
-				var positionXcheck = Math.cos(DirectionArrowP1.rotation)*DirectionArrowP1.width;
-				var positionYcheck = Math.sin(DirectionArrowP1.rotation)*DirectionArrowP1.width;
-				player1State = 0;
+				var positionXcheck = Math.cos(match.DirectionArrowP1.rotation)*match.DirectionArrowP1.width;
+				var positionYcheck = Math.sin(match.DirectionArrowP1.rotation)*match.DirectionArrowP1.width;
+				match.player1State = 0;
 				AngleLineLeftP1.visible = true;
 				AngleLineRightP1.visible = true;
-				if(checkPos(positionXcheck+DirectionArrowP1.x,positionYcheck+DirectionArrowP1.y)
-				&& positionXcheck+DirectionArrowP1.x>0 && positionXcheck+DirectionArrowP1.x<800
-				&& positionYcheck+DirectionArrowP1.y>0 && positionYcheck+DirectionArrowP1.y<600)
+				if(checkPos(positionXcheck+match.DirectionArrowP1.x,positionYcheck+match.DirectionArrowP1.y)
+				&& positionXcheck+match.DirectionArrowP1.x>0 && positionXcheck+match.DirectionArrowP1.x<800
+				&& positionYcheck+match.DirectionArrowP1.y>0 && positionYcheck+match.DirectionArrowP1.y<600)
 				{
-					if(checkWin(positionXcheck+DirectionArrowP1.x,positionYcheck+DirectionArrowP1.y))
+					if(checkWin(positionXcheck+match.DirectionArrowP1.x,positionYcheck+match.DirectionArrowP1.y))
 					{
-						goalOrder.push(1);
-						player1State=2;
+						match.goalOrder.push(1);
+						match.player1State=2;
 						AngleLineLeftP1.visible = false;
 						AngleLineRightP1.visible = false;
-						DirectionArrowP1.visible = false
+						match.DirectionArrowP1.visible = false
 					}
 					var line = game.add.sprite(player1.x,player1.y,'angleLineBlue');
-					line.angle = DirectionArrowP1.angle;
-					line.scale.setTo(DirectionArrowP1.scale.x, DirectionArrowP1.scale.y);
+					line.angle = match.DirectionArrowP1.angle;
+					line.scale.setTo(match.DirectionArrowP1.scale.x, match.DirectionArrowP1.scale.y);
 					player1.x+=positionXcheck;
 					player1.y+=positionYcheck;
 					AngleLineLeftP1.x+=positionXcheck;
 					AngleLineLeftP1.y+=positionYcheck;
 					AngleLineRightP1.x+=positionXcheck;
 					AngleLineRightP1.y+=positionYcheck;
-					DirectionArrowP1.x+=positionXcheck;
-					DirectionArrowP1.y+=positionYcheck;
+					match.DirectionArrowP1.x+=positionXcheck;
+					match.DirectionArrowP1.y+=positionYcheck;
 					
 				}
-				DirectionArrowP1.scale.setTo(0.4, 0.3);
+				match.DirectionArrowP1.scale.setTo(0.4, 0.3);
 				setArrow1();
 			}
 }
@@ -317,46 +300,46 @@ function changeState1()
 //El estado 2 hace que el jugador esté inactivo. Se usa antes de empezar la carrera y al llegar a la meta
 function changeState2()
 {
-	if(player2State===0)
+	if(match.player2State===0)
 			{
-				player2State = 1;
-				timeCounter2 = game.rnd.integerInRange(0, 50)/100;
-				player2ArrowDirection=true;
+				match.player2State = 1;
+				match.timeCounter2 = game.rnd.integerInRange(0, 50)/100;
+				match.player2ArrowDirection=true;
 				AngleLineLeftP2.visible = false;
 				AngleLineRightP2.visible = false;
 			}
-			else if(player2State===1)
+			else if(match.player2State===1)
 			{
-				var positionXcheck = Math.cos(DirectionArrowP2.rotation)*DirectionArrowP2.width;
-				var positionYcheck = Math.sin(DirectionArrowP2.rotation)*DirectionArrowP2.width;
-				player2State = 0;
+				var positionXcheck = Math.cos(match.DirectionArrowP2.rotation)*match.DirectionArrowP2.width;
+				var positionYcheck = Math.sin(match.DirectionArrowP2.rotation)*match.DirectionArrowP2.width;
+				match.player2State = 0;
 				AngleLineLeftP2.visible = true;
 				AngleLineRightP2.visible = true;
-				if(checkPos(positionXcheck+DirectionArrowP2.x,positionYcheck+DirectionArrowP2.y)
-				&& positionXcheck+DirectionArrowP2.x>0 && positionXcheck+DirectionArrowP2.x<800
-				&& positionYcheck+DirectionArrowP2.y>0 && positionYcheck+DirectionArrowP2.y<600)
+				if(checkPos(positionXcheck+match.DirectionArrowP2.x,positionYcheck+match.DirectionArrowP2.y)
+				&& positionXcheck+match.DirectionArrowP2.x>0 && positionXcheck+match.DirectionArrowP2.x<800
+				&& positionYcheck+match.DirectionArrowP2.y>0 && positionYcheck+match.DirectionArrowP2.y<600)
 				{
-					if(checkWin(positionXcheck+DirectionArrowP2.x,positionYcheck+DirectionArrowP2.y))
+					if(checkWin(positionXcheck+match.DirectionArrowP2.x,positionYcheck+match.DirectionArrowP2.y))
 					{
-						goalOrder.push(2);
-						player2State=2;
+						match.goalOrder.push(2);
+						match.player2State=2;
 						AngleLineLeftP2.visible = false;
 						AngleLineRightP2.visible = false;
-						DirectionArrowP2.visible = false;
+						match.DirectionArrowP2.visible = false;
 					}
 					var line = game.add.sprite(player2.x,player2.y,'angleLineRed');
-					line.angle = DirectionArrowP2.angle;
-					line.scale.setTo(DirectionArrowP2.scale.x, DirectionArrowP2.scale.y);
+					line.angle = match.DirectionArrowP2.angle;
+					line.scale.setTo(match.DirectionArrowP2.scale.x, match.DirectionArrowP2.scale.y);
 					player2.x+=positionXcheck;
 					player2.y+=positionYcheck;
 					AngleLineLeftP2.x+=positionXcheck;
 					AngleLineLeftP2.y+=positionYcheck;
 					AngleLineRightP2.x+=positionXcheck;
 					AngleLineRightP2.y+=positionYcheck;
-					DirectionArrowP2.x+=positionXcheck;
-					DirectionArrowP2.y+=positionYcheck;
+					match.DirectionArrowP2.x+=positionXcheck;
+					match.DirectionArrowP2.y+=positionYcheck;
 				}
-				DirectionArrowP2.scale.setTo(0.4, 0.3);
+				match.DirectionArrowP2.scale.setTo(0.4, 0.3);
 				setArrow2();
 			}
 }
@@ -365,55 +348,55 @@ function changeState2()
 function setArrow1()
 {
 	var angle = game.rnd.integerInRange(0, 60);
-	timeCounter1 = game.math.linear(0,0.5,angle/60);
-	DirectionArrowP1.angle = AngleLineRightP1.angle-angle;
-	player1ArrowDirection = true;
+	match.timeCounter1 = game.math.linear(0,0.5,angle/60);
+	match.DirectionArrowP1.angle = AngleLineRightP1.angle-angle;
+	match.player1ArrowDirection = true;
 }
 
 //Reasignamos un ángulo aleatorio a la flecha de dirección del segundo jugador
 function setArrow2()
 {
 	var angle = game.rnd.integerInRange(0, 60);
-	timeCounter2 = game.math.linear(0,0.5,angle/60);
-	DirectionArrowP2.angle = AngleLineRightP2.angle-angle;
-	player2ArrowDirection = true;
+	match.timeCounter2 = game.math.linear(0,0.5,angle/60);
+	match.DirectionArrowP2.angle = AngleLineRightP2.angle-angle;
+	match.player2ArrowDirection = true;
 }
 
 //Hacemos que gire la flecha del primer jugador con una interpolación y un contador de tiempo.
 function moveArrow1()
 {
-	timeCounter1+=game.time.elapsedMS/1000;
-	if(player1ArrowDirection)
+	match.timeCounter1+=game.time.elapsedMS/1000;
+	if(match.player1ArrowDirection)
 	{
-		DirectionArrowP1.angle = AngleLineLeftP1.angle+game.math.linear(0, 60, timeCounter1/0.5); 
+		match.DirectionArrowP1.angle = AngleLineLeftP1.angle+game.math.linear(0, 60, match.timeCounter1/0.5); 
 	}
 	else
 	{
-		DirectionArrowP1.angle = AngleLineRightP1.angle-game.math.linear(0, 60, timeCounter1/0.5);
+		match.DirectionArrowP1.angle = AngleLineRightP1.angle-game.math.linear(0, 60, match.timeCounter1/0.5);
 	}
-	if(timeCounter1>=0.5)
+	if(match.timeCounter1>=0.5)
 	{
-		timeCounter1=0;
-		player1ArrowDirection=!player1ArrowDirection;
+		match.timeCounter1=0;
+		match.player1ArrowDirection=!match.player1ArrowDirection;
 	}
 }
 
 //Hacemos que gire la flecha del segundo jugador con una interpolación y un contador de tiempo.
 function moveArrow2()
 {
-	timeCounter2+=game.time.elapsedMS/1000;
-	if(player2ArrowDirection)
+	match.timeCounter2+=game.time.elapsedMS/1000;
+	if(match.player2ArrowDirection)
 	{
-		DirectionArrowP2.angle = AngleLineLeftP2.angle+game.math.linear(0, 60, timeCounter2/0.5); 
+		match.DirectionArrowP2.angle = AngleLineLeftP2.angle+game.math.linear(0, 60, match.timeCounter2/0.5); 
 	}
 	else
 	{
-		DirectionArrowP2.angle = AngleLineRightP2.angle-game.math.linear(0, 60, timeCounter2/0.5);
+		match.DirectionArrowP2.angle = AngleLineRightP2.angle-game.math.linear(0, 60, match.timeCounter2/0.5);
 	}
-	if(timeCounter2>=0.5)
+	if(match.timeCounter2>=0.5)
 	{
-		timeCounter2=0;
-		player2ArrowDirection=!player2ArrowDirection;
+		match.timeCounter2=0;
+		match.player2ArrowDirection=!match.player2ArrowDirection;
 	}
 }
 
@@ -421,21 +404,21 @@ function moveArrow2()
 //y un contador de tiempo
 function powerArrow1()
 {
-	timeCounter1+=game.time.elapsedMS/1000;
-	if(timeCounter1>0.5)
+	match.timeCounter1+=game.time.elapsedMS/1000;
+	if(match.timeCounter1>0.5)
 	{
-		timeCounter1=0;
-		player1ArrowDirection=!player1ArrowDirection;
+		match.timeCounter1=0;
+		match.player1ArrowDirection=!match.player1ArrowDirection;
 	}
-	if(player1ArrowDirection)
+	if(match.player1ArrowDirection)
 	{
-		var length = game.math.linear(0, 0.4, timeCounter1/0.5);
-		DirectionArrowP1.scale.setTo(length, 0.3);
+		var length = game.math.linear(0, 0.4, match.timeCounter1/0.5);
+		match.DirectionArrowP1.scale.setTo(length, 0.3);
 	}
 	else
 	{
-		var length = game.math.linear(0, 0.4, (0.5-timeCounter1)/0.5);
-		DirectionArrowP1.scale.setTo(length, 0.3);
+		var length = game.math.linear(0, 0.4, (0.5-match.timeCounter1)/0.5);
+		match.DirectionArrowP1.scale.setTo(length, 0.3);
 	}
 }
 
@@ -443,21 +426,21 @@ function powerArrow1()
 //y un contador de tiempo
 function powerArrow2()
 {
-	timeCounter2+=game.time.elapsedMS/1000;
-	if(timeCounter2>=0.5)
+	match.timeCounter2+=game.time.elapsedMS/1000;
+	if(match.timeCounter2>=0.5)
 	{
-		timeCounter2=0;
-		player2ArrowDirection=!player2ArrowDirection;
+		match.timeCounter2=0;
+		match.player2ArrowDirection=!match.player2ArrowDirection;
 	}
-	if(player2ArrowDirection)
+	if(match.player2ArrowDirection)
 	{
-		var length = game.math.linear(0, 0.4, timeCounter2/0.5);
-		DirectionArrowP2.scale.setTo(length, 0.3);
+		var length = game.math.linear(0, 0.4, match.timeCounter2/0.5);
+		match.DirectionArrowP2.scale.setTo(length, 0.3);
 	}
 	else
 	{
-		var length = game.math.linear(0, 0.4, (0.5-timeCounter2)/0.5);
-		DirectionArrowP2.scale.setTo(length, 0.3);
+		var length = game.math.linear(0, 0.4, (0.5-match.timeCounter2)/0.5);
+		match.DirectionArrowP2.scale.setTo(length, 0.3);
 	}
 }
 //Esta función se utiliza para avanzar la animación del semáforo inicial
@@ -470,10 +453,10 @@ function semaforoCounter()
         semaforoAnimation.frame += 1;
     }
     else {
-		player1State = 0;
-		player2State = 0;
+		match.player1State = 0;
+		match.player2State = 0;
 		semaforo.destroy();
-		game.time.events.remove(timerSemaforo);
+		game.time.events.remove(match.timerSemaforo);
     }   
 }
 
