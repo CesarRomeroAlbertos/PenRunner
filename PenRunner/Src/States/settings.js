@@ -59,7 +59,7 @@ PenRunner.settingsState.prototype =
 }
 
 function backSettings(){ //Función llamada cuando pulsamos el botón de atrás, llama al script de carga del menú principal
-    game.state.start('preloadMenuState');
+    game.state.start('menuState');
 }
 
 function subirMusica(){ //Función llamada cuando pulsamos el botón de subir volumen de la música y lo sube siempre que sea menor que 10

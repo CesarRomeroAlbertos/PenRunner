@@ -199,7 +199,7 @@ PenRunner.matchState.prototype =
 		//aquí comprobamos que han llegado ambos jugadores a la meta
 		if(goalOrder.length>=2)
 		{
-			game.state.start('preloadScoreState');
+			game.state.start('scoreState');
 		}
 	}
 }

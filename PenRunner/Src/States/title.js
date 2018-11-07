@@ -29,7 +29,7 @@ PenRunner.titleState.prototype =
 	{
 		//al detectar un click cambiamos la escena
 		if(game.input.activePointer.leftButton.isDown)
-			game.state.start('preloadMenuState');
+			game.state.start('menuState');
 
 	}
 }
