@@ -448,8 +448,6 @@ function powerArrow2()
 function semaforoCounter()
 {
     if (semaforoAnimation.frame < semaforoAnimation.frameTotal-1) {
-		console.log("frame " + semaforoAnimation.frame);
-		console.log("total " + semaforoAnimation.frameTotal);
         semaforoAnimation.frame += 1;
     }
     else {

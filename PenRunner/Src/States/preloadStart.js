@@ -2,6 +2,10 @@ PenRunner.preloadStart = function(game) {}
 
 //Variables globales:
 
+//Variables inicializadas con el valor por defecto de música y sonido
+var volumenMusica = 10;
+var volumenSonido = 10;
+
 //Estilos de fuente
 var style1 = { font: "65px Arial", fill: "#ffffff", align: "center" };
 var style2 =  { font: "30px Arial", fill: "#000000", align: "center"};
