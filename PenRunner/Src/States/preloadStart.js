@@ -46,12 +46,12 @@ PenRunner.preloadStart.prototype =
 		game.load.image('button', 'Assets/Mapa1.png', 200, 70);
 		game.load.image('button2', 'Assets/Mapa2.png', 200, 70);
 		game.load.image('button3', 'Assets/Mapa3.png', 200, 70);
-		game.load.image('jugador', 'Assets/Boton_Jugadores.png', 200, 70);
+		game.load.image('jugador01', 'Assets/Boton_Jugadores.png', 200, 70);
 		game.load.json('trackList',"Src/json/tracks.json");
 
 
 		//Score
-		game.load.image('jugador', 'Assets/Imagen_puntuacion.png', 200, 70);
+		game.load.image('jugador', 'Assets/Texto_Jugador_01.png', 200, 70);
 		game.load.image('return', 'Assets/atras.png', 200, 70);
 		game.load.image('backgroundScore','Assets/Fondo_fin_partida.jpg', 200, 70);
 	},

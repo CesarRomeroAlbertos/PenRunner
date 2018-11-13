@@ -47,12 +47,12 @@ PenRunner.matchmakingState.prototype =
 
         var timerMatchmaking = game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
         //Estalbecemos las posiciones de los sprites de cada uno de los huecos donde se pueden poner los nombres de los jugadores.
-        var jugador = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador');
-        var jugador2 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador').alignTo(jugador, Phaser.RIGHT_CENTER, -240);
-        var jugador3 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugador').alignTo(jugador2, Phaser.RIGHT_CENTER, -240);
-        var jugador4 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugador');
-        var jugador5 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugador').alignTo(jugador4, Phaser.RIGHT_CENTER, -240);
-        var jugador6 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugador').alignTo(jugador5, Phaser.RIGHT_CENTER, -240);
+        var jugador = game.add.sprite(game.world.x+40, game.world.y+370, 'jugadorMatch');
+        var jugador2 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugadorMatch').alignTo(jugador, Phaser.RIGHT_CENTER, -240);
+        var jugador3 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugadorMatch').alignTo(jugador2, Phaser.RIGHT_CENTER, -240);
+        var jugador4 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch');
+        var jugador5 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador4, Phaser.RIGHT_CENTER, -240);
+        var jugador6 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador5, Phaser.RIGHT_CENTER, -240);
 
         //escalamos los botones donde iran el nombres de los jugadores.
         jugador.scale.setTo(0.4, 0.5);
