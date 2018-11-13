@@ -62,7 +62,7 @@ PenRunner.matchState.prototype =
 		//flecha y ángulo del primer jugador
 		AngleLineLeftP1 = game.add.sprite(player1.x,player1.y,'angleLine');
 		AngleLineRightP1= game.add.sprite(player1.x,player1.y,'angleLine');
-		match.DirectionArrowP1= game.add.sprite(player1.x,player1.y,'angleLine');
+		match.DirectionArrowP1= game.add.sprite(player1.x,player1.y,'angleLineBlue');
 
 		AngleLineLeftP1.anchor.setTo(0, 0.5);
 		AngleLineLeftP1.angle=trackJson.directionAngle-30;
@@ -79,7 +79,7 @@ PenRunner.matchState.prototype =
 
 		AngleLineLeftP2 = game.add.sprite(player2.x,player2.y,'angleLine');
 		AngleLineRightP2= game.add.sprite(player2.x,player2.y,'angleLine');
-		match.DirectionArrowP2= game.add.sprite(player2.x,player2.y,'angleLine');
+		match.DirectionArrowP2= game.add.sprite(player2.x,player2.y,'angleLineRed');
 
 		AngleLineLeftP2.anchor.setTo(0, 0.5);
 		AngleLineLeftP2.angle=trackJson.directionAngle-30;
@@ -170,6 +170,18 @@ PenRunner.matchState.prototype =
 		{
 			powerArrow1();
 		}
+		else if(match.player1State==3)
+		{
+			match.timeCounter1+=game.time.elapsedMS/1000;
+			match.player1.x = game.math.linear(match.player1StartMovePositionX,player1FinalMovePositionX,
+				Math.min(match.timeCounter1/0.3,1));
+			match.player1.y = game.math.linear(match.player1StartMovePositionY,player1FinalMovePositionY,
+				Math.min(match.timeCounter1/0.3,1));
+			if(match.timeCounter1>=0.3)
+				{
+					changeState1();
+				}
+		}
 
 		if (match.player2State==0)
 		{
@@ -178,6 +190,18 @@ PenRunner.matchState.prototype =
 		else if(match.player2State==1)
 		{
 			powerArrow2();
+		}
+		else if(match.player2State==3)
+		{
+			match.timeCounter2+=game.time.elapsedMS/1000;
+			match.player2.x = game.math.linear(match.player2StartMovePositionX,player2FinalMovePositionX,
+				Math.min(match.timeCounter2/0.3,1));
+			match.player2.y = game.math.linear(match.player2StartMovePositionY,player2FinalMovePositionY,
+				Math.min(match.timeCounter2/0.3,1));
+			if(match.timeCounter2>=0.3)
+				{
+					changeState2();
+				}
 		}
 		//aquí comprobamos que han llegado ambos jugadores a la meta
 		if(match.goalOrder.length>=2)
@@ -244,6 +268,7 @@ function checkWin(checkPositionX,checkPositionY)
 //El estado 2 hace que el jugador esté inactivo. Se usa antes de empezar la carrera y al llegar a la meta
 function changeState1()
 {
+	
 	if(match.player1State===0)
 			{
 				match.player1State = 1;
@@ -263,7 +288,33 @@ function changeState1()
 				&& positionXcheck+match.DirectionArrowP1.x>0 && positionXcheck+match.DirectionArrowP1.x<800
 				&& positionYcheck+match.DirectionArrowP1.y>0 && positionYcheck+match.DirectionArrowP1.y<600)
 				{
-					if(checkWin(positionXcheck+match.DirectionArrowP1.x,positionYcheck+match.DirectionArrowP1.y))
+					match.player1StartMovePositionX = player1.x;
+					match.player1StartMovePositionY = player1.y;
+					match.player1FinalMovePositionX = positionXcheck+match.DirectionArrowP1.x;
+					match.player1FinalMovePositionY = positionYcheck+match.DirectionArrowP1.y;
+					match.player1State = 3;
+					match.timeCounter1 = 0;
+					AngleLineLeftP1.visible = false;
+					AngleLineRightP1.visible = false;
+				}
+			}
+			else if (match.player1State===3)
+			{
+					match.player1State = 0;
+					var line = game.add.sprite(match.player1StartMovePositionX,match.player1StartMovePositionY,'angleLineBlue');
+					line.angle = match.DirectionArrowP1.angle;
+					line.scale.setTo(match.DirectionArrowP1.scale.x, match.DirectionArrowP1.scale.y);
+					AngleLineLeftP1.x=match.player1.x;
+					AngleLineLeftP1.y=match.player1.y;
+					AngleLineRightP1.x=match.player1.x;
+					AngleLineRightP1.y=match.player1.y;
+					AngleLineLeftP1.visible = true;
+					AngleLineRightP1.visible = true;
+					match.DirectionArrowP1.x=match.player1.x;
+					match.DirectionArrowP1.y=match.player1.y;
+					match.DirectionArrowP1.scale.setTo(0.4, 0.3);
+					setArrow1();
+					if(checkWin(match.player1.x,match.player1.y))
 					{
 						match.goalOrder.push(1);
 						match.player1State=2;
@@ -271,21 +322,7 @@ function changeState1()
 						AngleLineRightP1.visible = false;
 						match.DirectionArrowP1.visible = false
 					}
-					var line = game.add.sprite(player1.x,player1.y,'angleLineBlue');
-					line.angle = match.DirectionArrowP1.angle;
-					line.scale.setTo(match.DirectionArrowP1.scale.x, match.DirectionArrowP1.scale.y);
-					player1.x+=positionXcheck;
-					player1.y+=positionYcheck;
-					AngleLineLeftP1.x+=positionXcheck;
-					AngleLineLeftP1.y+=positionYcheck;
-					AngleLineRightP1.x+=positionXcheck;
-					AngleLineRightP1.y+=positionYcheck;
-					match.DirectionArrowP1.x+=positionXcheck;
-					match.DirectionArrowP1.y+=positionYcheck;
-					
-				}
-				match.DirectionArrowP1.scale.setTo(0.4, 0.3);
-				setArrow1();
+				
 			}
 }
 
@@ -300,6 +337,7 @@ function changeState1()
 //El estado 2 hace que el jugador esté inactivo. Se usa antes de empezar la carrera y al llegar a la meta
 function changeState2()
 {
+	
 	if(match.player2State===0)
 			{
 				match.player2State = 1;
@@ -319,28 +357,41 @@ function changeState2()
 				&& positionXcheck+match.DirectionArrowP2.x>0 && positionXcheck+match.DirectionArrowP2.x<800
 				&& positionYcheck+match.DirectionArrowP2.y>0 && positionYcheck+match.DirectionArrowP2.y<600)
 				{
-					if(checkWin(positionXcheck+match.DirectionArrowP2.x,positionYcheck+match.DirectionArrowP2.y))
+					match.player2StartMovePositionX = player2.x;
+					match.player2StartMovePositionY = player2.y;
+					match.player2FinalMovePositionX = positionXcheck+match.DirectionArrowP2.x;
+					match.player2FinalMovePositionY = positionYcheck+match.DirectionArrowP2.y;
+					match.player2State = 3;
+					match.timeCounter2 = 0;
+					AngleLineLeftP2.visible = false;
+					AngleLineRightP2.visible = false;
+				}
+			}
+			else if (match.player2State===3)
+			{
+					match.player2State = 0;
+					var line = game.add.sprite(match.player2StartMovePositionX,match.player2StartMovePositionY,'angleLineRed');
+					line.angle = match.DirectionArrowP2.angle;
+					line.scale.setTo(match.DirectionArrowP2.scale.x, match.DirectionArrowP2.scale.y);
+					AngleLineLeftP2.x=match.player2.x;
+					AngleLineLeftP2.y=match.player2.y;
+					AngleLineRightP2.x=match.player2.x;
+					AngleLineRightP2.y=match.player2.y;
+					AngleLineLeftP2.visible = true;
+					AngleLineRightP2.visible = true;
+					match.DirectionArrowP2.x=match.player2.x;
+					match.DirectionArrowP2.y=match.player2.y;
+					match.DirectionArrowP2.scale.setTo(0.4, 0.3);
+					setArrow2();
+					if(checkWin(match.player2.x,match.player2.y))
 					{
 						match.goalOrder.push(2);
 						match.player2State=2;
 						AngleLineLeftP2.visible = false;
 						AngleLineRightP2.visible = false;
-						match.DirectionArrowP2.visible = false;
+						match.DirectionArrowP2.visible = false
 					}
-					var line = game.add.sprite(player2.x,player2.y,'angleLineRed');
-					line.angle = match.DirectionArrowP2.angle;
-					line.scale.setTo(match.DirectionArrowP2.scale.x, match.DirectionArrowP2.scale.y);
-					player2.x+=positionXcheck;
-					player2.y+=positionYcheck;
-					AngleLineLeftP2.x+=positionXcheck;
-					AngleLineLeftP2.y+=positionYcheck;
-					AngleLineRightP2.x+=positionXcheck;
-					AngleLineRightP2.y+=positionYcheck;
-					match.DirectionArrowP2.x+=positionXcheck;
-					match.DirectionArrowP2.y+=positionYcheck;
-				}
-				match.DirectionArrowP2.scale.setTo(0.4, 0.3);
-				setArrow2();
+				
 			}
 }
 
