@@ -339,6 +339,7 @@ function changeState1()
 					AngleLineLeftP1.visible = false;
 					AngleLineRightP1.visible = false;
 				}
+				match.DirectionArrowP1.scale.setTo(0.4, 0.3);
 			}
 }
 
@@ -382,6 +383,7 @@ function changeState2()
 					AngleLineLeftP2.visible = false;
 					AngleLineRightP2.visible = false;
 				}
+				match.DirectionArrowP2.scale.setTo(0.4, 0.3);
 			}
 }
 
