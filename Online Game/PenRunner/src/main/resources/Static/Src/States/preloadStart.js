@@ -46,7 +46,7 @@ PenRunner.preloadStart.prototype =
 		game.load.image('button', 'Assets/Mapa1.png', 200, 70);
 		game.load.image('button2', 'Assets/Mapa2.png', 200, 70);
 		game.load.image('button3', 'Assets/Mapa3.png', 200, 70);
-		game.load.image('jugador01', 'Assets/Boton_Jugadores.png', 200, 70);
+		game.load.image('jugadorMatch', 'Assets/Boton_Jugadores.png', 200, 70);
 		game.load.json('trackList',"Src/json/tracks.json");
 
 
