@@ -179,7 +179,28 @@ PenRunner.matchState.prototype =
 				Math.min(match.timeCounter1/0.3,1));
 			if(match.timeCounter1>=0.3)
 				{
-					changeState1();
+					match.player1State = 0;
+					var line = game.add.sprite(match.player1StartMovePositionX,match.player1StartMovePositionY,'angleLineBlue');
+					line.angle = match.DirectionArrowP1.angle;
+					line.scale.setTo(match.DirectionArrowP1.scale.x, match.DirectionArrowP1.scale.y);
+					AngleLineLeftP1.x=match.player1.x;
+					AngleLineLeftP1.y=match.player1.y;
+					AngleLineRightP1.x=match.player1.x;
+					AngleLineRightP1.y=match.player1.y;
+					AngleLineLeftP1.visible = true;
+					AngleLineRightP1.visible = true;
+					match.DirectionArrowP1.x=match.player1.x;
+					match.DirectionArrowP1.y=match.player1.y;
+					match.DirectionArrowP1.scale.setTo(0.4, 0.3);
+					setArrow1();
+					if(checkWin(match.player1.x,match.player1.y))
+					{
+						match.goalOrder.push(1);
+						match.player1State=2;
+						AngleLineLeftP1.visible = false;
+						AngleLineRightP1.visible = false;
+						match.DirectionArrowP1.visible = false
+					}
 				}
 		}
 
@@ -200,7 +221,28 @@ PenRunner.matchState.prototype =
 				Math.min(match.timeCounter2/0.3,1));
 			if(match.timeCounter2>=0.3)
 				{
-					changeState2();
+					match.player2State = 0;
+					var line = game.add.sprite(match.player2StartMovePositionX,match.player2StartMovePositionY,'angleLineRed');
+					line.angle = match.DirectionArrowP2.angle;
+					line.scale.setTo(match.DirectionArrowP2.scale.x, match.DirectionArrowP2.scale.y);
+					AngleLineLeftP2.x=match.player2.x;
+					AngleLineLeftP2.y=match.player2.y;
+					AngleLineRightP2.x=match.player2.x;
+					AngleLineRightP2.y=match.player2.y;
+					AngleLineLeftP2.visible = true;
+					AngleLineRightP2.visible = true;
+					match.DirectionArrowP2.x=match.player2.x;
+					match.DirectionArrowP2.y=match.player2.y;
+					match.DirectionArrowP2.scale.setTo(0.4, 0.3);
+					setArrow2();
+					if(checkWin(match.player2.x,match.player2.y))
+					{
+						match.goalOrder.push(2);
+						match.player2State=2;
+						AngleLineLeftP2.visible = false;
+						AngleLineRightP2.visible = false;
+						match.DirectionArrowP2.visible = false
+					}
 				}
 		}
 		//aquí comprobamos que han llegado ambos jugadores a la meta
@@ -298,32 +340,6 @@ function changeState1()
 					AngleLineRightP1.visible = false;
 				}
 			}
-			else if (match.player1State===3)
-			{
-					match.player1State = 0;
-					var line = game.add.sprite(match.player1StartMovePositionX,match.player1StartMovePositionY,'angleLineBlue');
-					line.angle = match.DirectionArrowP1.angle;
-					line.scale.setTo(match.DirectionArrowP1.scale.x, match.DirectionArrowP1.scale.y);
-					AngleLineLeftP1.x=match.player1.x;
-					AngleLineLeftP1.y=match.player1.y;
-					AngleLineRightP1.x=match.player1.x;
-					AngleLineRightP1.y=match.player1.y;
-					AngleLineLeftP1.visible = true;
-					AngleLineRightP1.visible = true;
-					match.DirectionArrowP1.x=match.player1.x;
-					match.DirectionArrowP1.y=match.player1.y;
-					match.DirectionArrowP1.scale.setTo(0.4, 0.3);
-					setArrow1();
-					if(checkWin(match.player1.x,match.player1.y))
-					{
-						match.goalOrder.push(1);
-						match.player1State=2;
-						AngleLineLeftP1.visible = false;
-						AngleLineRightP1.visible = false;
-						match.DirectionArrowP1.visible = false
-					}
-				
-			}
 }
 
 //cambiamos el estado del segundo jugador y hacemos las comprobaciones y acciones necesarias dados estos cambios de estado,
@@ -366,32 +382,6 @@ function changeState2()
 					AngleLineLeftP2.visible = false;
 					AngleLineRightP2.visible = false;
 				}
-			}
-			else if (match.player2State===3)
-			{
-					match.player2State = 0;
-					var line = game.add.sprite(match.player2StartMovePositionX,match.player2StartMovePositionY,'angleLineRed');
-					line.angle = match.DirectionArrowP2.angle;
-					line.scale.setTo(match.DirectionArrowP2.scale.x, match.DirectionArrowP2.scale.y);
-					AngleLineLeftP2.x=match.player2.x;
-					AngleLineLeftP2.y=match.player2.y;
-					AngleLineRightP2.x=match.player2.x;
-					AngleLineRightP2.y=match.player2.y;
-					AngleLineLeftP2.visible = true;
-					AngleLineRightP2.visible = true;
-					match.DirectionArrowP2.x=match.player2.x;
-					match.DirectionArrowP2.y=match.player2.y;
-					match.DirectionArrowP2.scale.setTo(0.4, 0.3);
-					setArrow2();
-					if(checkWin(match.player2.x,match.player2.y))
-					{
-						match.goalOrder.push(2);
-						match.player2State=2;
-						AngleLineLeftP2.visible = false;
-						AngleLineRightP2.visible = false;
-						match.DirectionArrowP2.visible = false
-					}
-				
 			}
 }
 
