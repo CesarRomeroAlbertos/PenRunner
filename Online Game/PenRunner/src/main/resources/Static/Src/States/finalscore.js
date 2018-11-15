@@ -34,24 +34,24 @@ PenRunner.scoreState.prototype =
 		//}
 
 		//Creamos los sprites para los fondos de puntuación de los jugadores
-		var jugador = game.add.sprite(game.world.x+100, game.world.y+130, 'jugador');
-        var jugador2 = game.add.sprite(game.world.x+100, game.world.y+200, 'jugador');
-        var jugador3 = game.add.sprite(game.world.x+100, game.world.y+280, 'jugador');
-        var jugador4 = game.add.sprite(game.world.x+100, game.world.y+360, 'jugador');
-        var jugador5 = game.add.sprite(game.world.x+100, game.world.y+440, 'jugador');
-		var jugador6 = game.add.sprite(game.world.x+100, game.world.y+520, 'jugador');
+		var jugador = game.add.sprite(game.world.x+65, game.world.y+140, 'jugador');
+        var jugador2 = game.add.sprite(game.world.x+65, game.world.y+210, 'jugador');
+        var jugador3 = game.add.sprite(game.world.x+65, game.world.y+290, 'jugador');
+        var jugador4 = game.add.sprite(game.world.x+65, game.world.y+370, 'jugador');
+        var jugador5 = game.add.sprite(game.world.x+65, game.world.y+450, 'jugador');
+		var jugador6 = game.add.sprite(game.world.x+65, game.world.y+530, 'jugador');
 		
 		//Ponemos el texto de la puntuacion en el fondo correspondiente.
 		game.add.text(game.world.x+120, game.world.y+165, '1. Jugador ' + goalOrder[0] + '.......................................... ' + puntuacion1 + ' pts', style3); //Imprime la posicion del primer jugador
 		game.add.text(game.world.x+120, game.world.y+235, '2. Jugador ' + goalOrder[1] + '............................................ ' + puntuacion2 + ' pts', style3); //Imprime la posicion de
 
 		//Se escala el fondo de puntuacion de los jugadores, a priori es un sprite muy básico, se cambiará mas adelante
-	 	jugador.scale.setTo(1.2, 1);
-	 	jugador2.scale.setTo(1.2, 1);
-	    jugador3.scale.setTo(1.2, 1);
-	    jugador4.scale.setTo(1.2, 1);
-	    jugador5.scale.setTo(1.2, 1);
-		jugador6.scale.setTo(1.2, 1);
+	 	jugador.scale.setTo(1.6, 0.8);
+	 	jugador2.scale.setTo(1.6, 0.8);
+	    jugador3.scale.setTo(1.6, 0.8);
+	    jugador4.scale.setTo(1.6, 0.8);
+	    jugador5.scale.setTo(1.6, 0.8);
+		jugador6.scale.setTo(1.6, 0.8);
 		
 		//Texto de la puntuación final.
 		var text = game.add.text(game.world.centerX-220, game.world.centerY-230, 'Puntuación Final', style4);
