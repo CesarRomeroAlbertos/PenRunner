@@ -43,7 +43,7 @@ PenRunner.preloadStart.prototype =
 		game.load.image('buttonDown', 'Assets/bajar.png', 200, 70);
 
 		//Matchmaking
-		game.load.image('button', 'Assets/Mapa1.png', 200, 70);
+		game.load.image('button', 'Assets/Mapa1_1.png', 200, 70);
 		game.load.image('button2', 'Assets/Mapa2.png', 200, 70);
 		game.load.image('button3', 'Assets/Mapa3.png', 200, 70);
 		game.load.image('jugadorMatch', 'Assets/Boton_Jugadores.png', 200, 70);
