@@ -5,6 +5,7 @@ public class Player {
 	private long id;
 	private int x, y;
 	private int score;
+	private int angle;
 	
 	Player() {
 		this.score = 0;
@@ -42,9 +43,17 @@ public class Player {
 		this.score = score;
 	}
 
+	public int getAngle() {
+		return angle;
+	}
+
+	public void setAngle(int angle) {
+		this.angle = angle;
+	}
+	
 	@Override
 	public String toString() {
-		return "Player [id=" + id + ", x=" + x + ", y=" + y + ", score=" + score + "]";
+		return "Player [id=" + id + ", x=" + x + ", y=" + y + ", angle="+ angle+ ", score=" + score + "]";
 	}
 
 }

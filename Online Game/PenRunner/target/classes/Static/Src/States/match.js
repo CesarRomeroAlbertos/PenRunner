@@ -224,7 +224,9 @@ PenRunner.matchState.prototype =
 					match.player2State = 0;
 					var line = game.add.sprite(match.player2StartMovePositionX,match.player2StartMovePositionY,'angleLineRed');
 					line.angle = match.DirectionArrowP2.angle;
+					console.log("escala:");
 					line.scale.setTo(match.DirectionArrowP2.scale.x, match.DirectionArrowP2.scale.y);
+					console.log(match.DirectionArrowP2.scale.x);
 					AngleLineLeftP2.x=match.player2.x;
 					AngleLineLeftP2.y=match.player2.y;
 					AngleLineRightP2.x=match.player2.x;
@@ -233,7 +235,6 @@ PenRunner.matchState.prototype =
 					AngleLineRightP2.visible = true;
 					match.DirectionArrowP2.x=match.player2.x;
 					match.DirectionArrowP2.y=match.player2.y;
-					match.DirectionArrowP2.scale.setTo(0.4, 0.3);
 					setArrow2();
 					if(checkWin(match.player2.x,match.player2.y))
 					{
@@ -339,7 +340,7 @@ function changeState1()
 					AngleLineLeftP1.visible = false;
 					AngleLineRightP1.visible = false;
 				}
-				match.DirectionArrowP1.scale.setTo(0.4, 0.3);
+				
 			}
 }
 
@@ -383,7 +384,7 @@ function changeState2()
 					AngleLineLeftP2.visible = false;
 					AngleLineRightP2.visible = false;
 				}
-				match.DirectionArrowP2.scale.setTo(0.4, 0.3);
+				
 			}
 }
 
@@ -394,6 +395,7 @@ function setArrow1()
 	match.timeCounter1 = game.math.linear(0,0.5,angle/60);
 	match.DirectionArrowP1.angle = AngleLineRightP1.angle-angle;
 	match.player1ArrowDirection = true;
+	match.DirectionArrowP1.scale.setTo(0.4, 0.3);
 }
 
 //Reasignamos un ángulo aleatorio a la flecha de dirección del segundo jugador
@@ -403,6 +405,7 @@ function setArrow2()
 	match.timeCounter2 = game.math.linear(0,0.5,angle/60);
 	match.DirectionArrowP2.angle = AngleLineRightP2.angle-angle;
 	match.player2ArrowDirection = true;
+	match.DirectionArrowP2.scale.setTo(0.4, 0.3);
 }
 
 //Hacemos que gire la flecha del primer jugador con una interpolación y un contador de tiempo.
