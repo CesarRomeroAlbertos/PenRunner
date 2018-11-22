@@ -39,8 +39,8 @@ public class GameController
 		Player player = new Player();
 		long id = nextId.incrementAndGet();
 		player.setId(id);
-		player.setX(rnd.nextInt(700));
-		player.setY(rnd.nextInt(500));
+		player.setX(0);
+		player.setY(0);
 		players.put(player.getId(), player);
 		return player;
 	}

@@ -20,6 +20,8 @@ PenRunner.matchmakingOnlineState.prototype =
         game.stage.backgroundColor = '#182d3b';
 
         var background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Añadimos un sprite al background
+        
+        this.createPlayer();
 
         buttonMap = game.add.button(game.world.x + 40, 40, 'button', null, this, 1, 0, 2) //Establecemos las caracteristicas del primer boton
         buttonMap2 = game.add.button(game.world.x + 300, 40, 'button2', null, this, 10, 10, 0) //Establecemos las caracteristicas del segundo boton
@@ -49,28 +51,28 @@ PenRunner.matchmakingOnlineState.prototype =
         //Estalbecemos las posiciones de los sprites de cada uno de los huecos donde se pueden poner los nombres de los jugadores.
         var jugador = game.add.sprite(game.world.x+40, game.world.y+370, 'jugadorMatch');
         var jugador2 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugadorMatch').alignTo(jugador, Phaser.RIGHT_CENTER, -240);
-        var jugador3 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugadorMatch').alignTo(jugador2, Phaser.RIGHT_CENTER, -240);
-        var jugador4 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch');
-        var jugador5 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador4, Phaser.RIGHT_CENTER, -240);
-        var jugador6 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador5, Phaser.RIGHT_CENTER, -240);
+       // var jugador3 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugadorMatch').alignTo(jugador2, Phaser.RIGHT_CENTER, -240);
+      //  var jugador4 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch');
+      //  var jugador5 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador4, Phaser.RIGHT_CENTER, -240);
+      //  var jugador6 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador5, Phaser.RIGHT_CENTER, -240);
 
         //escalamos los botones donde iran el nombres de los jugadores.
         jugador.scale.setTo(0.4, 0.5);
         jugador2.scale.setTo(0.4, 0.5);
-        jugador3.scale.setTo(0.4, 0.5);
-        jugador4.scale.setTo(0.4, 0.5);
-        jugador5.scale.setTo(0.4, 0.5);
-        jugador6.scale.setTo(0.4, 0.5);
+      //  jugador3.scale.setTo(0.4, 0.5);
+      //  jugador4.scale.setTo(0.4, 0.5);
+       // jugador5.scale.setTo(0.4, 0.5);
+       // jugador6.scale.setTo(0.4, 0.5);
 
         //Aquí guardamos los nombres de los jugadores, de momento, están establecidos por defecto a jugador 1 y jugador 2. Pero se estudiará el hecho de incluir nombres personalizados
         var textPlayer = game.add.text(game.world.x+100, game.world.y+382, matchmaking.text2, style2);
         var textPlayer2 = game.add.text(game.world.x+360, game.world.y+382, matchmaking.text2, style2);
 
         //Mostramos el resto de textos donde pone "Vacío"
-        game.add.text(game.world.x+620, game.world.y+382, matchmaking.text2, style2);
-        game.add.text(game.world.x+100, game.world.y+482, matchmaking.text2, style2);
-        game.add.text(game.world.x+360, game.world.y+482, matchmaking.text2, style2);
-        game.add.text(game.world.x+620, game.world.y+482, matchmaking.text2, style2);
+       // game.add.text(game.world.x+620, game.world.y+382, matchmaking.text2, style2);
+      //  game.add.text(game.world.x+100, game.world.y+482, matchmaking.text2, style2);
+      //  game.add.text(game.world.x+360, game.world.y+482, matchmaking.text2, style2);
+       // game.add.text(game.world.x+620, game.world.y+482, matchmaking.text2, style2);
 
         //Hemos declarado dos variables con las que hacemos que los jugadores se unan a la partida
         joinKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
@@ -122,6 +124,23 @@ PenRunner.matchmakingOnlineState.prototype =
 
     
     }
+
+  
+}
+
+function createPlayer() 
+{
+    $.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/player',
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).done(function (data) {
+        console.log("Se ha creado el jugador: " + JSON.stringify(data));
+        game.player1 = data
+    })
 }
 //esta funcion se encarga de actualizar la cuenta atrás para iniciar la partida, se llama una vez cada segundo, como bien se indica en la instrucción de game.loop(Línea 82)
 function showSeconds() 
