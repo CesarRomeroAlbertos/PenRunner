@@ -46,7 +46,7 @@ public class GameController
 	}
 	
 	//Con PUT actualizamos la posición de un jugador
-	@PutMapping(value = "/game/{id}")
+	@PutMapping(value = "/player/id")
 	public ResponseEntity<Player> updatePlayer(@PathVariable long id, @RequestBody Player player) {
 		Player savedPlayer = players.get(player.getId());
 		if (savedPlayer != null) {

@@ -82,6 +82,11 @@ PenRunner.matchmakingOnlineState.prototype =
 
     update: function(){ //Función que se ejecuta una vez por frame
         //Si el contador se queda a 0, lo ponemos a 5 para la siguiente vez que se cargue la escena
+    	this.getNumPlayers(function (numPlayers) {
+			if (numPlayers.length === 2) {
+				console.log ('##### COMIENZA EL JUEGO #####');
+			}
+		});
         if(matchmaking.contador <= 0){
            //contador = 5;
             //En función de los mapas votados, asignamos un valor a la variable chosenCircuit, para luego elegirlo desde el json
@@ -141,6 +146,15 @@ function createPlayer()
         console.log("Se ha creado el jugador: " + JSON.stringify(data));
         game.player1 = data
     })
+}
+
+function getNumPlayers(callback)
+{
+        $.ajax({
+            url: 'http://localhost:8080/game',
+        }).done(function (data) {
+            callback(data);
+        })  
 }
 //esta funcion se encarga de actualizar la cuenta atrás para iniciar la partida, se llama una vez cada segundo, como bien se indica en la instrucción de game.loop(Línea 82)
 function showSeconds() 
