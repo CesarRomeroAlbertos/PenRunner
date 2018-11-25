@@ -7,10 +7,10 @@ var volumenMusica = 10;
 var volumenSonido = 10;
 
 //Estilos de fuente
-var style1 = { font: "65px Arial", fill: "#ffffff", align: "center" };
+var style1 = { font: "65px Arial", fill: "#000000", align: "center" };
 var style2 =  { font: "30px Arial", fill: "#000000", align: "center"};
-var style3 =  { font: "30px Arial", fill: "#ffffff", align: "center"};
-var style4 =  { font: "60px Arial", fill: "#ffffff", align: "center"};
+var style3 =  { font: "30px Arial", fill: "#000000", align: "center"};
+var style4 =  { font: "60px Arial", fill: "#000000", align: "center"};
 
 //variable de elección de circuito
 var chosenCircuit;
@@ -33,14 +33,14 @@ PenRunner.preloadStart.prototype =
 
 		//Main Menu
 		game.load.image('buttonStartMenu', 'Assets/start.png', 200, 70);
-		game.load.image('buttonSettingsMenu', 'Assets/opciones.png', 200, 70);
-		game.load.image('buttonExitMenu', 'Assets/salir.png', 200, 70);
-		game.load.image('background','Assets/starfield.jpg');
+		game.load.image('buttonSettingsMenu', 'Assets/settings.png', 200, 70);
+		game.load.image('buttonExitMenu', 'Assets/exit.png', 200, 70);
+		game.load.image('background','Assets/background.png');
 
 		//Settings
-		game.load.image('buttonBackSettings', 'Assets/atras.png', 200, 70);
-		game.load.image('buttonUp', 'Assets/subir.png', 200, 70);
-		game.load.image('buttonDown', 'Assets/bajar.png', 200, 70);
+		game.load.image('buttonBackSettings', 'Assets/leftarrow.png', 200, 70);
+		game.load.image('buttonUp', 'Assets/rightarrow.png', 200, 70);
+		game.load.image('buttonDown', 'Assets/leftarrow.png', 200, 70);
 
 		//Matchmaking
 		game.load.image('button', 'Assets/Mapa1_1.png', 200, 70);
@@ -52,7 +52,7 @@ PenRunner.preloadStart.prototype =
 
 		//Score
 		game.load.image('jugador', 'Assets/Texto_Jugador_01.png', 200, 70);
-		game.load.image('return', 'Assets/atras.png', 200, 70);
+		game.load.image('return', 'Assets/leftarrow.png', 200, 70);
 		game.load.image('backgroundScore','Assets/Fondo_fin_partida.jpg', 200, 70);
 	},
 	update: function()
