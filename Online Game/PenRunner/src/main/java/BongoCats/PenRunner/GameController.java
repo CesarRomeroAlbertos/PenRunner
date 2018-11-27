@@ -57,5 +57,13 @@ public class GameController
 		}
 	}
 	
+	//Mediante este put actualizamos la votacion del mapa seleccionado
+	@PutMapping(value = "/player")
+	public int updateVote()
+	{
+		int voto = 1;
+		return voto;
+	}
+	
 	
 }

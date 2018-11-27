@@ -9,7 +9,7 @@ PenRunner.matchmakingOnlineState.prototype =
 
     create: function(){
 
-        matchmaking.contador = 5;
+        matchmaking.contador = 12;
         matchmaking.numeroDeVotos1 = 0;
         matchmaking.numeroDeVotos2 = 0;
         matchmaking.numeroDeVotos3 = 0;
@@ -31,7 +31,7 @@ PenRunner.matchmakingOnlineState.prototype =
         buttonMap.width = buttonMap2.width = buttonMap3.width = 200; 
         buttonMap.height = buttonMap2.height = buttonMap3.height = 200;
         
-        matchmaking.text = game.add.text(game.world.centerX-270, game.world.centerY+250, 'Tiempo restante para iniciar partida: 5', style3);  //ponemos la variable text en el recinto y la editamos 
+        matchmaking.text = game.add.text(game.world.centerX-270, game.world.centerY+250, 'Tiempo restante para iniciar partida: 12', style3);  //ponemos la variable text en el recinto y la editamos 
         matchmaking.text2 = 'Vacío';
 
         matchmaking.votos1 = game.add.text(game.world.x+120, 250, matchmaking.numeroDeVotos1, style1);
@@ -85,8 +85,9 @@ PenRunner.matchmakingOnlineState.prototype =
     	this.getNumPlayers(function (numPlayers) {
 			if (numPlayers.length === 2) {
 				console.log ('##### COMIENZA EL JUEGO #####');
-			}
-		});
+            }
+        });
+        
         if(matchmaking.contador <= 0){
            //contador = 5;
             //En función de los mapas votados, asignamos un valor a la variable chosenCircuit, para luego elegirlo desde el json
@@ -114,7 +115,7 @@ PenRunner.matchmakingOnlineState.prototype =
             }
             else
                 chosenCircuit = select[0];
-           game.state.start('preloadMatchState');
+                game.state.start('preloadMatchState');
         }
         //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
         if(joinKey.isDown){
@@ -122,12 +123,11 @@ PenRunner.matchmakingOnlineState.prototype =
             game.add.text(game.world.x+340, game.world.y+382,'Jugador 2', style2);
         }
         //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
-        if(joinKey2.isDown){
+        if(this.getNumPlayers(callback) > 0){
             textPlayer.destroy();
             game.add.text(game.world.x+80, game.world.y+382, 'Jugador 1', style2);
         }
 
-    
     }
 
   
@@ -156,6 +156,22 @@ function getNumPlayers(callback)
             callback(data);
         })  
 }
+function updateNumberOfVotes()
+{
+	$.ajax({
+        method: "POST",
+        url: 'http://localhost:8080/player',
+        processData: false,
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).done(function (data) {
+        matchmaking.numeroDeVotos1++;
+        console.log('Se ha actualizado la votación de los mapas: ' + JSON.stringify(data));
+        
+    })
+	
+}
 //esta funcion se encarga de actualizar la cuenta atrás para iniciar la partida, se llama una vez cada segundo, como bien se indica en la instrucción de game.loop(Línea 82)
 function showSeconds() 
 {
@@ -166,13 +182,17 @@ function showSeconds()
 function up() //Función que se llama cuando clickamos sobre el mapa que esta situado más a la izquierda
 {
     if(matchmaking.numeroDeVotos1<9)
-    matchmaking.numeroDeVotos1++; //Aumentamos el número de votos del mapa de la izquierda
+    	{
+    	updateNumberOfVotes(); //Llamamos a la función para actualizar el número de votos en el servidor
+    	}
+ 
     matchmaking.votos1.setText(matchmaking.numeroDeVotos1); //Imprimimos el resultado por pantalla.
 }
 function up2()//Función que se llama cuando clickamos sobre el mapa que esta situado en el centro
 {
     if(matchmaking.numeroDeVotos2<9)
-    matchmaking.numeroDeVotos2++;
+        updateNumberOfVotes(); 
+   // matchmaking.numeroDeVotos2++;
 
     matchmaking.votos2.setText(matchmaking.numeroDeVotos2); 
 }
@@ -180,7 +200,8 @@ function up2()//Función que se llama cuando clickamos sobre el mapa que esta si
 function up3()//Función que se llama cuando clickamos sobre el mapa que esta situado más a la derecha
 {
     if(matchmaking.numeroDeVotos3<9)
-    matchmaking.numeroDeVotos3++;
+        updateNumberOfVotes(); 
+    //matchmaking.numeroDeVotos3++;
 
     matchmaking.votos3.setText(matchmaking.numeroDeVotos3);
 }

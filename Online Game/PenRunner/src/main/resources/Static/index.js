@@ -17,6 +17,8 @@ game.state.add('preloadTrackBuildState', PenRunner.preloadTrackBuildState)
 game.state.add('preloadTrackBuildOnlineState', PenRunner.preloadTrackBuildOnlineState)
 game.state.add('settingsState', PenRunner.settingsState)
 
+game.global = {player1: null};
+
 
  // llamamos a la scena boot
 game.state.start('bootState')
