@@ -6,6 +6,7 @@ public class Player {
 	private int x, y;
 	private int score;
 	private int angle;
+	private String color;
 	
 	Player() {
 		this.score = 0;
@@ -50,10 +51,18 @@ public class Player {
 	public void setAngle(int angle) {
 		this.angle = angle;
 	}
-	
-	@Override
-	public String toString() {
-		return "Player [id=" + id + ", x=" + x + ", y=" + y + ", angle="+ angle+ ", score=" + score + "]";
+
+	public String getColor() {
+		return color;
 	}
 
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	@Override
+	public String toString() {
+		return "Player [id=" + id + ", color=" + color +",  x=" + x + ", y=" + y + ", angle="+ angle+ ", score=" + score + "]";
+	}
+	
 }

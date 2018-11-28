@@ -159,8 +159,8 @@ function getNumPlayers(callback)
 function updateNumberOfVotes()
 {
 	$.ajax({
-        method: "POST",
-        url: 'http://localhost:8080/player',
+        method: "PUT",
+        url: 'http://localhost:8080/player/{numeroDeVotos1}',
         processData: false,
         headers: {
             "Content-Type": "application/json"
