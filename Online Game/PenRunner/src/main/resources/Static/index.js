@@ -1,6 +1,7 @@
 //creamos la variable del juego fijando el tamaño de la ventana
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv')
-  
+game.global = {player1: null};
+
   //aquí se añaden las escenas al juego, si queréis añadir alguna más hay que hacerlo aquí
 game.state.add('bootState', PenRunner.bootState)
 game.state.add('preloadStart', PenRunner.preloadStart)
@@ -17,7 +18,6 @@ game.state.add('preloadTrackBuildState', PenRunner.preloadTrackBuildState)
 game.state.add('preloadTrackBuildOnlineState', PenRunner.preloadTrackBuildOnlineState)
 game.state.add('settingsState', PenRunner.settingsState)
 
-game.global = {player1: null};
 
 
  // llamamos a la scena boot

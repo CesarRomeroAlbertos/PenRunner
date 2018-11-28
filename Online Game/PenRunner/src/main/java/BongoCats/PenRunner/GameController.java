@@ -51,6 +51,8 @@ public class GameController
 		player.setX(0);
 		player.setY(0);
 		players.put(player.getId(), player);
+		System.out.println("He creado al jugador");
+		
 		return player;
 	}
 	
@@ -67,12 +69,25 @@ public class GameController
 	}
 	
 	//Mediante este put actualizamos la votacion del mapa seleccionado
-	@PutMapping(value = "/player")
-	public int updateVote()
+	@PutMapping(value = "/game/{numeroDeVotos1}")
+	public ResponseEntity<Integer> updateVote(@RequestBody int numeroDeVotos) 
+	{
+		
+		if (numeroDeVotos<9) 
+		{
+			numeroDeVotos++;
+			return new ResponseEntity<Integer>(numeroDeVotos, HttpStatus.OK);
+		} 
+		else 
+		{
+			return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
+		}
+	}
+	/*public int updateVote()
 	{
 		int voto = 1;
 		return voto;
-	}
+	}*/
 	
 	@GetMapping(value = "/track/{id}")
 	public TrackData getTrack(@PathVariable long id)
@@ -91,5 +106,4 @@ public class GameController
 			
 		}
 	}
-	
 }

@@ -32,7 +32,7 @@ PenRunner.menuState.prototype =
 
 function startMenu() //Función llamada cuando pulsamos el botón de start, llama al script de carga de matchmaking
 {
-    game.state.start('matchmakingState');
+    game.state.start('matchmakingOnlineState');
 }
 
 function settingsMenu() //Función llamada cuando pulsamos el botón de opciones, llama al script de carga de settings
