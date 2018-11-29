@@ -119,10 +119,10 @@ PenRunner.matchmakingOnlineState.prototype =
                 game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
             }
             //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
-            if (this.getNumPlayers(callback) > 0) {
+         /*   if (this.getNumPlayers(callback) > 0) {
                 textPlayer.destroy();
                 game.add.text(game.world.x + 80, game.world.y + 382, 'Jugador 1', style2);
-            }
+            }*/ 
 
         },
         createPlayer: function () {
@@ -142,9 +142,9 @@ PenRunner.matchmakingOnlineState.prototype =
         getNumPlayers: function()
         {
             $.ajax({
-                url: 'http://localhost:8080/game',
+                url: 'http://localhost:8080/player',
             }).done(function (data) {
-                callback(data);
+                console.log("Hay " + JSON.stringify(data) + " jugadores")
             })
         },
 

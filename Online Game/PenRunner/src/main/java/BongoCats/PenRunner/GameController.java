@@ -35,9 +35,9 @@ public class GameController
 	
 	//devolvemos número de jugadores
 	@GetMapping(value = "/player")
-	public Collection<Player> getPlayers() 
+	public int getNumPlayers() 
 	{
-		return players.values();
+		return players.size();
 	}
 	
 	// Con POST creamos un nuevo jugador
