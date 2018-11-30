@@ -10,18 +10,18 @@ PenRunner.menuState.prototype =
 
 		//Asignamos los tres botones que están en el menú principal a las variables creadas previamente
         var buttonStartMenu = game.add.button(game.world.x + 250, 400, 'buttonStartMenu', startMenu, this, 1, 0, 2);
-        var buttonSettingsMenu = game.add.button(game.world.x + 730, 20, 'buttonSettingsMenu', settingsMenu, this, 1, 0, 2);
+        var buttonSettingsMenu = game.add.button(game.world.x + 740, 20, 'buttonSettingsMenu', settingsMenu, this, 1, 0, 2);
 		var buttonExitMenu = game.add.button(game.world.x + 20, 20, 'buttonExitMenu', exitMenu, this, 1, 0, 2);
 
 		//Añadimos el título del menú principal
 		var tituloMenu = 'Menú Principal';
-		game.add.text(game.world.x+140, game.world.y+200, tituloMenu, style1)
+		game.add.text(game.world.x+185, game.world.y+200, tituloMenu, style1)
 
 		//Escalamos los tres botones para que se vean adecuadamente en la pantalla
         buttonStartMenu.width = 300; 
 		buttonStartMenu.height = 100;
-		buttonSettingsMenu.width = buttonExitMenu.width = 50;
-		buttonSettingsMenu.height = buttonExitMenu.height = 50;
+		buttonSettingsMenu.width = buttonExitMenu.width = 40;
+		buttonSettingsMenu.height = buttonExitMenu.height = 40;
 
 	},
 	update:function() 

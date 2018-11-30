@@ -10,8 +10,8 @@ PenRunner.scoreState.prototype =
 		var buttonReturn = game.add.button(game.world.x+20, game.world.y+20, 'return', null, this, 0, 0, 0); //Botón para volver al menú principal
 		
 		//escalamos el boton de volver atrás
-		buttonReturn.width = 50;
-		buttonReturn.height = 50;
+		buttonReturn.width = 40;
+		buttonReturn.height = 40;
 		//Esta instrucción detecta cuando se ha pulsado el botón de vuelta atrás y ejecuta el bloque de código en la función actionOnClickScore()
 		buttonReturn.onInputUp.add(actionONClickScore, this);
 

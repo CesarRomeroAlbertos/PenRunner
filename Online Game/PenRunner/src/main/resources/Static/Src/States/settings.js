@@ -20,24 +20,24 @@ PenRunner.settingsState.prototype =
 		
 		//Asignamos los cinco botones que están en el menú de opciones a las variables creadas previamente
 		var buttonBack = game.add.button(game.world.x + 20, 20, 'buttonBackSettings', backSettings, this, 0, 0, 0);
-		var buttonUp1 = game.add.button(565, 250, 'buttonUp', subirMusica, this, 0, 0, 0);
-		var buttonDown1 = game.add.button(415, 250, 'buttonDown', bajarMusica, this, 0, 0, 0);
-		var buttonUp2 = game.add.button(565, 350, 'buttonUp', subirSonido, this, 0, 0, 0);
-		var buttonDown2 = game.add.button(415, 350, 'buttonDown', bajarSonido, this, 0, 0, 0);
+		var buttonUp1 = game.add.button(560, 240, 'buttonUp', subirMusica, this, 0, 0, 0);
+		var buttonDown1 = game.add.button(405, 240, 'buttonDown', bajarMusica, this, 0, 0, 0);
+		var buttonUp2 = game.add.button(560, 320, 'buttonUp', subirSonido, this, 0, 0, 0);
+		var buttonDown2 = game.add.button(405, 320, 'buttonDown', bajarSonido, this, 0, 0, 0);
 
 		//Escalamos los cinco botones para que se vean adecuadamente en la pantalla
-		buttonBack.width = buttonBack.height = 50;
+		buttonBack.width = buttonBack.height = 40;
 		buttonUp1.height = buttonUp2.height = buttonDown1.height = buttonDown2.height = 40;
 		buttonUp1.width = buttonUp2.width = buttonDown1.width = buttonDown2.width = 35;
 
 		//Añadimos el título del menú de opciones y los nombres de los ajustes que se pueden realizar
-		game.add.text(game.world.centerX-150, 20, opciones, style1);
-		game.add.text(200, 250, musica, style3);
-		game.add.text(200, 350, sonido, style3);
+		game.add.text(game.world.centerX-140, 20, opciones, style1);
+		game.add.text(200, 242, musica, style3);
+		game.add.text(200, 322, sonido, style3);
 
 		//Asignamos a las variables creadas previamente el valor de música y sonido
-		settings.musicaValor = game.add.text(490, 250, volumenMusica, style3);
-        settings.sonidoValor = game.add.text(490, 350, volumenSonido, style3);
+		settings.musicaValor = game.add.text(485, 242, volumenMusica, style3);
+        settings.sonidoValor = game.add.text(485, 322, volumenSonido, style3);
 	},
 	update:function() {
 
