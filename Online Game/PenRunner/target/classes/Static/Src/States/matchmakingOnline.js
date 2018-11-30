@@ -2,13 +2,14 @@ PenRunner.matchmakingOnlineState = function (game) { }
 
 
 var matchmaking = {};
+var textPlayer;
 function matchmakingData() { return this; }
 
 PenRunner.matchmakingOnlineState.prototype =
     {
 
         create: function () {
-
+        	this.deletePlayer();
             matchmaking.contador = 12;
             matchmaking.numeroDeVotos1 = 0;
             matchmaking.numeroDeVotos2 = 0;
@@ -22,6 +23,7 @@ PenRunner.matchmakingOnlineState.prototype =
             var background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Añadimos un sprite al background
 
             this.createPlayer();
+            this.createVotes();
 
             buttonMap = game.add.button(game.world.x + 40, 40, 'button', null, this, 1, 0, 2) //Establecemos las caracteristicas del primer boton
             buttonMap2 = game.add.button(game.world.x + 300, 40, 'button2', null, this, 10, 10, 0) //Establecemos las caracteristicas del segundo boton
@@ -65,7 +67,7 @@ PenRunner.matchmakingOnlineState.prototype =
             // jugador6.scale.setTo(0.4, 0.5);
 
             //Aquí guardamos los nombres de los jugadores, de momento, están establecidos por defecto a jugador 1 y jugador 2. Pero se estudiará el hecho de incluir nombres personalizados
-            var textPlayer = game.add.text(game.world.x + 100, game.world.y + 382, matchmaking.text2, style2);
+            textPlayer = game.add.text(game.world.x + 100, game.world.y + 382, matchmaking.text2, style2);
             var textPlayer2 = game.add.text(game.world.x + 360, game.world.y + 382, matchmaking.text2, style2);
 
             //Mostramos el resto de textos donde pone "Vacío"
@@ -111,6 +113,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 }
                 else
                     chosenCircuit = select[0];
+                if(this.getNumPlayers() == 2)
                 game.state.start('preloadMatchState');
             }
             //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
@@ -118,11 +121,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 textPlayer2.destroy();
                 game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
             }
-            //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
-         /*   if (this.getNumPlayers(callback) > 0) {
-                textPlayer.destroy();
-                game.add.text(game.world.x + 80, game.world.y + 382, 'Jugador 1', style2);
-            }*/ 
+            
 
         },
         createPlayer: function () {
@@ -136,32 +135,46 @@ PenRunner.matchmakingOnlineState.prototype =
             }).done(function (data) {
                 console.log("Se ha creado el jugador: " + JSON.stringify(data));
                 game.player1 = data
+                textPlayer.destroy();
+                game.add.text(game.world.x + 80, game.world.y + 382, 'Jugador 1', style2);
             })
         },
 
         getNumPlayers: function()
         {
             $.ajax({
-                url: 'http://localhost:8080/player',
+                url: 'http://localhost:8080/player/number',
             }).done(function (data) {
                 console.log("Hay " + JSON.stringify(data) + " jugadores")
             })
         },
-
-        updateNumberOfVotes: function(){
-            $.ajax({
-                method: "PUT",
-                url: 'http://localhost:8080/player/{numeroDeVotos1}',
-                processData: false,
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            }).done(function (data) {
-                //   if(buttonMap.)
-                matchmaking.numeroDeVotos1++;
-                console.log('Se ha actualizado la votación de los mapas: ' + JSON.stringify(data));
         
-            })
+        deletePlayer: function(){
+        	  $.ajax({
+                  method: "DELETE",
+                  url: 'http://localhost:8080/player',
+                  processData: false,
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+              }).done(function (data) {
+                  console.log('Se ha borrado el jugador' + JSON.stringify(data));
+              })
+        },
+        createVotes: function()
+        {
+        	  $.ajax({
+                  method: "POST",
+                  url: 'http://localhost:8080/voto',
+                  processData: false,
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+              }).done(function (data) {
+                  console.log(matchmaking.numeroDeVotos1+data);
+                  console.log('Se ha creado el voto para el jugador: ' + JSON.stringify(data));
+          
+              })
         }
 
 
@@ -173,6 +186,7 @@ function showSeconds() {
     matchmaking.contador--;
     matchmaking.text.setText('Tiempo restante para iniciar partida: ' + matchmaking.contador);
 }
+
 
 function up() //Función que se llama cuando clickamos sobre el mapa que esta situado más a la izquierda
 {
@@ -198,4 +212,21 @@ function up3()//Función que se llama cuando clickamos sobre el mapa que esta si
     //matchmaking.numeroDeVotos3++;
 
     matchmaking.votos3.setText(matchmaking.numeroDeVotos3);
+}
+
+function updateNumberOfVotes()
+{
+	  $.ajax({
+          method: "PUT",
+          url: 'http://localhost:8080/voto/{valor}',
+          processData: false,
+          headers: {
+              "Content-Type": "application/json"
+          },
+      }).done(function (data) {
+          console.log(matchmaking.numeroDeVotos1+data);
+          console.log('Se ha actualizado la votación de los mapas: ' + JSON.stringify(data));
+  
+      })
+      
 }

@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+//import es.urjc.jer.game.Player;
 
 
 @RestController
@@ -34,10 +37,24 @@ public class GameController
 	
 	
 	//devolvemos número de jugadores
-	@GetMapping(value = "/player")
+	@GetMapping(value = "/player/number")
 	public int getNumPlayers() 
 	{
 		return players.size();
+	}
+	
+	//Con este metodo borramos los jugadores al reiniciar la cache, para que siempre que se inicie un nuevo matchmaking, se reestablezcan los jugadores a 0
+	@DeleteMapping(value = "/player/{id}")
+	public ResponseEntity<Player> deletePlayer(@PathVariable long id) {
+		System.out.println("He borrado al jugador");
+
+		Player savedPlayer = players.get(id);
+		if (savedPlayer != null) {
+			players.remove(savedPlayer.getId());
+			return new ResponseEntity<Player>(savedPlayer, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Player>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	// Con POST creamos un nuevo jugador
@@ -69,25 +86,22 @@ public class GameController
 	}
 	
 	//Mediante este put actualizamos la votacion del mapa seleccionado
-	@PutMapping(value = "/game/{numeroDeVotos1}")
-	public ResponseEntity<Integer> updateVote(@RequestBody int numeroDeVotos) 
-	{
-		
-		if (numeroDeVotos<9) 
-		{
-			numeroDeVotos++;
-			return new ResponseEntity<Integer>(numeroDeVotos, HttpStatus.OK);
-		} 
-		else 
-		{
-			return new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
-		}
+	@PostMapping(value = "/voto")
+	public int createVote() 
+	{		
+		Voto voto = new Voto();
+		voto.setValor(1);
+		return voto.getValor();
 	}
-	/*public int updateVote()
+	@PutMapping(value = "/voto/{valor}")
+	public int updateVote(@PathVariable int valor, @RequestBody Voto voto)
 	{
-		int voto = 1;
-		return voto;
-	}*/
+		voto.setValor(valor++);
+		if(voto!= null)
+			return voto.getValor();
+		else
+			return 0;
+	}
 	
 	@GetMapping(value = "/track/{id}")
 	public TrackData getTrack(@PathVariable long id)
