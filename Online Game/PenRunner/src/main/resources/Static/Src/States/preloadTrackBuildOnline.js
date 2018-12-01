@@ -25,18 +25,18 @@ PenRunner.preloadTrackBuildOnlineState.prototype =
 		game.load.physics('wallsCollision',trackJson.wallsCollisionJson);
 		game.load.image('start',trackJson.startImage);
 		game.load.image('goal',trackJson.goalImage);
-		game.load.image('playerBlue',playerAssetsJson.assets[0].cursor);
-		game.load.image('playerRed',playerAssetsJson.assets[1].cursor);
-		game.load.image('playerGreen',playerAssetsJson.assets[2].cursor);
-		game.load.image('playerPurple',playerAssetsJson.assets[3].cursor);
-		game.load.image('playerYellow',playerAssetsJson.assets[4].cursor);
-		game.load.image('playerCian',playerAssetsJson.assets[5].cursor);
-		game.load.image('angleLineBlue',playerAssetsJson.assets[0].line);
-		game.load.image('angleLineRed',playerAssetsJson.assets[1].line);
-		game.load.image('angleLineGreen',playerAssetsJson.assets[2].line);
-		game.load.image('angleLinePurple',playerAssetsJson.assets[3].line);
-		game.load.image('angleLineYellow',playerAssetsJson.assets[4].line);
-		game.load.image('angleLineCian',playerAssetsJson.assets[5].line);
+		game.load.image('player1',playerAssetsJson.assets[0].cursor);
+		game.load.image('player2',playerAssetsJson.assets[1].cursor);
+		game.load.image('player3',playerAssetsJson.assets[2].cursor);
+		game.load.image('player4',playerAssetsJson.assets[3].cursor);
+		game.load.image('player5',playerAssetsJson.assets[4].cursor);
+		game.load.image('player6',playerAssetsJson.assets[5].cursor);
+		game.load.image('angleLine1',playerAssetsJson.assets[0].line);
+		game.load.image('angleLine2',playerAssetsJson.assets[1].line);
+		game.load.image('angleLine3',playerAssetsJson.assets[2].line);
+		game.load.image('angleLine4',playerAssetsJson.assets[3].line);
+		game.load.image('angleLine5',playerAssetsJson.assets[4].line);
+		game.load.image('angleLine6',playerAssetsJson.assets[5].line);
 		game.playerAssetsStrings = [
 			["playerBlue","angleLineBlue"],
 			["playerRed","angleLineRed"],

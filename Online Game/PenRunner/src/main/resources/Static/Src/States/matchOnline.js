@@ -42,7 +42,7 @@ PenRunner.matchOnlineState.prototype =
 			}
 
 			player = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, 1 / 3),
-				game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, 1 / 3), 'player1');
+				game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, 1 / 3), 'player'+game.player.id);
 			player.anchor.setTo(0, 0);
 			player.scale.setTo(0.15, 0.15);
 			player.angle += trackJson.playerAngle;
@@ -51,7 +51,7 @@ PenRunner.matchOnlineState.prototype =
 			//flecha y ángulo del primer jugador
 			AngleLineLeft = game.add.sprite(player.x, player.y, 'angleLine');
 			AngleLineRight = game.add.sprite(player.x, player.y, 'angleLine');
-			DirectionArrow = game.add.sprite(player.x, player.y, 'angleLineBlue');
+			DirectionArrow = game.add.sprite(player.x, player.y, 'angleLine'+game.player.id);
 
 			AngleLineLeft.anchor.setTo(0, 0.5);
 			AngleLineLeft.angle = trackJson.directionAngle - 30;
@@ -167,10 +167,15 @@ PenRunner.matchOnlineState.prototype =
 			this.updatePlayers(function(data)
 			{
 				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
+				var count = 0;
 				game.playersDataNew = JSON.parse(JSON.stringify(data));
 				for(var i = 0; i< data.players.length; i++)
 				{
+					if(i != game.player.id)
+					{
 
+						count ++;
+					}
 				}
 			});
 
