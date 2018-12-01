@@ -17,6 +17,7 @@ PenRunner.preloadTrackBuildOnlineState.prototype =
 
 		//tomamos el json que hemos cargado en la escena anterior
 		var trackJson = game.cache.getJSON('track');
+		var playerAssetsJson = game.cache.getJSON('playersAssets');
 	
 
 		//cargamos todos los assets leyendo las direcciones recogidas en el json del circuito
@@ -24,11 +25,26 @@ PenRunner.preloadTrackBuildOnlineState.prototype =
 		game.load.physics('wallsCollision',trackJson.wallsCollisionJson);
 		game.load.image('start',trackJson.startImage);
 		game.load.image('goal',trackJson.goalImage);
-		game.load.image('player1',"Assets/cursor_azul.png");
-		game.load.image('player2',"Assets/cursor_rojo.png");
-		game.load.image('angleLine',"Assets/AngleBar.png");
-		game.load.image('angleLineBlue',"Assets/AngleBarBlue.png");
-		game.load.image('angleLineRed',"Assets/AngleBarRed.png");
+		game.load.image('playerBlue',playerAssetsJson.assets[0].cursor);
+		game.load.image('playerRed',playerAssetsJson.assets[1].cursor);
+		game.load.image('playerGreen',playerAssetsJson.assets[2].cursor);
+		game.load.image('playerPurple',playerAssetsJson.assets[3].cursor);
+		game.load.image('playerYellow',playerAssetsJson.assets[4].cursor);
+		game.load.image('playerCian',playerAssetsJson.assets[5].cursor);
+		game.load.image('angleLineBlue',playerAssetsJson.assets[0].line);
+		game.load.image('angleLineRed',playerAssetsJson.assets[1].line);
+		game.load.image('angleLineGreen',playerAssetsJson.assets[2].line);
+		game.load.image('angleLinePurple',playerAssetsJson.assets[3].line);
+		game.load.image('angleLineYellow',playerAssetsJson.assets[4].line);
+		game.load.image('angleLineCian',playerAssetsJson.assets[5].line);
+		game.playerAssetsStrings = [
+			["playerBlue","angleLineBlue"],
+			["playerRed","angleLineRed"],
+			["playerGreen","angleLineGreen"],
+			["playerPurple","angleLinePurple"],
+			["playerYellow","angleLineYellow"],
+			["playerCian","angleLineCian"]
+		];
 
 		//
 		game.load.atlasJSONHash('semaforo', 'Assets/semaforo.png', 'Src/json/semaforo.json');

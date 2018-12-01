@@ -1,0 +1,29 @@
+{
+    "assets":
+    [
+        {
+            "cursor":"Assets/cursor_azul.png",
+            "line":"Assets/AngleBarBlue.png"
+        },
+        {
+            "cursor":"Assets/cursor_rojo.png",
+            "line":"Assets/AngleBarRed.png"
+        },
+        {
+            "cursor":"Assets/cursor_verde.png",
+            "line":"Assets/AngleBarGreen.png"
+        },
+        {
+            "cursor":"Assets/cursor_morado.png",
+            "line":"Assets/AngleBarPurple.png"
+        },
+        {
+            "cursor":"Assets/cursor_amarillo.png",
+            "line":"Assets/AngleBarYellow.png"
+        },
+        {
+            "cursor":"Assets/cursor_cian.png",
+            "line":"Assets/AngleBarCian.png"
+        }
+    ]
+}
