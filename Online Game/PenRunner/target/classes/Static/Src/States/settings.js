@@ -2,8 +2,6 @@ PenRunner.settingsState = function(game) {
 
 }
 
-var settings={};
-function settingsData(){return this;}
 
 PenRunner.settingsState.prototype =
 {
@@ -36,38 +34,38 @@ PenRunner.settingsState.prototype =
 		game.add.text(200, 322, sonido, style3);
 
 		//Asignamos a las variables creadas previamente el valor de música y sonido
-		settings.musicaValor = game.add.text(485, 242, volumenMusica, style3);
-        settings.sonidoValor = game.add.text(485, 322, volumenSonido, style3);
+		musicaValor = game.add.text(485, 242, volumenMusica, style3);
+        sonidoValor = game.add.text(485, 322, volumenSonido, style3);
 	},
 	update:function() {
 
+	},
+	backSettings: function(){ //Función llamada cuando pulsamos el botón de atrás, llama al script de carga del menú principal
+		game.state.start('menuState');
+	},
+	
+	subirMusica: function(){ //Función llamada cuando pulsamos el botón de subir volumen de la música y lo sube siempre que sea menor que 10
+		if(volumenMusica<10)
+		volumenMusica++;
+		musicaValor.setText(volumenMusica);
+	},
+	
+	bajarMusica: function(){ //Función llamada cuando pulsamos el botón de bajar volumen de la música y lo baja siempre que sea mayor que 0
+		if(volumenMusica>0)
+		volumenMusica--;
+		musicaValor.setText(volumenMusica);
+	},
+	
+	subirSonido: function(){ //Función llamada cuando pulsamos el botón de subir volumen del sonido y lo sube siempre que sea menor que 10
+		if(volumenSonido<10)
+		volumenSonido++;
+		sonidoValor.setText(volumenSonido);
+	},
+	
+	bajarSonido: function(){ //Función llamada cuando pulsamos el botón de bajar volumen del sonido y lo baja siempre que sea mayor que 0
+		if(volumenSonido>0)
+		volumenSonido--;
+		sonidoValor.setText(volumenSonido);
 	}
 }
 
-function backSettings(){ //Función llamada cuando pulsamos el botón de atrás, llama al script de carga del menú principal
-    game.state.start('menuState');
-}
-
-function subirMusica(){ //Función llamada cuando pulsamos el botón de subir volumen de la música y lo sube siempre que sea menor que 10
-	if(volumenMusica<10)
-    volumenMusica++;
-    settings.musicaValor.setText(volumenMusica);
-}
-
-function bajarMusica(){ //Función llamada cuando pulsamos el botón de bajar volumen de la música y lo baja siempre que sea mayor que 0
-	if(volumenMusica>0)
-    volumenMusica--;
-    settings.musicaValor.setText(volumenMusica);
-}
-
-function subirSonido(){ //Función llamada cuando pulsamos el botón de subir volumen del sonido y lo sube siempre que sea menor que 10
-	if(volumenSonido<10)
-    volumenSonido++;
-    settings.sonidoValor.setText(volumenSonido);
-}
-
-function bajarSonido(){ //Función llamada cuando pulsamos el botón de bajar volumen del sonido y lo baja siempre que sea mayor que 0
-	if(volumenSonido>0)
-    volumenSonido--;
-    settings.sonidoValor.setText(volumenSonido);
-}

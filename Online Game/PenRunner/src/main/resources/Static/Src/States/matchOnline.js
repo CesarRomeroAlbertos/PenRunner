@@ -98,6 +98,12 @@ PenRunner.matchOnlineState.prototype =
 
 			timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
 
+			this.updatePlayers(function(data)
+			{
+				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
+				game.playersData = JSON.parse(JSON.stringify(data));
+			});
+
 		},
 
 		//usamos update para los distintos controles de la partida
@@ -154,10 +160,50 @@ PenRunner.matchOnlineState.prototype =
 				}
 			}
 
-			//aquí comprobamos que han llegado ambos jugadores a la meta
+			game.player.x = player.x;
+			game.player.y = player.y;
+			this.sendPlayerUpdate();
+
+			this.updatePlayers(function(data)
+			{
+				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
+				game.playersDataNew = JSON.parse(JSON.stringify(data));
+				for(var i = 0; i< data.players.length; i++)
+				{
+
+				}
+			});
+
+			/*//aquí comprobamos que han llegado ambos jugadores a la meta
 			if (goalOrder.length >= 2) {
 				game.state.start('scoreState');
-			}
+			}*/
+		},
+
+		updatePlayers: function (callback) {
+			$.ajax({
+				method: "GET",
+				url: 'http://localhost:8080/players',
+				processData: false,
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).done(function (data) {
+				game.playersDataNew = JSON.parse(JSON.stringify(data));
+				callback(data);
+			})
+		},
+
+		sendPlayerUpdate: function () {
+        $.ajax({
+            method: "PUT",
+            url: 'http://localhost:8080/player/' + game.player.id,
+            data: JSON.stringify(game.player1),
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).done(function (data) {})
 		},
 
 		//comprobamos si se puede mover un jugador a una posición o da a un muro
@@ -297,14 +343,6 @@ PenRunner.matchOnlineState.prototype =
 				semaforo.destroy();
 				game.time.events.remove(timerSemaforo);
 			}
-		},
-
-		sendPlayerUpdate: function () {
-
-		},
-
-		updatePlayers: function () {
-
 		}
 	}
 
