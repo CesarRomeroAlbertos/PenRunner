@@ -134,7 +134,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 },
             }).done(function (data) {
                 console.log("Se ha creado el jugador: " + JSON.stringify(data));
-                game.player1 = data
+                game.player = data
                 textPlayer.destroy();
                 game.add.text(game.world.x + 80, game.world.y + 382, 'Jugador 1', style2);
             })
