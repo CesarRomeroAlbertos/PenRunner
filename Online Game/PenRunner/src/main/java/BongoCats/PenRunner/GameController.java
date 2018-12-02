@@ -32,8 +32,10 @@ public class GameController
 	long maxTime;
 	long maxGameTime;
 	int[] votos = {0,0,0};
+	boolean hasStartedTimer = false;
 	boolean hasSelectedMap = false;
 	int mapSelected;
+	int numPlayers=0;
 	
 	//devolvemos jugadores
 	@GetMapping(value = "/players")
@@ -53,7 +55,7 @@ public class GameController
 	@GetMapping(value = "/player/number")
 	public int getNumPlayers() 
 	{
-		return players.size();
+		return numPlayers;
 	}
 	
 	//Con este metodo borramos los jugadores al reiniciar la cache, para que siempre que se inicie un nuevo matchmaking, se reestablezcan los jugadores a 0
@@ -82,7 +84,7 @@ public class GameController
 		player.setY(0);
 		players.put(player.getId(), player);
 		System.out.println("He creado al jugador");
-		
+		numPlayers++;
 		return player;
 	}
 	
@@ -136,8 +138,12 @@ public class GameController
 	@PostMapping(value = "/timer/{time}")
 	public void updateTimer(@PathVariable long time)
 	{
+		if(!hasStartedTimer)
+		{
 		startTime = System.currentTimeMillis();
 		maxTime = time;
+		hasStartedTimer = true;
+		}
 	}
 	
 	@GetMapping(value="/timer")

@@ -102,32 +102,9 @@ PenRunner.matchmakingOnlineState.prototype =
 
 
             if (contador <= 0) {
-                ///contador = 5;
-                //En función de los mapas votados, asignamos un valor a la variable chosenCircuit, para luego elegirlo desde el json
-                /*var select = [];
-                var max = 0;
-                var puntos = [numeroDeVotos1, numeroDeVotos2, numeroDeVotos3];
-
-                for (var i = 0; i < puntos.length; i++) {
-                    if (puntos[i] > max) {
-                        select = [];
-                        select.push(i);
-                        max = puntos[i];
-                    }
-                    else if (puntos[i] == max) {
-                        select.push(i);
-                    }
-                }
-                if (select.length > 1) {
-                    var index = game.rnd.integerInRange(0, select.length - 1);
-                    chosenCircuit = select[index];
-                }
-                else
-                    chosenCircuit = select[0];
-                this.selectMap();*/
-                // if(this.getNumPlayers() == 2)
+                //this.getNumPlayers();
                 this.getTrack(function(data){
-                    game.chosenCircuit = data;
+                    game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
                 game.state.start('preloadMatchOnlineState');
             }
@@ -160,6 +137,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 url: 'http://localhost:8080/player/number',
             }).done(function (data) {
                 //console.log("Hay " + JSON.stringify(data) + " jugadores")
+                game.numPlayers = JSON.parse(JSON.stringify(data));
             })
         },
 
@@ -213,7 +191,7 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                callback(data);
+                callback(JSON.parse(JSON.stringify(data)));
             })
         },
 
@@ -277,7 +255,7 @@ PenRunner.matchmakingOnlineState.prototype =
 					"Content-Type": "application/json"
 				}
 			}).done(function (data) {
-				callback(data);
+				callback(JSON.parse(JSON.stringify(data)));
 			})
 		}
 	}
