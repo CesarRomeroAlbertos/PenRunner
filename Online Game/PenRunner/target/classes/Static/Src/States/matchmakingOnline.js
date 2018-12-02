@@ -2,6 +2,7 @@ PenRunner.matchmakingOnlineState = function (game) { }
 
 
 var matchmaking = {};
+var votado = false;
 var textPlayer;
 function matchmakingData() { return this; }
 
@@ -9,7 +10,7 @@ PenRunner.matchmakingOnlineState.prototype =
     {
 
         create: function () {
-        	this.deletePlayer();
+        //	this.deletePlayer();
             matchmaking.contador = 12;
             matchmaking.numeroDeVotos1 = 0;
             matchmaking.numeroDeVotos2 = 0;
@@ -49,7 +50,7 @@ PenRunner.matchmakingOnlineState.prototype =
             //Boton derecha
             buttonMap3.onInputUp.add(up3, this); //Cuando clickamos el boton, ejecuta la función up()
 
-            var timerMatchmaking = game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
+            //var timerMatchmaking = game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
             //Estalbecemos las posiciones de los sprites de cada uno de los huecos donde se pueden poner los nombres de los jugadores.
             var jugador = game.add.sprite(game.world.x + 40, game.world.y + 370, 'jugadorMatch');
             var jugador2 = game.add.sprite(game.world.x + 40, game.world.y + 370, 'jugadorMatch').alignTo(jugador, Phaser.RIGHT_CENTER, -240);
@@ -69,6 +70,8 @@ PenRunner.matchmakingOnlineState.prototype =
             //Aquí guardamos los nombres de los jugadores, de momento, están establecidos por defecto a jugador 1 y jugador 2. Pero se estudiará el hecho de incluir nombres personalizados
             textPlayer = game.add.text(game.world.x + 100, game.world.y + 382, matchmaking.text2, style2);
             var textPlayer2 = game.add.text(game.world.x + 360, game.world.y + 382, matchmaking.text2, style2);
+            var timerMatchmaking = game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
+
 
             //Mostramos el resto de textos donde pone "Vacío"
             // game.add.text(game.world.x+620, game.world.y+382, matchmaking.text2, style2);
@@ -88,7 +91,10 @@ PenRunner.matchmakingOnlineState.prototype =
                 if (numPlayers.length === 2) {
                     console.log('##### COMIENZA EL JUEGO #####');
                 }
+                
             });
+            this.updateTimer();
+
 
             if (matchmaking.contador <= 0) {
                 //contador = 5;
@@ -112,8 +118,9 @@ PenRunner.matchmakingOnlineState.prototype =
                     chosenCircuit = select[index];
                 }
                 else
-                    chosenCircuit = select[0];
-                if(this.getNumPlayers() == 2)
+                	chosenCircuit = select[0];
+                this.selectMap();
+               // if(this.getNumPlayers() == 2)
                 game.state.start('preloadMatchState');
             }
             //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
@@ -171,10 +178,41 @@ PenRunner.matchmakingOnlineState.prototype =
                       "Content-Type": "application/json"
                   },
               }).done(function (data) {
-                  console.log(matchmaking.numeroDeVotos1+data);
+            	//  matchmaking.numeroDeVotos1 += data;
                   console.log('Se ha creado el voto para el jugador: ' + JSON.stringify(data));
+                  console.log(matchmaking.numeroDeVotos1);
           
               })
+        },
+        
+        updateTimer: function(){
+        	
+        	  $.ajax({
+                  method: "POST",
+                  url: 'http://localhost:8080/timer',
+                  processData: false,
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+              }).done(function (data) {
+                 // console.log(matchmaking.contador);
+                 // console.log('Se ha actualizado el timer: ' + matchmaking.contador);
+          
+              })
+        },
+        
+        selectMap: function(){
+        	$.ajax({
+                method: "POST",
+                url: 'http://localhost:8080/chosenMap',
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).done(function (data) {
+            	console.log(chosenCircuit);
+            	console.log("Se ha seleccionado el mapa correctamente");
+            })
         }
 
 
@@ -190,43 +228,89 @@ function showSeconds() {
 
 function up() //Función que se llama cuando clickamos sobre el mapa que esta situado más a la izquierda
 {
-    if (matchmaking.numeroDeVotos1 < 9) {
+   
+    if (matchmaking.numeroDeVotos1 < 9 && !votado) {
+    	
         updateNumberOfVotes(); //Llamamos a la función para actualizar el número de votos en el servidor
     }
 
-    matchmaking.votos1.setText(matchmaking.numeroDeVotos1); //Imprimimos el resultado por pantalla.
 }
 function up2()//Función que se llama cuando clickamos sobre el mapa que esta situado en el centro
 {
-    if (matchmaking.numeroDeVotos2 < 9)
-        updateNumberOfVotes();
+
+    if (matchmaking.numeroDeVotos2 < 9 && !votado)
+        updateNumberOfVotes2();
     // matchmaking.numeroDeVotos2++;
 
-    matchmaking.votos2.setText(matchmaking.numeroDeVotos2);
 }
 
 function up3()//Función que se llama cuando clickamos sobre el mapa que esta situado más a la derecha
 {
-    if (matchmaking.numeroDeVotos3 < 9)
-        updateNumberOfVotes();
-    //matchmaking.numeroDeVotos3++;
-
     matchmaking.votos3.setText(matchmaking.numeroDeVotos3);
+
+    if (matchmaking.numeroDeVotos3 < 9 && !votado)
+        updateNumberOfVotes3();
+
+
+    //matchmaking.numeroDeVotos3++;
 }
 
 function updateNumberOfVotes()
 {
 	  $.ajax({
-          method: "PUT",
-          url: 'http://localhost:8080/voto/{valor}',
+          method: "POST",
+          url: 'http://localhost:8080/voto',
           processData: false,
           headers: {
               "Content-Type": "application/json"
           },
       }).done(function (data) {
-          console.log(matchmaking.numeroDeVotos1+data);
-          console.log('Se ha actualizado la votación de los mapas: ' + JSON.stringify(data));
+    	  matchmaking.numeroDeVotos1 += data;
+          console.log(matchmaking.numeroDeVotos1);
+          console.log('Se ha actualizado la votación del primer mapa: ' + matchmaking.numeroDeVotos1);
+          matchmaking.votos1.setText(matchmaking.numeroDeVotos1); //Imprimimos el resultado por pantalla.
+          votado = true;
+
   
+      })
+      
+}
+function updateNumberOfVotes2()
+{
+	  $.ajax({
+          method: "POST",
+          url: 'http://localhost:8080/voto',
+          processData: false,
+          headers: {
+              "Content-Type": "application/json"
+          },
+      }).done(function (data) {
+    	  matchmaking.numeroDeVotos2 += data;
+          console.log(matchmaking.numeroDeVotos2);
+          console.log('Se ha actualizado la votación del segundo mapa: ' + matchmaking.numeroDeVotos2);
+          matchmaking.votos2.setText(matchmaking.numeroDeVotos2);
+          votado = true;
+
+  
+      })
+      
+}
+function updateNumberOfVotes3()
+{
+	  $.ajax({
+          method: "POST",
+          url: 'http://localhost:8080/voto',
+          processData: false,
+          headers: {
+              "Content-Type": "application/json"
+          },
+      }).done(function (data) {
+    	  matchmaking.numeroDeVotos3 += data;
+          console.log(matchmaking.numeroDeVotos3);
+          console.log('Se ha actualizado la votación del tercer mapa: ' + matchmaking.numeroDeVotos3);
+          matchmaking.votos3.setText(matchmaking.numeroDeVotos3);
+          votado = true;
+
       })
       
 }

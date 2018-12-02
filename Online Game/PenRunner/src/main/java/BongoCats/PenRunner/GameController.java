@@ -109,6 +109,13 @@ public class GameController
 			return 0;
 	}
 	
+	@PostMapping(value = "/chosenMap")
+	public void mapaSeleccionado()
+	{
+		
+
+	}
+	
 	@GetMapping(value = "/track/{id}")
 	public TrackData getTrack(@PathVariable long id)
 	{
@@ -124,6 +131,16 @@ public class GameController
 		for(int i = 0; i<trackJsonDirections.size();i++)
 		{
 			
+			
 		}
 	}
+	
+	@PostMapping(value = "/timer")
+	public int updateTimer()
+	{
+		int contador = 1;
+		return contador;
+	}
+	
+	
 }
