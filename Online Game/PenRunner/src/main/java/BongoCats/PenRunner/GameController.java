@@ -1,8 +1,6 @@
 package BongoCats.PenRunner;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,6 +31,13 @@ public class GameController
 	@GetMapping(value = "/players")
 	public Collection<Player> getPlayers() 
 	{
+		return players.values();
+	}
+	
+	@GetMapping(value = "/players/score")
+	public Collection<Player> getPlayersScores() 
+	{
+		Collections.sort(players, (o1, o2) -> o1.getScore() - o2.getScore());
 		return players.values();
 	}
 	
