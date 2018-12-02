@@ -92,13 +92,19 @@ PenRunner.matchmakingOnlineState.prototype =
                 }
 
             });
-            this.updateTimer();
+            this.updateTimer(function (data) {
+                console.log("tiempo recibido: " + data + " /n tiempo restante: " + 15 - data / 1000);
+                contador = 15 - data / 1000;
+                text.setText('Tiempo restante para iniciar partida: ' + Math.round(contador));
+                // console.log(contador);
+                // console.log('Se ha actualizado el timer: ' + contador);
+            });
 
 
             if (contador <= 0) {
-                //contador = 5;
+                ///contador = 5;
                 //En función de los mapas votados, asignamos un valor a la variable chosenCircuit, para luego elegirlo desde el json
-                var select = [];
+                /*var select = [];
                 var max = 0;
                 var puntos = [numeroDeVotos1, numeroDeVotos2, numeroDeVotos3];
 
@@ -118,8 +124,11 @@ PenRunner.matchmakingOnlineState.prototype =
                 }
                 else
                     chosenCircuit = select[0];
-                this.selectMap();
+                this.selectMap();*/
                 // if(this.getNumPlayers() == 2)
+                this.getTrack(function(data){
+                    game.chosenCircuit = data;
+                })
                 game.state.start('preloadMatchOnlineState');
             }
             //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
@@ -194,7 +203,7 @@ PenRunner.matchmakingOnlineState.prototype =
             })
         },
 
-        updateTimer: function () {
+        updateTimer: function (callback) {
 
             $.ajax({
                 method: "GET",
@@ -204,26 +213,7 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                console.log("tiempo recibido: "+ data + " /n tiempo restante: " + 15 - data/1000);
-                contador = 15 - data/1000;
-                text.setText('Tiempo restante para iniciar partida: ' + Math.round(contador));
-                // console.log(contador);
-                // console.log('Se ha actualizado el timer: ' + contador);
-
-            })
-        },
-
-        selectMap: function () {
-            $.ajax({
-                method: "POST",
-                url: 'http://localhost:8080/chosenMap',
-                processData: false,
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            }).done(function (data) {
-                console.log(chosenCircuit);
-                console.log("Se ha seleccionado el mapa correctamente");
+                callback(data);
             })
         },
 
@@ -233,7 +223,7 @@ PenRunner.matchmakingOnlineState.prototype =
 
             if (numeroDeVotos1 < 9 && !votado) {
 
-                updateNumberOfVotes(); //Llamamos a la función para actualizar el número de votos en el servidor
+                this.updateNumberOfVotes(1); //Llamamos a la función para actualizar el número de votos en el servidor
             }
 
         },
@@ -241,7 +231,7 @@ PenRunner.matchmakingOnlineState.prototype =
         {
 
             if (numeroDeVotos2 < 9 && !votado)
-                updateNumberOfVotes2();
+                this.updateNumberOfVotes(2);
             // numeroDeVotos2++;
 
         },
@@ -251,68 +241,46 @@ PenRunner.matchmakingOnlineState.prototype =
             votos3.setText(numeroDeVotos3);
 
             if (numeroDeVotos3 < 9 && !votado)
-                updateNumberOfVotes3();
+                this.updateNumberOfVotes(3);
 
 
             //numeroDeVotos3++;
         },
 
-        updateNumberOfVotes: function () {
+        updateNumberOfVotes: function (mapa) {
             $.ajax({
-                method: "POST",
-                url: 'http://localhost:8080/voto',
+                method: "PUT",
+                url: 'http://localhost:8080/voto/' + mapa,
                 processData: false,
                 headers: {
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
+                /*
                 numeroDeVotos1 += data;
                 console.log(numeroDeVotos1);
                 console.log('Se ha actualizado la votación del primer mapa: ' + numeroDeVotos1);
                 votos1.setText(numeroDeVotos1); //Imprimimos el resultado por pantalla.
-                votado = true;
-
-
+                votado = true;*/
             })
 
         },
-        updateNumberOfVotes2: function () {
-            $.ajax({
-                method: "POST",
-                url: 'http://localhost:8080/voto',
-                processData: false,
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            }).done(function (data) {
-                numeroDeVotos2 += data;
-                console.log(numeroDeVotos2);
-                console.log('Se ha actualizado la votación del segundo mapa: ' + numeroDeVotos2);
-                votos2.setText(numeroDeVotos2);
-                votado = true;
 
-
-            })
-
-        },
-        updateNumberOfVotes3: function () {
-            $.ajax({
-                method: "POST",
-                url: 'http://localhost:8080/voto',
-                processData: false,
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            }).done(function (data) {
-                numeroDeVotos3 += data;
-                console.log(numeroDeVotos3);
-                console.log('Se ha actualizado la votación del tercer mapa: ' + numeroDeVotos3);
-                votos3.setText(numeroDeVotos3);
-                votado = true;
-
-            })
-
-        }
+        getTrack: function(callback)
+	{
+		{
+			$.ajax({
+				method: "GET",
+				url: 'http://localhost:8080/chosenMap',
+				processData: false,
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).done(function (data) {
+				callback(data);
+			})
+		}
+	}
 
 
     }

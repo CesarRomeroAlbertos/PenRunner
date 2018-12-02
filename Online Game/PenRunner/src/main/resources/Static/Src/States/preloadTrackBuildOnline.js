@@ -37,6 +37,7 @@ PenRunner.preloadTrackBuildOnlineState.prototype =
 		game.load.image('angleLine4',playerAssetsJson.assets[3].line);
 		game.load.image('angleLine5',playerAssetsJson.assets[4].line);
 		game.load.image('angleLine6',playerAssetsJson.assets[5].line);
+		game.load.image('angleLine',"Assets/AngleBar.png");
 		game.playerAssetsStrings = [
 			["playerBlue","angleLineBlue"],
 			["playerRed","angleLineRed"],

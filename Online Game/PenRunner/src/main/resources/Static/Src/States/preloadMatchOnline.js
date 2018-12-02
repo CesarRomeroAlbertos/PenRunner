@@ -6,9 +6,13 @@ PenRunner.preloadMatchOnlineState.prototype =
 {
 	preload:function()
 	{
-		var trackList = game.cache.getJSON('trackList');
-		chosenTrack = trackList.tracks[chosenCircuit].json;
+		console.log(game.chosenCircuit);
+			trackList = game.cache.getJSON('trackList');
+			chosenTrack = trackList.tracks[game.chosenCircuit].json;
+			game.load.json('track',chosenTrack);
+			game.state.start('preloadTrackBuildOnlineState');
 		
+			
 		//Poner texto, imágenes, y todo lo que tenga que salir en la pantalla de carga ANTES de cargar las imágenes
 
         var text = "Loading...";
@@ -20,12 +24,13 @@ PenRunner.preloadMatchOnlineState.prototype =
 
 		//leemos el json del circuito elegido
 	
-		game.load.json('track',chosenTrack);
+		
 	},
 	update: function()
 	{
 
-		game.state.start('preloadTrackBuildOnlineState');
+		
 
 	}
+	
 }

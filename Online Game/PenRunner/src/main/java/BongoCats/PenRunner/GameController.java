@@ -26,9 +26,14 @@ public class GameController
 	Map<Long, Player> players = new ConcurrentHashMap<Long, Player>();
 	AtomicLong nextId = new AtomicLong(0);
 	Random rnd = new Random();
-	long startTime;
-	long currentTime;
+	long startTime=0;
+	long startGameTime;
+	long currentTime=0;
 	long maxTime;
+	long maxGameTime;
+	int[] votos = {0,0,0};
+	boolean hasSelectedMap = false;
+	int mapSelected;
 	
 	//devolvemos jugadores
 	@GetMapping(value = "/players")
@@ -102,19 +107,30 @@ public class GameController
 		return voto.getValor();
 	}
 	@PutMapping(value = "/voto/{valor}")
-	public int updateVote(@PathVariable int valor, @RequestBody Voto voto)
+	public void updateVote(@PathVariable int valor)
 	{
-		voto.setValor(valor++);
-		if(voto!= null)
-			return voto.getValor();
-		else
-			return 0;
+		votos[valor]++;
 	}
-	@PostMapping(value = "/chosenMap")
-	public void mapaSeleccionado()
+	@GetMapping(value = "/chosenMap")
+	public int mapaSeleccionado()
 	{
-		
-
+		if(!hasSelectedMap)
+		{
+		mapSelected = 0;
+		  for ( int i = 1; i < votos.length; i++ )
+		  {
+			  if(votos[i] == votos[mapSelected])
+			  {
+				  int rand = rnd.nextInt(100);
+				  if(rand>=50)
+					  mapSelected = i;
+			  }
+			  
+			  else if ( votos[i] > votos[mapSelected] )
+				  mapSelected = i;
+		  }
+		}
+		return mapSelected;
 	}
 	
 	@PostMapping(value = "/timer/{time}")
@@ -131,5 +147,17 @@ public class GameController
 		return currentTime;
 	}
 	
-
+	@PostMapping(value = "/game/timer/{time}")
+	public void updateGameTimer(@PathVariable long time)
+	{
+		startGameTime = System.currentTimeMillis();
+		maxGameTime = time;
+	}
+	
+	@GetMapping(value="/game/timer")
+	public int getGameTimer()
+	{
+		int currentTime = (int) (System.currentTimeMillis()-startGameTime);
+		return currentTime;
+	}
 }

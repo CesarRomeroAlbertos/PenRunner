@@ -3,6 +3,7 @@ PenRunner.matchOnlineState = function (game) { }
 PenRunner.matchOnlineState.prototype =
 	{
 		create: function () {
+			game.numPlayers = this.getNumPlayers;
 			//nos aseguramos de que el fondo sea blanco	
 			game.stage.backgroundColor = "#FFFFFF";
 
@@ -55,14 +56,14 @@ PenRunner.matchOnlineState.prototype =
 			this.sendPlayerUpdate();
 
 			var altPlayers;
-			game.numPlayers = this.getNumPlayers;
+			
 
 			for (var i = 0; i < game.numPlayers; i++) {
 				if (i != game.player.id) {
 					altPlayers[i] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, game.player.id / game.numPlayers),
 						game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, 1 / 3), 'player' + i);
-						altPlayers[i].setTo(0, 0);
-						altPlayers[i]+= trackJson.playerAngle;
+					altPlayers[i].setTo(0, 0);
+					altPlayers[i] += trackJson.playerAngle;
 				}
 			}
 
@@ -115,7 +116,10 @@ PenRunner.matchOnlineState.prototype =
 
 			semaforoAnimation = semaforo.animations.add('semaforoAnim');
 
-			timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
+			this.setTimer(semaforoAnimation.frameTotal * 1000);
+			hasStarted = false;
+
+			//timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
 
 			this.updatePlayers(function (data) {
 				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
@@ -126,6 +130,21 @@ PenRunner.matchOnlineState.prototype =
 
 		//usamos update para los distintos controles de la partida
 		update: function () {
+			if (!hasStarted) {
+				this.updateTimer(function (data) {
+
+					console.log("tiempo recibido: " + data + " /n tiempo restante: " + 4 - data / 1000);
+					if ((data / 1000) < semaforoAnimation.frameTotal) {
+						semaforoAnimation.frame = Math.floor(data / 1000);
+					}
+					else {
+						playerState = 0;
+						player2State = 0;
+						semaforo.destroy();
+						hasStarted = true;
+					}
+				});
+			}
 
 			//tecla izquierda jugador 1
 			if (leftKey.isDown && playerState == 0) {
@@ -168,7 +187,7 @@ PenRunner.matchOnlineState.prototype =
 					DirectionArrow.y = player.y;
 					DirectionArrow.scale.setTo(0.4, 0.3);
 					this.setArrow();
-					if (checkWin(player.x, player.y)) {
+					if (this.checkWin(player.x, player.y)) {
 						goalOrder.push(1);
 						playerState = 2;
 						AngleLineLeft.visible = false;
@@ -189,7 +208,7 @@ PenRunner.matchOnlineState.prototype =
 				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
 				var count = 0;
 				game.playersDataNew = JSON.parse(JSON.stringify(data));
-				for (var i = 0; i < data.players.length; i++) {
+				for (var i = 0; i < game.numPlayers; i++) {
 					if (i != game.player.id) {
 						if (game.playersData[i].x != game.playersDataNew[i].x
 							|| game.playersData[i].y != game.playersDataNew[i].y) {
@@ -245,6 +264,32 @@ PenRunner.matchOnlineState.prototype =
 				url: 'http://localhost:8080/player/number',
 			}).done(function (data) {
 				console.log("Hay " + JSON.stringify(data) + " jugadores")
+			})
+		},
+
+		setTimer: function (time) {
+			$.ajax({
+				method: "POST",
+				url: 'http://localhost:8080/game/timer/' + time,
+				processData: false,
+				headers: {
+					"Content-Type": "application/json"
+				},
+			}).done(function (data) {
+			})
+		},
+
+		updateTimer: function (callback) {
+
+			$.ajax({
+				method: "GET",
+				url: 'http://localhost:8080/game/timer',
+				processData: false,
+				headers: {
+					"Content-Type": "application/json"
+				},
+			}).done(function (data) {
+				callback(data);
 			})
 		},
 
@@ -316,7 +361,7 @@ PenRunner.matchOnlineState.prototype =
 				playerState = 0;
 				AngleLineLeft.visible = true;
 				AngleLineRight.visible = true;
-				if (checkPos(positionXcheck + DirectionArrow.x, positionYcheck + DirectionArrow.y)
+				if (this.checkPos(positionXcheck + DirectionArrow.x, positionYcheck + DirectionArrow.y)
 					&& positionXcheck + DirectionArrow.x > 0 && positionXcheck + DirectionArrow.x < 800
 					&& positionYcheck + DirectionArrow.y > 0 && positionYcheck + DirectionArrow.y < 600) {
 					playerStartMovePositionX = player.x;
@@ -370,20 +415,6 @@ PenRunner.matchOnlineState.prototype =
 			else {
 				var length = game.math.linear(0, 0.4, (0.5 - timeCounter) / 0.5);
 				DirectionArrow.scale.setTo(length, 0.3);
-			}
-		},
-
-		//Esta función se utiliza para avanzar la animación del semáforo inicial
-		//y activar los controles de los jugadores una vez esta ha terminado
-		semaforoCounter: function () {
-			if (semaforoAnimation.frame < semaforoAnimation.frameTotal - 1) {
-				semaforoAnimation.frame += 1;
-			}
-			else {
-				playerState = 0;
-				player2State = 0;
-				semaforo.destroy();
-				game.time.events.remove(timerSemaforo);
 			}
 		}
 	}
