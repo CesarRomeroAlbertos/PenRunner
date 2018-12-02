@@ -1,8 +1,6 @@
 package BongoCats.PenRunner;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,17 +26,18 @@ public class GameController
 	Map<Long, Player> players = new ConcurrentHashMap<Long, Player>();
 	AtomicLong nextId = new AtomicLong(0);
 	Random rnd = new Random();
-	List<TrackData> tracks;
-	List<String> trackJsonDirections = new ArrayList<String>() {{
-	    add(".../resources/Static/Src/json/track1.json");
-	    add(".../resources/Static/Src/json/track2.json");
-	    add(".../resources/Static/Src/json/track3.json");
-	}};;
 	
 	//devolvemos jugadores
 	@GetMapping(value = "/players")
 	public Collection<Player> getPlayers() 
 	{
+		return players.values();
+	}
+	
+	@GetMapping(value = "/players/score")
+	public Collection<Player> getPlayersScores() 
+	{
+		//Collections.sort(players, (o1, o2) -> o1.getScore() - o2.getScore());
 		return players.values();
 	}
 	
@@ -108,7 +107,6 @@ public class GameController
 		else
 			return 0;
 	}
-	
 	@PostMapping(value = "/chosenMap")
 	public void mapaSeleccionado()
 	{
@@ -117,30 +115,30 @@ public class GameController
 	}
 	
 	@GetMapping(value = "/track/{id}")
-	public TrackData getTrack(@PathVariable long id)
+	/*public TrackData getTrack(@PathVariable long id)
 	{
 		if(tracks.size()==0)
 		{
 			FillTrackList();
 		}
 		return tracks.get((int)id);
-	}
+	}*/
 	
-	private void FillTrackList()
+	/*private void FillTrackList()
 	{
 		for(int i = 0; i<trackJsonDirections.size();i++)
 		{
 			
 			
 		}
-	}
+	}*/
 	
 	@PostMapping(value = "/timer")
 	public int updateTimer()
 	{
 		int contador = 1;
 		return contador;
-	}
+	}	
 	
-	
+
 }

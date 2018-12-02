@@ -47,6 +47,13 @@ PenRunner.matchOnlineState.prototype =
 			player.scale.setTo(0.15, 0.15);
 			player.angle += trackJson.playerAngle;
 
+			game.player.x = player.x;
+			game.player.y = player.y;
+
+			game.player.angle = player.angle;
+
+			this.sendPlayerUpdate();
+
 			var altPlayers;
 			game.numPlayers = this.getNumPlayers;
 
@@ -54,6 +61,8 @@ PenRunner.matchOnlineState.prototype =
 				if (i != game.player.id) {
 					altPlayers[i] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, game.player.id / game.numPlayers),
 						game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, 1 / 3), 'player' + i);
+						altPlayers[i].setTo(0, 0);
+						altPlayers[i]+= trackJson.playerAngle;
 				}
 			}
 
@@ -171,6 +180,9 @@ PenRunner.matchOnlineState.prototype =
 
 			game.player.x = player.x;
 			game.player.y = player.y;
+
+			game.player.angle = player.angle;
+
 			this.sendPlayerUpdate();
 
 			this.updatePlayers(function (data) {
@@ -183,6 +195,7 @@ PenRunner.matchOnlineState.prototype =
 							|| game.playersData[i].y != game.playersDataNew[i].y) {
 							altPlayers[count].x = game.playersDataNew[i].x;
 							altPlayers[count].x = game.playersDataNew[i].y;
+							altPlayers[count].angle = game.playersDataNew[i].angle;
 							var line = game.add.sprite(game.playersData[i].x, game.playersData[i].y, 'angleLine' + i);
 							line.angle = Phaser.math.angleBetweenY(game.playersData[i].x, game.playersData[i].y,
 								game.playersDataNew[i].x, game.playersDataNew[i].y);
@@ -219,7 +232,7 @@ PenRunner.matchOnlineState.prototype =
 			$.ajax({
 				method: "PUT",
 				url: 'http://localhost:8080/player/' + game.player.id,
-				data: JSON.stringify(game.player1),
+				data: JSON.stringify(game.player),
 				processData: false,
 				headers: {
 					"Content-Type": "application/json"
