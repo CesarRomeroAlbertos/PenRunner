@@ -41,17 +41,27 @@ PenRunner.matchOnlineState.prototype =
 				walls.body.data.shapes[i].sensor = true;
 			}
 
-			player = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, 1 / 3),
-				game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, 1 / 3), 'player1');
+			player = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, game.player.id / game.numPlayers),
+				game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, 1 / 3), 'player' + game.player.id);
 			player.anchor.setTo(0, 0);
 			player.scale.setTo(0.15, 0.15);
 			player.angle += trackJson.playerAngle;
+
+			var altPlayers;
+			game.numPlayers = this.getNumPlayers;
+
+			for (var i = 0; i < game.numPlayers; i++) {
+				if (i != game.player.id) {
+					altPlayers[i] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, game.player.id / game.numPlayers),
+						game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, 1 / 3), 'player' + i);
+				}
+			}
 
 
 			//flecha y ángulo del primer jugador
 			AngleLineLeft = game.add.sprite(player.x, player.y, 'angleLine');
 			AngleLineRight = game.add.sprite(player.x, player.y, 'angleLine');
-			DirectionArrow = game.add.sprite(player.x, player.y, 'angleLineBlue');
+			DirectionArrow = game.add.sprite(player.x, player.y, 'angleLine' + game.player.id);
 
 			AngleLineLeft.anchor.setTo(0, 0.5);
 			AngleLineLeft.angle = trackJson.directionAngle - 30;
@@ -98,6 +108,11 @@ PenRunner.matchOnlineState.prototype =
 
 			timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
 
+			this.updatePlayers(function (data) {
+				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
+				game.playersData = JSON.parse(JSON.stringify(data));
+			});
+
 		},
 
 		//usamos update para los distintos controles de la partida
@@ -131,7 +146,7 @@ PenRunner.matchOnlineState.prototype =
 					Math.min(timeCounter / 0.3, 1));
 				if (timeCounter >= 0.3) {
 					playerState = 0;
-					var line = game.add.sprite(playerStartMovePositionX, playerStartMovePositionY, 'angleLineBlue');
+					var line = game.add.sprite(playerStartMovePositionX, playerStartMovePositionY, 'angleLine' + game.player.id);
 					line.angle = DirectionArrow.angle;
 					line.scale.setTo(DirectionArrow.scale.x, DirectionArrow.scale.y);
 					AngleLineLeft.x = player.x;
@@ -154,9 +169,29 @@ PenRunner.matchOnlineState.prototype =
 				}
 			}
 
-			this.updatePlayers(function()
-			{
+			game.player.x = player.x;
+			game.player.y = player.y;
+			this.sendPlayerUpdate();
+
+			this.updatePlayers(function (data) {
 				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
+				var count = 0;
+				game.playersDataNew = JSON.parse(JSON.stringify(data));
+				for (var i = 0; i < data.players.length; i++) {
+					if (i != game.player.id) {
+						if (game.playersData[i].x != game.playersDataNew[i].x
+							|| game.playersData[i].y != game.playersDataNew[i].y) {
+							altPlayers[count].x = game.playersDataNew[i].x;
+							altPlayers[count].x = game.playersDataNew[i].y;
+							var line = game.add.sprite(game.playersData[i].x, game.playersData[i].y, 'angleLine' + i);
+							line.angle = Phaser.math.angleBetweenY(game.playersData[i].x, game.playersData[i].y,
+								game.playersDataNew[i].x, game.playersDataNew[i].y);
+							line.scale.setTo(Phaser.math.distance(game.playersData[i].x, game.playersData[i].y,
+								game.playersDataNew[i].x, game.playersDataNew[i].y), 0.3);
+						}
+						count++;
+					}
+				}
 			});
 
 			/*//aquí comprobamos que han llegado ambos jugadores a la meta
@@ -168,7 +203,7 @@ PenRunner.matchOnlineState.prototype =
 		updatePlayers: function (callback) {
 			$.ajax({
 				method: "GET",
-				url: 'http://localhost:8080/game/' + game.player2.id,
+				url: 'http://localhost:8080/players',
 				processData: false,
 				headers: {
 					"Content-Type": "application/json"
@@ -176,6 +211,26 @@ PenRunner.matchOnlineState.prototype =
 			}).done(function (data) {
 				game.playersDataNew = JSON.parse(JSON.stringify(data));
 				callback(data);
+			})
+		},
+
+		sendPlayerUpdate: function () {
+			$.ajax({
+				method: "PUT",
+				url: 'http://localhost:8080/player/' + game.player.id,
+				data: JSON.stringify(game.player1),
+				processData: false,
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).done(function (data) { })
+		},
+
+		getNumPlayers: function () {
+			$.ajax({
+				url: 'http://localhost:8080/player/number',
+			}).done(function (data) {
+				console.log("Hay " + JSON.stringify(data) + " jugadores")
 			})
 		},
 
@@ -316,10 +371,6 @@ PenRunner.matchOnlineState.prototype =
 				semaforo.destroy();
 				game.time.events.remove(timerSemaforo);
 			}
-		},
-
-		sendPlayerUpdate: function () {
-
 		}
 	}
 
