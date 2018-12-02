@@ -37,7 +37,7 @@ public class GameController
 	@GetMapping(value = "/players/score")
 	public Collection<Player> getPlayersScores() 
 	{
-		Collections.sort(players, (o1, o2) -> o1.getScore() - o2.getScore());
+		//Collections.sort(players, (o1, o2) -> o1.getScore() - o2.getScore());
 		return players.values();
 	}
 	
@@ -107,5 +107,38 @@ public class GameController
 		else
 			return 0;
 	}
+	@PostMapping(value = "/chosenMap")
+	public void mapaSeleccionado()
+	{
+		
+
+	}
 	
+	@GetMapping(value = "/track/{id}")
+	/*public TrackData getTrack(@PathVariable long id)
+	{
+		if(tracks.size()==0)
+		{
+			FillTrackList();
+		}
+		return tracks.get((int)id);
+	}*/
+	
+	/*private void FillTrackList()
+	{
+		for(int i = 0; i<trackJsonDirections.size();i++)
+		{
+			
+			
+		}
+	}*/
+	
+	@PostMapping(value = "/timer")
+	public int updateTimer()
+	{
+		int contador = 1;
+		return contador;
+	}	
+	
+
 }
