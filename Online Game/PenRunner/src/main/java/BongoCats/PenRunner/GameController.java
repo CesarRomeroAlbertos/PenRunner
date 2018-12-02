@@ -28,12 +28,6 @@ public class GameController
 	Map<Long, Player> players = new ConcurrentHashMap<Long, Player>();
 	AtomicLong nextId = new AtomicLong(0);
 	Random rnd = new Random();
-	List<TrackData> tracks;
-	List<String> trackJsonDirections = new ArrayList<String>() {{
-	    add(".../resources/Static/Src/json/track1.json");
-	    add(".../resources/Static/Src/json/track2.json");
-	    add(".../resources/Static/Src/json/track3.json");
-	}};;
 	
 	//devolvemos jugadores
 	@GetMapping(value = "/players")
@@ -109,21 +103,4 @@ public class GameController
 			return 0;
 	}
 	
-	@GetMapping(value = "/track/{id}")
-	public TrackData getTrack(@PathVariable long id)
-	{
-		if(tracks.size()==0)
-		{
-			FillTrackList();
-		}
-		return tracks.get((int)id);
-	}
-	
-	private void FillTrackList()
-	{
-		for(int i = 0; i<trackJsonDirections.size();i++)
-		{
-			
-		}
-	}
 }
