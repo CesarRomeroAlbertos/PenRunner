@@ -192,6 +192,7 @@ PenRunner.matchOnlineState.prototype =
 						count++;
 					}
 				}
+				game.playersData = game.playersDataNew;
 			});
 
 			/*//aquí comprobamos que han llegado ambos jugadores a la meta

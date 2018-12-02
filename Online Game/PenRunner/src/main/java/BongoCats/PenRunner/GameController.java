@@ -35,6 +35,12 @@ public class GameController
 	    add(".../resources/Static/Src/json/track3.json");
 	}};;
 	
+	//devolvemos jugadores
+	@GetMapping(value = "/players")
+	public Collection<Player> getPlayers() 
+	{
+		return players.values();
+	}
 	
 	//devolvemos número de jugadores
 	@GetMapping(value = "/player/number")
