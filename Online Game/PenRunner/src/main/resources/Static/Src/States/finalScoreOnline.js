@@ -1,4 +1,4 @@
-PenRunner.scoreOonlineState = function (game) { }
+PenRunner.scoreOnlineState = function (game) { }
 
 
 PenRunner.scoreOnlineState.prototype =

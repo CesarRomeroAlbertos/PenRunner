@@ -91,7 +91,7 @@ PenRunner.matchOnlineState.prototype =
 			forwardKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
 
-			forwardKey.onDown.add(changeState1, this);
+			forwardKey.onDown.add(this.changeState, this);
 
 
 			//inicializamos variables de la escena
@@ -104,7 +104,7 @@ PenRunner.matchOnlineState.prototype =
 
 			goalOrder = new Array();
 
-			setArrow1();
+			this.setArrow();
 
 
 			//semaforo
@@ -142,10 +142,10 @@ PenRunner.matchOnlineState.prototype =
 
 			//aquí llamamos a los métodos que giran la dirección de los jugadores o cambian la distancia que se mueven en función de su estado
 			if (playerState == 0) {
-				moveArrow1();
+				this.moveArrow();
 			}
 			else if (playerState == 1) {
-				powerArrow1();
+				this.powerArrow();
 			}
 			else if (playerState == 3) {
 				timeCounter += game.time.elapsedMS / 1000;
@@ -167,7 +167,7 @@ PenRunner.matchOnlineState.prototype =
 					DirectionArrow.x = player.x;
 					DirectionArrow.y = player.y;
 					DirectionArrow.scale.setTo(0.4, 0.3);
-					setArrow1();
+					this.setArrow();
 					if (checkWin(player.x, player.y)) {
 						goalOrder.push(1);
 						playerState = 2;

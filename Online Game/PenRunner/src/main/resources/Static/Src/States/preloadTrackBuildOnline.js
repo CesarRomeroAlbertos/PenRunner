@@ -52,7 +52,7 @@ PenRunner.preloadTrackBuildOnlineState.prototype =
 	update: function()
 	{
 
-		game.state.start('matchState');
+		game.state.start('matchOnlineState');
 
 	}
 }

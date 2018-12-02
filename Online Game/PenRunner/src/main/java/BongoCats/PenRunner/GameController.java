@@ -26,6 +26,9 @@ public class GameController
 	Map<Long, Player> players = new ConcurrentHashMap<Long, Player>();
 	AtomicLong nextId = new AtomicLong(0);
 	Random rnd = new Random();
+	long startTime;
+	long currentTime;
+	long maxTime;
 	
 	//devolvemos jugadores
 	@GetMapping(value = "/players")
@@ -114,31 +117,19 @@ public class GameController
 
 	}
 	
-	@GetMapping(value = "/track/{id}")
-	/*public TrackData getTrack(@PathVariable long id)
+	@PostMapping(value = "/timer/{time}")
+	public void updateTimer(@PathVariable long time)
 	{
-		if(tracks.size()==0)
-		{
-			FillTrackList();
-		}
-		return tracks.get((int)id);
-	}*/
+		startTime = System.currentTimeMillis();
+		maxTime = time;
+	}
 	
-	/*private void FillTrackList()
+	@GetMapping(value="/timer")
+	public int getTimer()
 	{
-		for(int i = 0; i<trackJsonDirections.size();i++)
-		{
-			
-			
-		}
-	}*/
-	
-	@PostMapping(value = "/timer")
-	public int updateTimer()
-	{
-		int contador = 1;
-		return contador;
-	}	
+		int currentTime = (int) (System.currentTimeMillis()-startTime);
+		return currentTime;
+	}
 	
 
 }
