@@ -14,24 +14,6 @@ PenRunner.scoreOnlineState.prototype =
             //Esta instrucción detecta cuando se ha pulsado el botón de vuelta atrás y ejecuta el bloque de código en la función actionOnClickScore()
             buttonReturn.onInputUp.add(this.actionONClickScore, this);
 
-            //De momento, las puntuaciones son estaticas, más adelante, se guardarán en función de la escena anterior
-
-
-
-            //	for(var i= 0; i < 2; i++)
-            //{
-            ////	if(goalOrder[0]==1)
-            //	{
-            var puntuacion1 = 10;
-            var puntuacion2 = 8;
-            /*}
-                else
-                {
-                    puntuacion2+=10;
-                    puntuacion1+=8;
-                }*/
-            //}
-
             //Creamos los sprites para los fondos de puntuación de los jugadores
             var jugador = game.add.sprite(game.world.x + 65, game.world.y + 140, 'jugador');
             var jugador2 = game.add.sprite(game.world.x + 65, game.world.y + 210, 'jugador');
@@ -40,15 +22,15 @@ PenRunner.scoreOnlineState.prototype =
             var jugador5 = game.add.sprite(game.world.x + 65, game.world.y + 450, 'jugador');
             var jugador6 = game.add.sprite(game.world.x + 65, game.world.y + 530, 'jugador');
 
-            //Ponemos el texto de la puntuacion en el fondo correspondiente.
-            game.add.text(game.world.x + 120, game.world.y + 165, '1. Jugador ' + goalOrder[0] + '.......................................... ' + puntuacion1 + ' pts', style3);
-            game.add.text(game.world.x + 120, game.world.y + 235, '2. Jugador ' + goalOrder[1] + '............................................ ' + puntuacion2 + ' pts', style3);
 
-            for(var i = 0; i< game.numPlayers; i++)
-            {
-                game.add.text(game.world.x + 120, game.world.y + 165+i*70, i+'. Jugador ' + goalOrder[0] + '.......................................... ' + puntuacion1 + ' pts', style3);       
-            }
-            
+            this.updatePlayers(function (data) {
+                for (var i = 0; i < game.numPlayers; i++) {
+                    game.add.text(game.world.x + 120, game.world.y + 165 + i * 70, i + '. Jugador ' + game.scoreData[i].id + '.......................................... ' + game.scoreData[i].score + ' pts', style3);
+                }
+            });
+
+
+
             //Se escala el fondo de puntuacion de los jugadores, a priori es un sprite muy básico, se cambiará mas adelante
             jugador.scale.setTo(1.6, 0.8);
             jugador2.scale.setTo(1.6, 0.8);
@@ -61,22 +43,39 @@ PenRunner.scoreOnlineState.prototype =
             var text = game.add.text(game.world.centerX - 220, game.world.centerY - 230, 'Puntuación Final', style4);
         },
 
-        updatePlayers: function (callback) {
-			$.ajax({
-				method: "GET",
-				url: 'http://localhost:8080/players',
-				processData: false,
-				headers: {
-					"Content-Type": "application/json"
-				}
-			}).done(function (data) {
-				game.playersData = JSON.parse(JSON.stringify(data));
-				callback(data);
-			})
-		},
+        getScores: function (callback) {
+            $.ajax({
+                method: "GET",
+                url: 'http://localhost:8080/players/score',
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).done(function (data) {
+                game.scoreData = JSON.parse(JSON.stringify(data));
+                callback(data);
+            })
+        },
+
+        deletePlayer: function(id){
+            $.ajax({
+                method: "DELETE",
+                url: 'http://localhost:8080/player/'+ id,
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).done(function (data) {
+                console.log('Se ha borrado el jugador' + JSON.stringify(data));
+            })
+      },
 
         //esta función se llama cuando clickamos el botón de volver atrás en la esquina superior izquierda, llevándonos de nuevo al menú principal.
         actionONClickScore: function () {
+            for(var i = 0; i<game.numPlayers; i++)
+            {
+                this.deletePlayer(i);
+            }
             game.state.start('menuState');
         }
 

@@ -195,13 +195,13 @@ PenRunner.matchOnlineState.prototype =
 							|| game.playersData[i].y != game.playersDataNew[i].y) {
 							altPlayers[count].x = game.playersDataNew[i].x;
 							altPlayers[count].x = game.playersDataNew[i].y;
-							altPlayers[count].angle = game.playersDataNew[i].angle;
 							var line = game.add.sprite(game.playersData[i].x, game.playersData[i].y, 'angleLine' + i);
 							line.angle = Phaser.math.angleBetweenY(game.playersData[i].x, game.playersData[i].y,
 								game.playersDataNew[i].x, game.playersDataNew[i].y);
 							line.scale.setTo(Phaser.math.distance(game.playersData[i].x, game.playersData[i].y,
 								game.playersDataNew[i].x, game.playersDataNew[i].y), 0.3);
 						}
+						altPlayers[count].angle = game.playersDataNew[i].angle;
 						count++;
 					}
 				}
