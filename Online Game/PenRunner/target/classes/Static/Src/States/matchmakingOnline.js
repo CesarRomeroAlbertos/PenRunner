@@ -101,7 +101,7 @@ PenRunner.matchmakingOnlineState.prototype =
             });
 
 
-            if (contador <= 0) {
+            if (contador = 0) {
                 //this.getNumPlayers();
                 this.getTrack(function(data){
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
@@ -201,8 +201,11 @@ PenRunner.matchmakingOnlineState.prototype =
 
             if (numeroDeVotos1 < 9 && !votado) {
 
-                this.updateNumberOfVotes(1); //Llamamos a la función para actualizar el número de votos en el servidor
+                this.getVotes(); //Llamamos a la función para actualizar el número de votos en el servidor
+               // votado = true;
             }
+            console.log(numeroDeVotos1)
+            votos1.setText(numeroDeVotos1);
 
         },
         up2: function ()//Función que se llama cuando clickamos sobre el mapa que esta situado en el centro
@@ -228,7 +231,7 @@ PenRunner.matchmakingOnlineState.prototype =
         updateNumberOfVotes: function (mapa) {
             $.ajax({
                 method: "PUT",
-                url: 'http://localhost:8080/voto/' + mapa,
+                url: 'http://localhost:8080/voto',
                 processData: false,
                 headers: {
                     "Content-Type": "application/json"
@@ -242,6 +245,20 @@ PenRunner.matchmakingOnlineState.prototype =
                 votado = true;*/
             })
 
+        },
+        
+        getVotes: function(){
+        	 $.ajax({
+                 method: "GET",
+                 url: 'http://localhost:8080/voto',
+                 processData: false,
+                 headers: {
+                     "Content-Type": "application/json"
+                 },
+             }).done(function (data) {
+                 console.log(data);
+                 numeroDeVotos1 = data;
+             })
         },
 
         getTrack: function(callback)

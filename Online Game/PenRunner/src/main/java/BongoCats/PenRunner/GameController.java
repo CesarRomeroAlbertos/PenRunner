@@ -109,10 +109,23 @@ public class GameController
 		return voto.getValor();
 	}
 	@PutMapping(value = "/voto/{valor}")
-	public void updateVote(@PathVariable int valor)
+	public void updateVote(@PathVariable int valor, @RequestBody Voto voto)
 	{
-		votos[valor]++;
+		
 	}
+	
+	@GetMapping(value = "/voto")
+	public int getVote()
+	{
+		votos[0]++;
+		return votos[0];
+	}
+	
+	/*@GetMapping(value = "/voto")
+	public int[] getVotes()
+	{
+		return votos;
+	}*/
 	@GetMapping(value = "/chosenMap")
 	public int mapaSeleccionado()
 	{
