@@ -10,7 +10,7 @@ PenRunner.matchmakingOnlineState.prototype =
         create: function () {
             votado = false;
             //	this.deletePlayer();
-            contador = 15;
+            contador = 1200;
             numeroDeVotos1 = 0;
             numeroDeVotos2 = 0;
             numeroDeVotos3 = 0;
@@ -101,7 +101,7 @@ PenRunner.matchmakingOnlineState.prototype =
             });
 
 
-            if (contador = 0) {
+            if (contador <= 0) {
                 //this.getNumPlayers();
                 this.getTrack(function(data){
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
@@ -109,11 +109,13 @@ PenRunner.matchmakingOnlineState.prototype =
                 game.state.start('preloadMatchOnlineState');
             }
             //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
-            if (joinKey.isDown) {
+    /*        if (joinKey.isDown) {
                 textPlayer2.destroy();
                 game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
-            }
-
+            }*/
+            votos1.setText(numeroDeVotos1);
+            votos2.setText(numeroDeVotos2);
+            votos3.setText(numeroDeVotos3);
 
         },
         createPlayer: function () {
@@ -202,7 +204,7 @@ PenRunner.matchmakingOnlineState.prototype =
             if (numeroDeVotos1 < 9 && !votado) {
 
                 this.getVotes(); //Llamamos a la función para actualizar el número de votos en el servidor
-               // votado = true;
+                votado = true;
             }
             console.log(numeroDeVotos1)
             votos1.setText(numeroDeVotos1);
@@ -211,9 +213,11 @@ PenRunner.matchmakingOnlineState.prototype =
         up2: function ()//Función que se llama cuando clickamos sobre el mapa que esta situado en el centro
         {
 
-            if (numeroDeVotos2 < 9 && !votado)
-                this.updateNumberOfVotes(2);
-            // numeroDeVotos2++;
+            if (numeroDeVotos2 < 9 && !votado){
+                this.getVotes2();
+                votado = true;
+           }
+            votos2.setText(numeroDeVotos2);
 
         },
 
@@ -221,10 +225,12 @@ PenRunner.matchmakingOnlineState.prototype =
         {
             votos3.setText(numeroDeVotos3);
 
-            if (numeroDeVotos3 < 9 && !votado)
-                this.updateNumberOfVotes(3);
+            if (numeroDeVotos3 < 9 && !votado){
+            	this.getVotes3();
+            	votado = true;
+            }
 
-
+            
             //numeroDeVotos3++;
         },
 
@@ -250,7 +256,7 @@ PenRunner.matchmakingOnlineState.prototype =
         getVotes: function(){
         	 $.ajax({
                  method: "GET",
-                 url: 'http://localhost:8080/voto',
+                 url: 'http://localhost:8080/voto/voto1',
                  processData: false,
                  headers: {
                      "Content-Type": "application/json"
@@ -260,6 +266,34 @@ PenRunner.matchmakingOnlineState.prototype =
                  numeroDeVotos1 = data;
              })
         },
+        
+        getVotes2: function(){
+       	 $.ajax({
+                method: "GET",
+                url: 'http://localhost:8080/voto/voto2',
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).done(function (data) {
+                console.log(data);
+                numeroDeVotos2 = data;
+            })
+       },
+       
+       getVotes3: function(){
+      	 $.ajax({
+               method: "GET",
+               url: 'http://localhost:8080/voto/voto3',
+               processData: false,
+               headers: {
+                   "Content-Type": "application/json"
+               },
+           }).done(function (data) {
+               console.log(data);
+               numeroDeVotos3 = data;
+           })
+      },
 
         getTrack: function(callback)
 	{

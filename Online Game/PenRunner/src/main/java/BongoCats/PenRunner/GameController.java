@@ -26,6 +26,7 @@ public class GameController
 	Map<Long, Player> players = new ConcurrentHashMap<Long, Player>();
 	AtomicLong nextId = new AtomicLong(0);
 	Random rnd = new Random();
+	short mapaVotado;
 	long startTime=0;
 	long startGameTime;
 	long currentTime=0;
@@ -114,11 +115,23 @@ public class GameController
 		
 	}
 	
-	@GetMapping(value = "/voto")
-	public int getVote()
+	@GetMapping(value = "/voto/voto1")
+	public int getVote1()
 	{
 		votos[0]++;
 		return votos[0];
+	}
+	@GetMapping(value = "/voto/voto2")
+	public int getVote2()
+	{
+		votos[1]++;
+		return votos[1];
+	}
+	@GetMapping(value = "/voto/voto3")
+	public int getVote3()
+	{
+		votos[2]++;
+		return votos[2];
 	}
 	
 	/*@GetMapping(value = "/voto")
