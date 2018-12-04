@@ -35,6 +35,7 @@ public class GameController
 	int[] votos = {0,0,0};
 	boolean hasStartedTimer = false;
 	boolean hasSelectedMap = false;
+	boolean startedMatch;
 	int mapSelected;
 	int numPlayers=0;
 	
@@ -57,6 +58,13 @@ public class GameController
 	public int getNumPlayers() 
 	{
 		return numPlayers;
+	}
+	
+	@GetMapping(value = "/isStarted")
+	public boolean isStarted()
+	{
+		startedMatch = true;
+		return startedMatch;
 	}
 	
 	//Con este metodo borramos los jugadores al reiniciar la cache, para que siempre que se inicie un nuevo matchmaking, se reestablezcan los jugadores a 0

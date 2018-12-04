@@ -17,14 +17,14 @@ PenRunner.matchmakingOnlineState.prototype =
             this.joinKey = 0;
             this.joinKey2 = 0;
             var sceneTime = 0;
+            empezado = false;
             numeroDeJugadores = 0;
-
-            game.stage.backgroundColor = '#182d3b';
-
-            var background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Añadimos un sprite al background
             
-            this.createPlayer();
-            this.createVotes();
+            this.getNumPlayers();
+            this.isStarted();
+    
+            game.stage.backgroundColor = '#182d3b';
+            var background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Añadimos un sprite al background
 
             buttonMap = game.add.button(game.world.x + 40, 40, 'button', null, this, 1, 0, 2) //Establecemos las caracteristicas del primer boton
             buttonMap2 = game.add.button(game.world.x + 300, 40, 'button2', null, this, 10, 10, 0) //Establecemos las caracteristicas del segundo boton
@@ -69,11 +69,11 @@ PenRunner.matchmakingOnlineState.prototype =
 
             //Aquí guardamos los nombres de los jugadores, de momento, están establecidos por defecto a jugador 1 y jugador 2. Pero se estudiará el hecho de incluir nombres personalizados
             textPlayer = game.add.text(game.world.x + 100, game.world.y + 382, text2, style2);
-          //  textPlayer2 = game.add.text(game.world.x + 360, game.world.y + 382, text2, style2);
+            textPlayer2 = game.add.text(game.world.x + 360, game.world.y + 382, text2, style2);
 
             //Mostramos el resto de textos donde pone "Vacío"
-           // textPlayer3 = game.add.text(game.world.x+620, game.world.y+382, text2, style2);
-            //textPlayer4 = game.add.text(game.world.x+100, game.world.y+482, text2, style2);
+            textPlayer3 = game.add.text(game.world.x+620, game.world.y+382, text2, style2);
+            textPlayer4 = game.add.text(game.world.x+100, game.world.y+482, text2, style2);
             //  game.add.text(game.world.x+360, game.world.y+482, text2, style2);
             // game.add.text(game.world.x+620, game.world.y+482, text2, style2);
 
@@ -82,15 +82,22 @@ PenRunner.matchmakingOnlineState.prototype =
             joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
             this.setTimer(15 * 1000);
+            
+            if(numeroDeJugadores < 4 && !empezado){ //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
+            	console.log(numeroDeJugadores + " en crear")
+            	console.log(empezado);
+	            this.createPlayer();
+	            this.createVotes();
+            }
+
 
         },
 
         update: function () { //Función que se ejecuta una vez por frame
         	
             //Si el contador se queda a 0, lo ponemos a 5 para la siguiente vez que se cargue la escena
-        	
             this.getNumPlayers();
-            if(numeroDeJugadores == 4)
+            if(numeroDeJugadores > 4)
         	{
 	        	console.log("Se ha alcanzado el número máximo de jugadores, vuelve a intentarlo más tarde")
 	        	game.state.start('menuState');
@@ -106,12 +113,18 @@ PenRunner.matchmakingOnlineState.prototype =
                  
         		case 3:
     			 textPlayer3.destroy();
-                 game.add.text(game.world.x+620, game.world.y+382, 'Jugador 3', style2);
+    			 textPlayer2.destroy();
+        		 game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
+                 game.add.text(game.world.x+600, game.world.y+382, 'Jugador 3', style2);
                  break;
                      
         		case 4:
+    			 textPlayer2.destroy();
+    			 textPlayer3.destroy();
     			 textPlayer4.destroy();
-                 game.add.text(game.world.x+100, game.world.y+482, 'Jugador 4', style2);
+    			 game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
+                 game.add.text(game.world.x+600, game.world.y+382, 'Jugador 3', style2);
+                 game.add.text(game.world.x+70, game.world.y+482, 'Jugador 4', style2);
                  break;
                  
         	}
@@ -127,18 +140,15 @@ PenRunner.matchmakingOnlineState.prototype =
             });
 
 
-            if (contador <= 0) {
+            if (contador <= 0 && numeroDeJugadores <= 4) {
                 //this.getNumPlayers();
                 this.getTrack(function(data){
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
+                this.isStarted(); //Se cambia el booleano para indicar que la partida ya ha empezado
                 game.state.start('preloadMatchOnlineState');
             }
-            //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
-    /*        if (joinKey.isDown) {
-                textPlayer2.destroy();
-                game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
-            }*/
+
             votos1.setText(numeroDeVotos1);
             votos2.setText(numeroDeVotos2);
             votos3.setText(numeroDeVotos3);
@@ -224,6 +234,20 @@ PenRunner.matchmakingOnlineState.prototype =
             }).done(function (data) {
                 callback(JSON.parse(JSON.stringify(data)));
             })
+        },
+        
+        isStarted: function(){
+        	  $.ajax({
+                  method: "GET",
+                  url: 'http://localhost:8080/isStarted',
+                  processData: false,
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+              }).done(function (data) {
+            	  console.log(data);
+            	  empezado = data;
+              })
         },
 
 
