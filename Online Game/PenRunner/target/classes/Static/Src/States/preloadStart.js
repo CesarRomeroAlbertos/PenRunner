@@ -14,6 +14,8 @@ var style4 =  { font: "60px Arial", fill: "#000000", align: "center"};
 
 //variable de elección de circuito
 var chosenCircuit;
+var numeroDeJugadores;
+var textPlayer2, textPlayer3, textPlayer4;
 
 PenRunner.preloadStart.prototype =
 {
