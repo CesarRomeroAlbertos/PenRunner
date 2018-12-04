@@ -20,7 +20,8 @@ PenRunner.matchmakingOnlineState.prototype =
             empezado = false;
             numeroDeJugadores = 0;
             
-            this.getNumPlayers();
+           this.getNumPlayers();
+            //console.log(numeroDeJugadores + " iajdbvoi");
             this.isStarted();
     
             game.stage.backgroundColor = '#182d3b';
@@ -134,19 +135,29 @@ PenRunner.matchmakingOnlineState.prototype =
             this.updateTimer(function (data) {
              //   console.log("tiempo recibido: " + data + " /n tiempo restante: " + 15 - data / 1000);
                 contador = 15 - data / 1000;
+                
                 text.setText('Tiempo restante para iniciar partida: ' + Math.round(contador));
                 // console.log(contador);
                 // console.log('Se ha actualizado el timer: ' + contador);
             });
 
+            if(contador <= 0 && numeroDeJugadores <= 1){
+            	game.state.start('matchmakingOnlineState');
 
+            }
+            	
+
+            
             if (contador <= 0 && numeroDeJugadores <= 4) {
                 //this.getNumPlayers();
                 this.getTrack(function(data){
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
+                if(numeroDeJugadores > 1){
                 this.isStarted(); //Se cambia el booleano para indicar que la partida ya ha empezado
                 game.state.start('preloadMatchOnlineState');
+                }
+
             }
 
             votos1.setText(numeroDeVotos1);
