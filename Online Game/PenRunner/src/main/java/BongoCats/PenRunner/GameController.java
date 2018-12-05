@@ -117,10 +117,11 @@ public class GameController
 		voto.setValor(1);
 		return voto.getValor();
 	}
-	@PutMapping(value = "/voto/{valor}")
-	public void updateVote(@PathVariable int valor, @RequestBody Voto voto)
+	@GetMapping(value = "/voto")
+	public int[] getRealVotes()
 	{
-		
+		return votos;
+
 	}
 	
 	@GetMapping(value = "/voto/voto1")

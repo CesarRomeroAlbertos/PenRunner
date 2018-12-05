@@ -20,7 +20,7 @@ PenRunner.matchmakingOnlineState.prototype =
             empezado = false;
             numeroDeJugadores = 0;
             
-           this.getNumPlayers();
+            this.getNumPlayers();
             //console.log(numeroDeJugadores + " iajdbvoi");
             this.isStarted();
     
@@ -103,6 +103,7 @@ PenRunner.matchmakingOnlineState.prototype =
 	        	console.log("Se ha alcanzado el número máximo de jugadores, vuelve a intentarlo más tarde")
 	        	game.state.start('menuState');
         	}
+            console.log(numeroDeJugadores);
         	switch(numeroDeJugadores)
         	{
         		
@@ -128,6 +129,8 @@ PenRunner.matchmakingOnlineState.prototype =
                  break;
                  
         	}
+        	this.getRealVotes();
+
         	
             
             
@@ -140,8 +143,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 // console.log('Se ha actualizado el timer: ' + contador);
             });
 
-            if(contador <= 0 && numeroDeJugadores <= 1 ){
-                
+            if(contador <= 0 && numeroDeJugadores <= 1){
             	game.state.start('matchmakingOnlineState');
 
             }
@@ -153,8 +155,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 this.getTrack(function(data){
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
-                if(numeroDeJugadores > 1 && game.chosenCircuit != null){
-                    //console.log("Circuito elegido: "+game.chosenCircuit);
+                if(numeroDeJugadores > 1){
                 this.isStarted(); //Se cambia el booleano para indicar que la partida ya ha empezado
                 game.state.start('preloadMatchOnlineState');
                 }
@@ -187,8 +188,10 @@ PenRunner.matchmakingOnlineState.prototype =
             $.ajax({
                 url: 'http://localhost:8080/player/number',
             }).done(function (data) {
+               // console.log("Hay " + JSON.stringify(data) + " jugadores")
                 game.numPlayers = JSON.parse(JSON.stringify(data));
                 numeroDeJugadores = data;
+               // console.log(numeroDeJugadores);
             })
         },
 
@@ -326,7 +329,7 @@ PenRunner.matchmakingOnlineState.prototype =
                  },
              }).done(function (data) {
                  console.log(data);
-                 numeroDeVotos1 = data;
+                // numeroDeVotos1 = data;
              })
         },
         
@@ -340,7 +343,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 },
             }).done(function (data) {
                 console.log(data);
-                numeroDeVotos2 = data;
+               // numeroDeVotos2 = data;
             })
        },
        
@@ -354,8 +357,23 @@ PenRunner.matchmakingOnlineState.prototype =
                },
            }).done(function (data) {
                console.log(data);
-               numeroDeVotos3 = data;
+              // numeroDeVotos3 = data;
            })
+      },
+      getRealVotes: function(){
+    	  $.ajax({
+              method: "GET",
+              url: 'http://localhost:8080/voto',
+              processData: false,
+              headers: {
+                  "Content-Type": "application/json"
+              },
+          }).done(function (data) {
+        	  numeroDeVotos1 = data[0];
+        	  numeroDeVotos2 = data[1];
+        	  numeroDeVotos3 = data[2];
+              
+          })
       },
 
         getTrack: function(callback)
