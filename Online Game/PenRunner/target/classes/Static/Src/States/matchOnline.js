@@ -45,9 +45,9 @@ PenRunner.matchOnlineState.prototype =
 				walls.body.data.shapes[i].sensor = true;
 			}
 
-			player = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, game.player.id / game.numPlayers),
-				game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, game.player.id / game.numPlayers),
-				'player' + game.player.id);
+			player = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, game.player.id-1 / game.numPlayers),
+				game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, game.player.id-1 / game.numPlayers),
+				'player' + game.player.id-1);
 			player.anchor.setTo(0, 0);
 			player.scale.setTo(0.15, 0.15);
 			player.angle += trackJson.playerAngle;
@@ -63,14 +63,16 @@ PenRunner.matchOnlineState.prototype =
 
 			game.altPlayers = new Array(game.numPlayers);
 
-			for (var i = 0; i < game.numPlayers; i++) {
-				if (i != game.player.id) {
-					game.altPlayers[i] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, i / game.numPlayers),
-						game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, i / game.numPlayers),
-						'player' + i);
-					game.altPlayers[i].anchor.setTo(0, 0);
-					game.altPlayers[i].scale.setTo(0.15, 0.15);
-					game.altPlayers[i] += trackJson.playerAngle;
+			if (game.numPlayers > 1) {
+				for (var i = 0; i < game.numPlayers; i++) {
+					if (i != game.player.id-1) {
+						game.altPlayers[i] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, i / game.numPlayers),
+							game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, i / game.numPlayers),
+							'player' + i);
+						game.altPlayers[i].anchor.setTo(0, 0);
+						game.altPlayers[i].scale.setTo(0.15, 0.15);
+						game.altPlayers[i] += trackJson.playerAngle;
+					}
 				}
 			}
 
@@ -78,7 +80,7 @@ PenRunner.matchOnlineState.prototype =
 			//flecha y ángulo del primer jugador
 			AngleLineLeft = game.add.sprite(player.x, player.y, 'angleLine');
 			AngleLineRight = game.add.sprite(player.x, player.y, 'angleLine');
-			DirectionArrow = game.add.sprite(player.x, player.y, 'angleLine' + game.player.id);
+			DirectionArrow = game.add.sprite(player.x, player.y, 'angleLine' + game.player.id-1);
 
 			AngleLineLeft.anchor.setTo(0, 0.5);
 			AngleLineLeft.angle = trackJson.directionAngle - 30;
@@ -181,7 +183,7 @@ PenRunner.matchOnlineState.prototype =
 					Math.min(timeCounter / 0.3, 1));
 				if (timeCounter >= 0.3) {
 					playerState = 0;
-					var line = game.add.sprite(playerStartMovePositionX, playerStartMovePositionY, 'angleLine' + game.player.id);
+					var line = game.add.sprite(playerStartMovePositionX, playerStartMovePositionY, 'angleLine' + game.player.id-1);
 					line.angle = DirectionArrow.angle;
 					line.scale.setTo(DirectionArrow.scale.x, DirectionArrow.scale.y);
 					AngleLineLeft.x = player.x;
@@ -217,8 +219,8 @@ PenRunner.matchOnlineState.prototype =
 					game.playersData = JSON.parse(JSON.stringify(data));
 				var count = 0;
 				game.playersDataNew = JSON.parse(JSON.stringify(data));
-				for (var i = 0; i < game.numPlayers-1; i++) {
-					if (i != game.player.id) {
+				for (var i = 0; i < game.numPlayers - 1; i++) {
+					if (i != game.player.id-1) {
 						if (game.playersData[i].x != game.playersDataNew[i].x
 							|| game.playersData[i].y != game.playersDataNew[i].y) {
 							game.altPlayers[count].x = game.playersDataNew[i].x;
@@ -259,7 +261,7 @@ PenRunner.matchOnlineState.prototype =
 		sendPlayerUpdate: function () {
 			$.ajax({
 				method: "PUT",
-				url: 'http://localhost:8080/player/' + game.player.id,
+				url: 'http://localhost:8080/player/' + game.player.id-1,
 				data: JSON.stringify(game.player),
 				processData: false,
 				headers: {
