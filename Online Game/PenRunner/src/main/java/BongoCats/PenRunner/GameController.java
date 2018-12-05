@@ -100,13 +100,11 @@ public class GameController
 	//Con PUT actualizamos la posición de un jugador
 	@PutMapping(value = "/player/{id}")
 	public ResponseEntity<Player> updatePlayer(@PathVariable long id, @RequestBody Player player) {
-		Player savedPlayer = players.get(player.getId());
-		if (savedPlayer != null) {
+		
 			players.put(id, player);
+			System.out.println(players);
 			return new ResponseEntity<Player>(player, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Player>(HttpStatus.NOT_FOUND);
-		}
+		
 	}
 	
 	//Mediante este put actualizamos la votacion del mapa seleccionado

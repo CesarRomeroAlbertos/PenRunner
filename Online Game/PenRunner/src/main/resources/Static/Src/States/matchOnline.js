@@ -45,9 +45,9 @@ PenRunner.matchOnlineState.prototype =
 				walls.body.data.shapes[i].sensor = true;
 			}
 
-			player = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, game.player.id-1 / game.numPlayers),
-				game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, game.player.id-1 / game.numPlayers),
-				'player' + game.player.id-1);
+			player = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, game.player.id / (game.numPlayers + 2)),
+				game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, game.player.id / (game.numPlayers + 2)),
+				'player' + (game.player.id - 1));
 			player.anchor.setTo(0, 0);
 			player.scale.setTo(0.15, 0.15);
 			player.angle += trackJson.playerAngle;
@@ -61,17 +61,22 @@ PenRunner.matchOnlineState.prototype =
 
 			//var game.altPlayers;
 
-			game.altPlayers = new Array(game.numPlayers);
+
 
 			if (game.numPlayers > 1) {
+
+				game.altPlayers = new Array(game.numPlayers - 1);
+
+				var altCount = 0;
 				for (var i = 0; i < game.numPlayers; i++) {
-					if (i != game.player.id-1) {
-						game.altPlayers[i] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, i / game.numPlayers),
-							game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, i / game.numPlayers),
+					if (i != game.player.id - 1) {
+						game.altPlayers[altCount] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, (altCount + 1) / (game.numPlayers + 2)),
+							game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, (altCount + 1) / (game.numPlayers + 2)),
 							'player' + i);
-						game.altPlayers[i].anchor.setTo(0, 0);
-						game.altPlayers[i].scale.setTo(0.15, 0.15);
-						game.altPlayers[i] += trackJson.playerAngle;
+						game.altPlayers[altCount].anchor.setTo(0, 0);
+						game.altPlayers[altCount].scale.setTo(0.15, 0.15);
+						game.altPlayers[altCount] += trackJson.playerAngle;
+						altCount++;
 					}
 				}
 			}
@@ -80,7 +85,7 @@ PenRunner.matchOnlineState.prototype =
 			//flecha y ángulo del primer jugador
 			AngleLineLeft = game.add.sprite(player.x, player.y, 'angleLine');
 			AngleLineRight = game.add.sprite(player.x, player.y, 'angleLine');
-			DirectionArrow = game.add.sprite(player.x, player.y, 'angleLine' + game.player.id-1);
+			DirectionArrow = game.add.sprite(player.x, player.y, 'angleLine' + (game.player.id - 1));
 
 			AngleLineLeft.anchor.setTo(0, 0.5);
 			AngleLineLeft.angle = trackJson.directionAngle - 30;
@@ -183,7 +188,7 @@ PenRunner.matchOnlineState.prototype =
 					Math.min(timeCounter / 0.3, 1));
 				if (timeCounter >= 0.3) {
 					playerState = 0;
-					var line = game.add.sprite(playerStartMovePositionX, playerStartMovePositionY, 'angleLine' + game.player.id-1);
+					var line = game.add.sprite(playerStartMovePositionX, playerStartMovePositionY, 'angleLine' + (game.player.id - 1));
 					line.angle = DirectionArrow.angle;
 					line.scale.setTo(DirectionArrow.scale.x, DirectionArrow.scale.y);
 					AngleLineLeft.x = player.x;
@@ -194,7 +199,7 @@ PenRunner.matchOnlineState.prototype =
 					AngleLineRight.visible = true;
 					DirectionArrow.x = player.x;
 					DirectionArrow.y = player.y;
-					DirectionArrow.scale.setTo(0.4, 0.3);
+					//DirectionArrow.scale.setTo(0.4, 0.3);
 					this.setArrow();
 					if (this.checkWin(player.x, player.y)) {
 						goalOrder.push(1);
@@ -219,18 +224,19 @@ PenRunner.matchOnlineState.prototype =
 					game.playersData = JSON.parse(JSON.stringify(data));
 				var count = 0;
 				game.playersDataNew = JSON.parse(JSON.stringify(data));
+				
 				for (var i = 0; i < game.numPlayers - 1; i++) {
-					if (i != game.player.id-1) {
-						if (game.playersData[i].x != game.playersDataNew[i].x
+					if (i != game.player.id - 1) {
+						game.altPlayers[count].x = game.playersDataNew[i].x;
+						game.altPlayers[count].y = game.playersDataNew[i].y;
+						/*if (game.playersData[i].x != game.playersDataNew[i].x
 							|| game.playersData[i].y != game.playersDataNew[i].y) {
-							game.altPlayers[count].x = game.playersDataNew[i].x;
-							game.altPlayers[count].x = game.playersDataNew[i].y;
 							var line = game.add.sprite(game.playersData[i].x, game.playersData[i].y, 'angleLine' + i);
 							line.angle = Phaser.math.angleBetween(game.playersData[i].x, game.playersData[i].y,
 								game.playersDataNew[i].x, game.playersDataNew[i].y);
 							line.scale.setTo(Phaser.math.distance(game.playersData[i].x, game.playersData[i].y,
 								game.playersDataNew[i].x, game.playersDataNew[i].y), 0.3);
-						}
+							}*/
 						game.altPlayers[count].angle = game.playersDataNew[i].angle;
 						count++;
 					}
