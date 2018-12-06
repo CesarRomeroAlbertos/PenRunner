@@ -35,7 +35,8 @@ PenRunner.preloadStart.prototype =
 		game.load.atlasJSONHash('title', 'Assets/titleSpritesheet.png', 'Src/json/titleSpritesheet.json');
 
 		//Main Menu
-		game.load.image('buttonStartMenu', 'Assets/start.png', 200, 70);
+		game.load.image('buttonStartLocalMenu', 'Assets/jugar_local.png', 200, 70);
+		game.load.image('buttonStartOnlineMenu', 'Assets/jugar_online.png', 200, 70);
 		game.load.image('buttonSettingsMenu', 'Assets/settings.png', 200, 70);
 		game.load.image('buttonExitMenu', 'Assets/exit.png', 200, 70);
 		game.load.image('background','Assets/background.png');
