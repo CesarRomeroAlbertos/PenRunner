@@ -19,11 +19,11 @@ PenRunner.matchmakingOnlineState.prototype =
             var sceneTime = 0;
             empezado = false;
             numeroDeJugadores = 0;
-            
+
             this.getNumPlayers();
             //console.log(numeroDeJugadores + " iajdbvoi");
             this.isStarted();
-    
+
             game.stage.backgroundColor = '#182d3b';
             var background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Añadimos un sprite al background
 
@@ -55,8 +55,8 @@ PenRunner.matchmakingOnlineState.prototype =
             //Estalbecemos las posiciones de los sprites de cada uno de los huecos donde se pueden poner los nombres de los jugadores.
             var jugador = game.add.sprite(game.world.x + 40, game.world.y + 370, 'jugadorMatch');
             var jugador2 = game.add.sprite(game.world.x + 40, game.world.y + 370, 'jugadorMatch').alignTo(jugador, Phaser.RIGHT_CENTER, -240);
-            var jugador3 = game.add.sprite(game.world.x+40, game.world.y+370, 'jugadorMatch').alignTo(jugador2, Phaser.RIGHT_CENTER, -240);
-            var jugador4 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch');
+            var jugador3 = game.add.sprite(game.world.x + 40, game.world.y + 370, 'jugadorMatch').alignTo(jugador2, Phaser.RIGHT_CENTER, -240);
+            var jugador4 = game.add.sprite(game.world.x + 40, game.world.y + 470, 'jugadorMatch');
             //  var jugador5 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador4, Phaser.RIGHT_CENTER, -240);
             //  var jugador6 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador5, Phaser.RIGHT_CENTER, -240);
 
@@ -73,8 +73,8 @@ PenRunner.matchmakingOnlineState.prototype =
             textPlayer2 = game.add.text(game.world.x + 360, game.world.y + 382, text2, style2);
 
             //Mostramos el resto de textos donde pone "Vacío"
-            textPlayer3 = game.add.text(game.world.x+620, game.world.y+382, text2, style2);
-            textPlayer4 = game.add.text(game.world.x+100, game.world.y+482, text2, style2);
+            textPlayer3 = game.add.text(game.world.x + 620, game.world.y + 382, text2, style2);
+            textPlayer4 = game.add.text(game.world.x + 100, game.world.y + 482, text2, style2);
             //  game.add.text(game.world.x+360, game.world.y+482, text2, style2);
             // game.add.text(game.world.x+620, game.world.y+482, text2, style2);
 
@@ -83,81 +83,79 @@ PenRunner.matchmakingOnlineState.prototype =
             joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
             this.setTimer(15 * 1000);
-            
-            if(numeroDeJugadores < 4 && !empezado){ //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
-            	//console.log(numeroDeJugadores + " en crear")
-            	//console.log(empezado);
-	            this.createPlayer();
-	            this.createVotes();
+
+            if (numeroDeJugadores < 4 && !empezado) { //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
+                //console.log(numeroDeJugadores + " en crear")
+                //console.log(empezado);
+                this.createPlayer();
+                this.createVotes();
             }
 
 
         },
 
         update: function () { //Función que se ejecuta una vez por frame
-        	
+
             //Si el contador se queda a 0, lo ponemos a 5 para la siguiente vez que se cargue la escena
             this.getNumPlayers();
-            if(numeroDeJugadores > 4)
-        	{
-	        	//console.log("Se ha alcanzado el número máximo de jugadores, vuelve a intentarlo más tarde")
-	        	game.state.start('menuState');
-        	}
+            if (numeroDeJugadores > 4) {
+                //console.log("Se ha alcanzado el número máximo de jugadores, vuelve a intentarlo más tarde")
+                game.state.start('menuState');
+            }
             //console.log(numeroDeJugadores);
-        	switch(numeroDeJugadores)
-        	{
-        		
-        		case 2:
-    			 textPlayer2.destroy();
-                 game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
-                 break;
-                 
-        		case 3:
-    			 textPlayer3.destroy();
-    			 textPlayer2.destroy();
-        		 game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
-                 game.add.text(game.world.x+600, game.world.y+382, 'Jugador 3', style2);
-                 break;
-                     
-        		case 4:
-    			 textPlayer2.destroy();
-    			 textPlayer3.destroy();
-    			 textPlayer4.destroy();
-    			 game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
-                 game.add.text(game.world.x+600, game.world.y+382, 'Jugador 3', style2);
-                 game.add.text(game.world.x+70, game.world.y+482, 'Jugador 4', style2);
-                 break;
-                 
-        	}
-        	this.getRealVotes();
+            switch (numeroDeJugadores) {
 
-        	
-            
-            
+                case 2:
+                    textPlayer2.destroy();
+                    game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
+                    break;
+
+                case 3:
+                    textPlayer3.destroy();
+                    textPlayer2.destroy();
+                    game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
+                    game.add.text(game.world.x + 600, game.world.y + 382, 'Jugador 3', style2);
+                    break;
+
+                case 4:
+                    textPlayer2.destroy();
+                    textPlayer3.destroy();
+                    textPlayer4.destroy();
+                    game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
+                    game.add.text(game.world.x + 600, game.world.y + 382, 'Jugador 3', style2);
+                    game.add.text(game.world.x + 70, game.world.y + 482, 'Jugador 4', style2);
+                    break;
+
+            }
+            this.getRealVotes();
+
+
+
+
             this.updateTimer(function (data) {
-             //   console.log("tiempo recibido: " + data + " /n tiempo restante: " + 15 - data / 1000);
+                //   console.log("tiempo recibido: " + data + " /n tiempo restante: " + 15 - data / 1000);
                 contador = 15 - data / 1000;
-                
+
                 text.setText('Tiempo restante para iniciar partida: ' + Math.round(contador));
                 // console.log(contador);
                 // console.log('Se ha actualizado el timer: ' + contador);
             });
 
-            if(contador <= 0 && numeroDeJugadores <= 1){
-            	game.state.start('matchmakingOnlineState');
+            if (contador <= 0 && numeroDeJugadores <= 1) {
+                game.state.start('matchmakingOnlineState');
 
             }
-            	
 
-            
+
+
             if (contador <= 0 && numeroDeJugadores <= 4) {
                 //this.getNumPlayers();
-                this.getTrack(function(data){
+                this.getTrack(function (data) {
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
-                if(numeroDeJugadores > 1 && game.chosenCircuit!=null){
-                this.isStarted(); //Se cambia el booleano para indicar que la partida ya ha empezado
-                game.state.start('preloadMatchOnlineState');
+                if (numeroDeJugadores > 1 && game.chosenCircuit != null) {
+                    this.isStarted(); //Se cambia el booleano para indicar que la partida ya ha empezado
+                    game.state.start('preloadMatchOnlineState');
                 }
 
             }
@@ -180,7 +178,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 game.player = data
                 textPlayer.destroy();
                 game.add.text(game.world.x + 80, game.world.y + 382, 'Jugador 1', style2);
-                
+
             })
         },
 
@@ -188,10 +186,10 @@ PenRunner.matchmakingOnlineState.prototype =
             $.ajax({
                 url: 'http://localhost:8080/player/number',
             }).done(function (data) {
-               // console.log("Hay " + JSON.stringify(data) + " jugadores")
+                // console.log("Hay " + JSON.stringify(data) + " jugadores")
                 game.numPlayers = JSON.parse(JSON.stringify(data));
                 numeroDeJugadores = data;
-               // console.log(numeroDeJugadores);
+                // console.log(numeroDeJugadores);
             })
         },
 
@@ -248,19 +246,19 @@ PenRunner.matchmakingOnlineState.prototype =
                 callback(JSON.parse(JSON.stringify(data)));
             })
         },
-        
-        isStarted: function(){
-        	  $.ajax({
-                  method: "GET",
-                  url: 'http://localhost:8080/isStarted',
-                  processData: false,
-                  headers: {
-                      "Content-Type": "application/json"
-                  },
-              }).done(function (data) {
-            	  //console.log(data);
-            	  empezado = data;
-              })
+
+        isStarted: function () {
+            $.ajax({
+                method: "GET",
+                url: 'http://localhost:8080/isStarted',
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).done(function (data) {
+                //console.log(data);
+                empezado = data;
+            })
         },
 
 
@@ -279,10 +277,10 @@ PenRunner.matchmakingOnlineState.prototype =
         up2: function ()//Función que se llama cuando clickamos sobre el mapa que esta situado en el centro
         {
 
-            if (numeroDeVotos2 < 9 && !votado){
+            if (numeroDeVotos2 < 9 && !votado) {
                 this.getVotes2();
                 votado = true;
-           }
+            }
             votos2.setText(numeroDeVotos2);
 
         },
@@ -291,12 +289,12 @@ PenRunner.matchmakingOnlineState.prototype =
         {
             votos3.setText(numeroDeVotos3);
 
-            if (numeroDeVotos3 < 9 && !votado){
-            	this.getVotes3();
-            	votado = true;
+            if (numeroDeVotos3 < 9 && !votado) {
+                this.getVotes3();
+                votado = true;
             }
 
-            
+
             //numeroDeVotos3++;
         },
 
@@ -318,23 +316,23 @@ PenRunner.matchmakingOnlineState.prototype =
             })
 
         },
-        
-        getVotes: function(){
-        	 $.ajax({
-                 method: "GET",
-                 url: 'http://localhost:8080/voto/voto1',
-                 processData: false,
-                 headers: {
-                     "Content-Type": "application/json"
-                 },
-             }).done(function (data) {
-                 console.log(data);
+
+        getVotes: function () {
+            $.ajax({
+                method: "GET",
+                url: 'http://localhost:8080/voto/voto1',
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).done(function (data) {
+                console.log(data);
                 // numeroDeVotos1 = data;
-             })
+            })
         },
-        
-        getVotes2: function(){
-       	 $.ajax({
+
+        getVotes2: function () {
+            $.ajax({
                 method: "GET",
                 url: 'http://localhost:8080/voto/voto2',
                 processData: false,
@@ -343,54 +341,53 @@ PenRunner.matchmakingOnlineState.prototype =
                 },
             }).done(function (data) {
                 //console.log(data);
-               // numeroDeVotos2 = data;
+                // numeroDeVotos2 = data;
             })
-       },
-       
-       getVotes3: function(){
-      	 $.ajax({
-               method: "GET",
-               url: 'http://localhost:8080/voto/voto3',
-               processData: false,
-               headers: {
-                   "Content-Type": "application/json"
-               },
-           }).done(function (data) {
-               //console.log(data);
-              // numeroDeVotos3 = data;
-           })
-      },
-      getRealVotes: function(){
-    	  $.ajax({
-              method: "GET",
-              url: 'http://localhost:8080/voto',
-              processData: false,
-              headers: {
-                  "Content-Type": "application/json"
-              },
-          }).done(function (data) {
-        	  numeroDeVotos1 = data[0];
-        	  numeroDeVotos2 = data[1];
-        	  numeroDeVotos3 = data[2];
-              
-          })
-      },
+        },
 
-        getTrack: function(callback)
-	{
-		{
-			$.ajax({
-				method: "GET",
-				url: 'http://localhost:8080/chosenMap',
-				processData: false,
-				headers: {
-					"Content-Type": "application/json"
-				}
-			}).done(function (data) {
-				callback(JSON.parse(JSON.stringify(data)));
-			})
-		}
-	}
+        getVotes3: function () {
+            $.ajax({
+                method: "GET",
+                url: 'http://localhost:8080/voto/voto3',
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).done(function (data) {
+                //console.log(data);
+                // numeroDeVotos3 = data;
+            })
+        },
+        getRealVotes: function () {
+            $.ajax({
+                method: "GET",
+                url: 'http://localhost:8080/voto',
+                processData: false,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).done(function (data) {
+                numeroDeVotos1 = data[0];
+                numeroDeVotos2 = data[1];
+                numeroDeVotos3 = data[2];
+
+            })
+        },
+
+        getTrack: function (callback) {
+            {
+                $.ajax({
+                    method: "GET",
+                    url: 'http://localhost:8080/chosenMap',
+                    processData: false,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).done(function (data) {
+                    callback(JSON.parse(JSON.stringify(data)));
+                })
+            }
+        }
 
 
     }

@@ -95,8 +95,8 @@ PenRunner.matchState.prototype =
 			rightKeyP2 = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 			forwardKeyP2 = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 
-			forwardKeyP1.onDown.add(changeState1, this);
-			forwardKeyP2.onDown.add(changeState2, this);
+			forwardKeyP1.onDown.add(this.changeState1, this);
+			forwardKeyP2.onDown.add(this.changeState2, this);
 
 			//inicializamos variables de la escena
 
@@ -108,8 +108,8 @@ PenRunner.matchState.prototype =
 			timeCounter2 = 0;
 			goalOrder = new Array();
 
-			setArrow1();
-			setArrow2();
+			this.setArrow1();
+			this.setArrow2();
 
 			//semaforo
 			semaforo = game.add.sprite(game.world.centerX, game.world.centerY, 'semaforo');
@@ -119,7 +119,7 @@ PenRunner.matchState.prototype =
 
 			semaforoAnimation = semaforo.animations.add('semaforoAnim');
 
-			timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
+			timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, this.semaforoCounter, this);
 
 		},
 
@@ -152,10 +152,10 @@ PenRunner.matchState.prototype =
 			}
 			//aquí llamamos a los métodos que giran la dirección de los jugadores o cambian la distancia que se mueven en función de su estado
 			if (player1State == 0) {
-				moveArrow1();
+				this.moveArrow1();
 			}
 			else if (player1State == 1) {
-				powerArrow1();
+				this.powerArrow1();
 			}
 			else if (player1State == 3) {
 				timeCounter1 += game.time.elapsedMS / 1000;
@@ -177,8 +177,8 @@ PenRunner.matchState.prototype =
 					DirectionArrowP1.x = player1.x;
 					DirectionArrowP1.y = player1.y;
 					DirectionArrowP1.scale.setTo(0.4, 0.3);
-					setArrow1();
-					if (checkWin(player1.x, player1.y)) {
+					this.setArrow1();
+					if (this.checkWin(player1.x, player1.y)) {
 						goalOrder.push(1);
 						player1State = 2;
 						AngleLineLeftP1.visible = false;
@@ -189,10 +189,10 @@ PenRunner.matchState.prototype =
 			}
 
 			if (player2State == 0) {
-				moveArrow2();
+				this.moveArrow2();
 			}
 			else if (player2State == 1) {
-				powerArrow2();
+				this.powerArrow2();
 			}
 			else if (player2State == 3) {
 				timeCounter2 += game.time.elapsedMS / 1000;
@@ -215,8 +215,8 @@ PenRunner.matchState.prototype =
 					AngleLineRightP2.visible = true;
 					DirectionArrowP2.x = player2.x;
 					DirectionArrowP2.y = player2.y;
-					setArrow2();
-					if (checkWin(player2.x, player2.y)) {
+					this.setArrow2();
+					if (this.checkWin(player2.x, player2.y)) {
 						goalOrder.push(2);
 						player2State = 2;
 						AngleLineLeftP2.visible = false;
@@ -299,7 +299,7 @@ PenRunner.matchState.prototype =
 				player1State = 0;
 				AngleLineLeftP1.visible = true;
 				AngleLineRightP1.visible = true;
-				if (checkPos(positionXcheck + DirectionArrowP1.x, positionYcheck + DirectionArrowP1.y)
+				if (this.checkPos(positionXcheck + DirectionArrowP1.x, positionYcheck + DirectionArrowP1.y)
 					&& positionXcheck + DirectionArrowP1.x > 0 && positionXcheck + DirectionArrowP1.x < 800
 					&& positionYcheck + DirectionArrowP1.y > 0 && positionYcheck + DirectionArrowP1.y < 600) {
 					player1StartMovePositionX = player1.x;
@@ -339,7 +339,7 @@ PenRunner.matchState.prototype =
 				player2State = 0;
 				AngleLineLeftP2.visible = true;
 				AngleLineRightP2.visible = true;
-				if (checkPos(positionXcheck + DirectionArrowP2.x, positionYcheck + DirectionArrowP2.y)
+				if (this.checkPos(positionXcheck + DirectionArrowP2.x, positionYcheck + DirectionArrowP2.y)
 					&& positionXcheck + DirectionArrowP2.x > 0 && positionXcheck + DirectionArrowP2.x < 800
 					&& positionYcheck + DirectionArrowP2.y > 0 && positionYcheck + DirectionArrowP2.y < 600) {
 					player2StartMovePositionX = player2.x;

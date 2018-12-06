@@ -27,7 +27,7 @@ PenRunner.menuState.prototype =
 		
 		startLocalMenu: function () //Función llamada cuando pulsamos el botón local, llama al script de carga de matchmaking local
 		{
-			//game.state.start('matchmakingState');
+			game.state.start('matchmakingState');
 		},
 
 
