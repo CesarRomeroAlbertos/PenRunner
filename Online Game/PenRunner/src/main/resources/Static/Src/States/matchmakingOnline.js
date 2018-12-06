@@ -155,7 +155,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 this.getTrack(function(data){
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
-                if(numeroDeJugadores > 1){
+                if(numeroDeJugadores > 1 && game.chosenCircuit!=null){
                 this.isStarted(); //Se cambia el booleano para indicar que la partida ya ha empezado
                 game.state.start('preloadMatchOnlineState');
                 }

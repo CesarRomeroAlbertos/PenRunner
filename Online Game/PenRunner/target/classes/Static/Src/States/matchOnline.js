@@ -70,8 +70,8 @@ PenRunner.matchOnlineState.prototype =
 				var altCount = 0;
 				for (var i = 0; i < game.numPlayers; i++) {
 					if (i != game.player.id - 1) {
-						game.altPlayers[altCount] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, (altCount + 1) / (game.numPlayers + 2)),
-							game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, (altCount + 1) / (game.numPlayers + 2)),
+						game.altPlayers[altCount] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, i / (game.numPlayers + 2)),
+							game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, i / (game.numPlayers + 2)),
 							'player' + i);
 						game.altPlayers[altCount].anchor.setTo(0, 0);
 						game.altPlayers[altCount].scale.setTo(0.15, 0.15);
@@ -224,6 +224,11 @@ PenRunner.matchOnlineState.prototype =
 					game.playersData = JSON.parse(JSON.stringify(data));
 				var count = 0;
 				game.playersDataNew = JSON.parse(JSON.stringify(data));
+
+				console.log("Players");
+				console.log(game.playersDataNew);
+				console.log("alt");
+				console.log(game.altPlayers);
 				
 				for (var i = 0; i < game.numPlayers - 1; i++) {
 					if (i != game.player.id - 1) {

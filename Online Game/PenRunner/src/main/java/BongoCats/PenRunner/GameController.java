@@ -102,7 +102,7 @@ public class GameController
 	public ResponseEntity<Player> updatePlayer(@PathVariable long id, @RequestBody Player player) {
 		
 			players.put(id, player);
-			System.out.println(players);
+			//System.out.println(players);
 			return new ResponseEntity<Player>(player, HttpStatus.OK);
 		
 	}
