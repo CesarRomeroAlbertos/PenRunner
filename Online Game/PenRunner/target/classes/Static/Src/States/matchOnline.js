@@ -3,12 +3,13 @@ PenRunner.matchOnlineState = function (game) { }
 PenRunner.matchOnlineState.prototype =
 	{
 		create: function () {
+			game.Goal = false;
 			this.getNumPlayers(function (data) {
 				game.numPlayers = data;
 			});
 			numeroMeta = 0;
-			console.log(game.player.id);
-			console.log("número de jugadores: " + game.numPlayers);
+			//console.log(game.player.id);
+			//console.log("número de jugadores: " + game.numPlayers);
 			playerId = game.player.id;
 			//nos aseguramos de que el fondo sea blanco	
 			game.stage.backgroundColor = "#FFFFFF";
@@ -147,7 +148,7 @@ PenRunner.matchOnlineState.prototype =
 		},
 
 		//usamos update para los distintos controles de la partida
-		update: function () {			 
+		update: function () {
 			if (!hasStarted) {
 				this.updateTimer(function (data) {
 
@@ -211,15 +212,15 @@ PenRunner.matchOnlineState.prototype =
 						goalOrder.push(1);
 						playerState = 2;
 						player.arrived = true;
-						console.log(player.arrived);
-						if(player.arrived)
+						//console.log(player.arrived);
+						if (player.arrived)
 							this.updateMeta();
 						AngleLineLeft.visible = false;
 						AngleLineRight.visible = false;
 						DirectionArrow.visible = false
 					}
 				}
-			
+
 			}
 
 			game.player.x = player.x;
@@ -228,6 +229,8 @@ PenRunner.matchOnlineState.prototype =
 			game.player.angle = player.angle;
 
 			this.sendPlayerUpdate();
+			if (player.arrived)
+				this.getMeta();
 
 			this.updatePlayers(function (data) {
 				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
@@ -243,7 +246,7 @@ PenRunner.matchOnlineState.prototype =
 						if ((game.altPlayers.children[count].x !== game.playersDataNew[i].x
 							|| game.altPlayers.children[count].y !== game.playersDataNew[i].y)
 							&& hasStarted) {
-							console.log(game.altPlayers.children[count].x);
+							//console.log(game.altPlayers.children[count].x);
 							var line = game.add.sprite(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
 								'angleLine' + i);
 							line.angle = (Phaser.Math.angleBetween(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
@@ -257,17 +260,17 @@ PenRunner.matchOnlineState.prototype =
 						game.altPlayers.children[count].y = game.playersDataNew[i].y;
 
 						//game.altPlayers.children[count].arrived = false;
-							/*if (game.playersData[i].x != game.playersDataNew[i].x
-							|| game.playersData[i].y != game.playersDataNew[i].y) {
-							var line = game.add.sprite(game.playersData[i].x, game.playersData[i].y, 'angleLine' + i);
-							line.angle = Phaser.math.angleBetween(game.playersData[i].x, game.playersData[i].y,
-								game.playersDataNew[i].x, game.playersDataNew[i].y);
-							line.scale.setTo(Phaser.math.distance(game.playersData[i].x, game.playersData[i].y,
-								game.playersDataNew[i].x, game.playersDataNew[i].y), 0.3);
-							}*/
+						/*if (game.playersData[i].x != game.playersDataNew[i].x
+						|| game.playersData[i].y != game.playersDataNew[i].y) {
+						var line = game.add.sprite(game.playersData[i].x, game.playersData[i].y, 'angleLine' + i);
+						line.angle = Phaser.math.angleBetween(game.playersData[i].x, game.playersData[i].y,
+							game.playersDataNew[i].x, game.playersDataNew[i].y);
+						line.scale.setTo(Phaser.math.distance(game.playersData[i].x, game.playersData[i].y,
+							game.playersDataNew[i].x, game.playersDataNew[i].y), 0.3);
+						}*/
 
 						game.altPlayers.children[count].angle = game.playersDataNew[i].angle;
-						count++;	
+						count++;
 					}
 				}
 				game.playersData = game.playersDataNew;
@@ -292,7 +295,22 @@ PenRunner.matchOnlineState.prototype =
 				callback(JSON.parse(JSON.stringify(data)));
 			})
 		},
-		updateMeta: function(){
+		updateMeta: function () {
+			$.ajax({
+				method: "GET",
+				url: 'http://localhost:8080/meta/add',
+				processData: false,
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).done(function (data) {
+				numeroMeta = JSON.parse(JSON.stringify(data));
+					game.player.score += 100 - ((numeroMeta - 1) * 10);
+				if (numeroMeta == game.numPlayers)
+					game.state.start("scoreOnlineState");
+			})
+		},
+		getMeta: function () {
 			$.ajax({
 				method: "GET",
 				url: 'http://localhost:8080/meta',
@@ -301,10 +319,8 @@ PenRunner.matchOnlineState.prototype =
 					"Content-Type": "application/json"
 				}
 			}).done(function (data) {
-				numeroMeta = data;
-				console.log(data + "f¡d");
-				console.log(numeroMeta + " numerometa");
-				if(numeroMeta == game.numPlayers)
+				numeroMeta = JSON.parse(JSON.stringify(data));
+				if (numeroMeta == game.numPlayers)
 					game.state.start("scoreOnlineState");
 			})
 		},

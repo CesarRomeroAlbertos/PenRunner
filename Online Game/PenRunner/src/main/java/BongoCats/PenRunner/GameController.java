@@ -1,6 +1,9 @@
 package BongoCats.PenRunner;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,8 +53,11 @@ public class GameController
 	@GetMapping(value = "/players/score")
 	public Collection<Player> getPlayersScores() 
 	{
-		//Collections.sort(players, (o1, o2) -> o1.getScore() - o2.getScore());
-		return players.values();
+		//Collections.sort(players.values(), (o1, o2) -> o1.getScore() - o2.getScore());
+		List<Player> temp = new ArrayList<Player>();
+		temp.addAll(players.values());
+		temp.sort((o1, o2) -> o2.getScore() - o1.getScore());
+		return temp;
 	}
 	
 	//devolvemos número de jugadores
@@ -98,10 +104,15 @@ public class GameController
 		numPlayers++;
 		return player;
 	}
+	@GetMapping(value = "/meta/add")
+	public int metaAdd()
+	{
+		meta++;
+		return meta;
+	}
 	@GetMapping(value = "/meta")
 	public int meta()
 	{
-		meta++;
 		return meta;
 	}
 	

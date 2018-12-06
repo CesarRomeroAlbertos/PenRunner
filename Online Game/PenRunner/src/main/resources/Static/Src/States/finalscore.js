@@ -55,10 +55,6 @@ PenRunner.scoreState.prototype =
 		
 		//Texto de la puntuación final.
 		var text = game.add.text(game.world.centerX-220, game.world.centerY-230, 'Puntuación Final', style4);
-	},
-	update: function()
-	{
-
 	}
 
 }
