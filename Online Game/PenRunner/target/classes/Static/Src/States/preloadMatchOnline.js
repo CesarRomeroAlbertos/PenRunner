@@ -8,11 +8,18 @@ PenRunner.preloadMatchOnlineState.prototype =
 {
 	preload:function()
 	{
-		console.log(game.chosenCircuit);
+		/*if(game.chosenCircuit === null)
+		{
+			this.getTrack(function(){
+				game.chosenCircuit = data;
+			});
+		}*/
+		console.log("circuito: " + game.chosenCircuit);
+		
 			trackList = game.cache.getJSON('trackList');
 			chosenTrack = trackList.tracks[game.chosenCircuit].json;
 			game.load.json('track',chosenTrack);
-			game.state.start('preloadTrackBuildOnlineState');
+		
 		
 			
 		//Poner texto, imágenes, y todo lo que tenga que salir en la pantalla de carga ANTES de cargar las imágenes
@@ -30,9 +37,24 @@ PenRunner.preloadMatchOnlineState.prototype =
 	},
 	update: function()
 	{
-
 		
+			game.state.start('preloadTrackBuildOnlineState');
 
-	}
+	}/*,
+	getTrack: function(callback)
+	{
+		{
+			$.ajax({
+				method: "GET",
+				url: 'http://localhost:8080/chosenMap',
+				processData: false,
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).done(function (data) {
+				callback(JSON.parse(JSON.stringify(data)));
+			})
+		}
+	}*/
 	
 }

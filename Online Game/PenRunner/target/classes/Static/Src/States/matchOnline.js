@@ -74,18 +74,12 @@ PenRunner.matchOnlineState.prototype =
 				var altCount = 0;
 				for (var i = 0; i < game.numPlayers; i++) {
 					if (i != (game.player.id - 1)) {
-						game.altPlayers.create(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, i / (game.numPlayers + 2)),
-						game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, i / (game.numPlayers + 2)),
-						'player' + i);
+						game.altPlayers.create(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, (i + 1) / (game.numPlayers + 2)),
+							game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, (i + 1) / (game.numPlayers + 2)),
+							'player' + i);
 						game.altPlayers.children[altCount].anchor.setTo(0, 0);
 						game.altPlayers.children[altCount].scale.setTo(0.15, 0.15);
 						game.altPlayers.children[altCount].angle += trackJson.playerAngle;
-						/*game.altPlayers[altCount] = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, i / (game.numPlayers + 2)),
-							game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, i / (game.numPlayers + 2)),
-							'player' + i);
-						game.altPlayers[altCount].anchor.setTo(0, 0);
-						game.altPlayers[altCount].scale.setTo(0.15, 0.15);
-						game.altPlayers[altCount] += trackJson.playerAngle;*/
 						altCount++;
 					}
 				}
@@ -200,7 +194,9 @@ PenRunner.matchOnlineState.prototype =
 					playerState = 0;
 					var line = game.add.sprite(playerStartMovePositionX, playerStartMovePositionY, 'angleLine' + (game.player.id - 1));
 					line.angle = DirectionArrow.angle;
-					line.scale.setTo(DirectionArrow.scale.x, DirectionArrow.scale.y);
+					var lineScale = Phaser.Math.linear(0, 1, Phaser.Math.distance(playerStartMovePositionX, playerStartMovePositionY,
+						playerFinalMovePositionX, playerFinalMovePositionY) / (2 * AngleLineLeft.width));
+					line.scale.setTo(lineScale, 0.3);
 					AngleLineLeft.x = player.x;
 					AngleLineLeft.y = player.y;
 					AngleLineRight.x = player.x;
@@ -241,17 +237,25 @@ PenRunner.matchOnlineState.prototype =
 				var numeroMeta = 0;
 				game.playersDataNew = JSON.parse(JSON.stringify(data));
 
-				/*console.log("Players");
-				console.log(game.playersDataNew);
-				console.log("alt");
-				console.log(game.altPlayers);
-				console.log("test:");
-				console.log(game.altPlayers[0].x);*/
-				
+
 				for (var i = 0; i < game.numPlayers; i++) {
 					if (i != game.player.id - 1) {
+						if ((game.altPlayers.children[count].x !== game.playersDataNew[i].x
+							|| game.altPlayers.children[count].y !== game.playersDataNew[i].y)
+							&& hasStarted) {
+							console.log(game.altPlayers.children[count].x);
+							var line = game.add.sprite(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
+								'angleLine' + i);
+							line.angle = (Phaser.Math.angleBetween(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
+								game.playersDataNew[i].x, game.playersDataNew[i].y) * (180 / Math.PI));
+							var lineScale = Phaser.Math.linear(0, 1, Phaser.Math.distance(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
+								game.playersDataNew[i].x, game.playersDataNew[i].y) / (2 * AngleLineLeft.width));
+							line.scale.setTo(lineScale, 0.3);
+							//console.log(line);
+						}
 						game.altPlayers.children[count].x = game.playersDataNew[i].x;
 						game.altPlayers.children[count].y = game.playersDataNew[i].y;
+
 						//game.altPlayers.children[count].arrived = false;
 							/*if (game.playersData[i].x != game.playersDataNew[i].x
 							|| game.playersData[i].y != game.playersDataNew[i].y) {
@@ -261,6 +265,7 @@ PenRunner.matchOnlineState.prototype =
 							line.scale.setTo(Phaser.math.distance(game.playersData[i].x, game.playersData[i].y,
 								game.playersDataNew[i].x, game.playersDataNew[i].y), 0.3);
 							}*/
+
 						game.altPlayers.children[count].angle = game.playersDataNew[i].angle;
 						count++;	
 					}
