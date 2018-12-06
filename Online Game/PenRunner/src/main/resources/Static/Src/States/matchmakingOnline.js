@@ -85,8 +85,8 @@ PenRunner.matchmakingOnlineState.prototype =
             this.setTimer(15 * 1000);
             
             if(numeroDeJugadores < 4 && !empezado){ //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
-            	console.log(numeroDeJugadores + " en crear")
-            	console.log(empezado);
+            	//console.log(numeroDeJugadores + " en crear")
+            	//console.log(empezado);
 	            this.createPlayer();
 	            this.createVotes();
             }
@@ -100,10 +100,10 @@ PenRunner.matchmakingOnlineState.prototype =
             this.getNumPlayers();
             if(numeroDeJugadores > 4)
         	{
-	        	console.log("Se ha alcanzado el número máximo de jugadores, vuelve a intentarlo más tarde")
+	        	//console.log("Se ha alcanzado el número máximo de jugadores, vuelve a intentarlo más tarde")
 	        	game.state.start('menuState');
         	}
-            console.log(numeroDeJugadores);
+            //console.log(numeroDeJugadores);
         	switch(numeroDeJugadores)
         	{
         		
@@ -258,7 +258,7 @@ PenRunner.matchmakingOnlineState.prototype =
                       "Content-Type": "application/json"
                   },
               }).done(function (data) {
-            	  console.log(data);
+            	  //console.log(data);
             	  empezado = data;
               })
         },
@@ -272,7 +272,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 this.getVotes(); //Llamamos a la función para actualizar el número de votos en el servidor
                 votado = true;
             }
-            console.log(numeroDeVotos1)
+            //console.log(numeroDeVotos1)
             votos1.setText(numeroDeVotos1);
 
         },
@@ -342,7 +342,7 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                console.log(data);
+                //console.log(data);
                // numeroDeVotos2 = data;
             })
        },
@@ -356,7 +356,7 @@ PenRunner.matchmakingOnlineState.prototype =
                    "Content-Type": "application/json"
                },
            }).done(function (data) {
-               console.log(data);
+               //console.log(data);
               // numeroDeVotos3 = data;
            })
       },

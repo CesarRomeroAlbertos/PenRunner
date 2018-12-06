@@ -14,7 +14,7 @@ PenRunner.preloadMatchOnlineState.prototype =
 				game.chosenCircuit = data;
 			});
 		}*/
-		console.log("circuito: " + game.chosenCircuit);
+		//console.log("circuito: " + game.chosenCircuit);
 		
 			trackList = game.cache.getJSON('trackList');
 			chosenTrack = trackList.tracks[game.chosenCircuit].json;

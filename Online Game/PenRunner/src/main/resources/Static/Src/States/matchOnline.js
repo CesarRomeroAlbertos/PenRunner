@@ -7,8 +7,8 @@ PenRunner.matchOnlineState.prototype =
 				game.numPlayers = data;
 			});
 			numeroMeta = 0;
-			console.log(game.player.id);
-			console.log("número de jugadores: " + game.numPlayers);
+			//console.log(game.player.id);
+			//console.log("número de jugadores: " + game.numPlayers);
 			playerId = game.player.id;
 			//nos aseguramos de que el fondo sea blanco	
 			game.stage.backgroundColor = "#FFFFFF";
@@ -211,7 +211,7 @@ PenRunner.matchOnlineState.prototype =
 						goalOrder.push(1);
 						playerState = 2;
 						player.arrived = true;
-						console.log(player.arrived);
+						//console.log(player.arrived);
 						if(player.arrived)
 							this.updateMeta();
 						AngleLineLeft.visible = false;
@@ -243,7 +243,7 @@ PenRunner.matchOnlineState.prototype =
 						if ((game.altPlayers.children[count].x !== game.playersDataNew[i].x
 							|| game.altPlayers.children[count].y !== game.playersDataNew[i].y)
 							&& hasStarted) {
-							console.log(game.altPlayers.children[count].x);
+							//console.log(game.altPlayers.children[count].x);
 							var line = game.add.sprite(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
 								'angleLine' + i);
 							line.angle = (Phaser.Math.angleBetween(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
@@ -302,8 +302,8 @@ PenRunner.matchOnlineState.prototype =
 				}
 			}).done(function (data) {
 				numeroMeta = data;
-				console.log(data + "f¡d");
-				console.log(numeroMeta + " numerometa");
+				//console.log(data + "f¡d");
+				//console.log(numeroMeta + " numerometa");
 				if(numeroMeta == game.numPlayers)
 					game.state.start("scoreOnlineState");
 			})
