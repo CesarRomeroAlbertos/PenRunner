@@ -6,12 +6,16 @@ PenRunner.matchOnlineState.prototype =
 			this.getNumPlayers(function (data) {
 				game.numPlayers = data;
 			});
+			numeroMeta = 0;
+			console.log(game.player.id);
 			console.log("número de jugadores: " + game.numPlayers);
+			playerId = game.player.id;
 			//nos aseguramos de que el fondo sea blanco	
 			game.stage.backgroundColor = "#FFFFFF";
 
 			//cogemos los jsons necesarios de la cache
 			var trackJson = game.cache.getJSON('track');
+			game.arrived = new Array(game.numPlayers);
 
 			//metemos los sprites con sus colliders cuando son necesarios, todo leyendo del json del circuito,
 			//y con las variables del mismo colocamos todo y construimos el circuito además de activar sus físicas
@@ -149,11 +153,11 @@ PenRunner.matchOnlineState.prototype =
 		},
 
 		//usamos update para los distintos controles de la partida
-		update: function () {
+		update: function () {			 
 			if (!hasStarted) {
 				this.updateTimer(function (data) {
 
-					console.log("tiempo recibido: " + data + " /n tiempo restante: " + 4 - data / 1000);
+					//console.log("tiempo recibido: " + data + " /n tiempo restante: " + 4 - data / 1000);
 					if ((data / 1000) < semaforoAnimation.frameTotal) {
 						semaforoAnimation.frame = Math.floor(data / 1000);
 					}
@@ -210,11 +214,16 @@ PenRunner.matchOnlineState.prototype =
 					if (this.checkWin(player.x, player.y)) {
 						goalOrder.push(1);
 						playerState = 2;
+						player.arrived = true;
+						console.log(player.arrived);
+						if(player.arrived)
+							this.updateMeta();
 						AngleLineLeft.visible = false;
 						AngleLineRight.visible = false;
 						DirectionArrow.visible = false
 					}
 				}
+			
 			}
 
 			game.player.x = player.x;
@@ -229,6 +238,7 @@ PenRunner.matchOnlineState.prototype =
 				if (game.playersData == null)
 					game.playersData = JSON.parse(JSON.stringify(data));
 				var count = 0;
+				var numeroMeta = 0;
 				game.playersDataNew = JSON.parse(JSON.stringify(data));
 
 				/*console.log("Players");
@@ -242,7 +252,8 @@ PenRunner.matchOnlineState.prototype =
 					if (i != game.player.id - 1) {
 						game.altPlayers.children[count].x = game.playersDataNew[i].x;
 						game.altPlayers.children[count].y = game.playersDataNew[i].y;
-						/*if (game.playersData[i].x != game.playersDataNew[i].x
+						//game.altPlayers.children[count].arrived = false;
+							/*if (game.playersData[i].x != game.playersDataNew[i].x
 							|| game.playersData[i].y != game.playersDataNew[i].y) {
 							var line = game.add.sprite(game.playersData[i].x, game.playersData[i].y, 'angleLine' + i);
 							line.angle = Phaser.math.angleBetween(game.playersData[i].x, game.playersData[i].y,
@@ -251,7 +262,7 @@ PenRunner.matchOnlineState.prototype =
 								game.playersDataNew[i].x, game.playersDataNew[i].y), 0.3);
 							}*/
 						game.altPlayers.children[count].angle = game.playersDataNew[i].angle;
-						count++;
+						count++;	
 					}
 				}
 				game.playersData = game.playersDataNew;
@@ -276,11 +287,27 @@ PenRunner.matchOnlineState.prototype =
 				callback(JSON.parse(JSON.stringify(data)));
 			})
 		},
+		updateMeta: function(){
+			$.ajax({
+				method: "GET",
+				url: 'http://localhost:8080/meta',
+				processData: false,
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).done(function (data) {
+				numeroMeta = data;
+				console.log(data + "f¡d");
+				console.log(numeroMeta + " numerometa");
+				if(numeroMeta == game.numPlayers)
+					game.state.start("scoreOnlineState");
+			})
+		},
 
 		sendPlayerUpdate: function () {
 			$.ajax({
 				method: "PUT",
-				url: 'http://localhost:8080/player/' + game.player.id,
+				url: 'http://localhost:8080/player/' + playerId,
 				data: JSON.stringify(game.player),
 				processData: false,
 				headers: {

@@ -33,6 +33,7 @@ public class GameController
 	long maxTime;
 	long maxGameTime;
 	int[] votos = {0,0,0};
+	int meta = 0;
 	boolean hasStartedTimer = false;
 	boolean hasSelectedMap = false;
 	boolean startedMatch;
@@ -91,10 +92,17 @@ public class GameController
 		player.setId(id);
 		player.setX(0);
 		player.setY(0);
+		player.setArrived(false);
 		players.put(player.getId(), player);
 		System.out.println("He creado al jugador");
 		numPlayers++;
 		return player;
+	}
+	@GetMapping(value = "/meta")
+	public int meta()
+	{
+		meta++;
+		return meta;
 	}
 	
 	//Con PUT actualizamos la posición de un jugador
@@ -115,6 +123,8 @@ public class GameController
 		voto.setValor(1);
 		return voto.getValor();
 	}
+	
+	
 	@GetMapping(value = "/voto")
 	public int[] getRealVotes()
 	{

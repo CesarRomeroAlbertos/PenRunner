@@ -2,6 +2,8 @@ PenRunner.preloadMatchOnlineState = function(game) {
 
 }
 var chosenTrack;
+var playerId;
+
 PenRunner.preloadMatchOnlineState.prototype =
 {
 	preload:function()

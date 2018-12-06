@@ -7,9 +7,11 @@ public class Player {
 	private int score;
 	private int angle;
 	private String color;
+	private boolean arrived;
 	
 	Player() {
 		this.score = 0;
+		this.arrived = false;
 	}
 
 	public long getId() {
@@ -22,6 +24,16 @@ public class Player {
 
 	public int getX() {
 		return x;
+	}
+	
+	public boolean getArrived()
+	{
+		return arrived;
+	}
+	
+	public void setArrived(boolean x)
+	{
+		this.arrived = x;
 	}
 
 	public void setX(int x) {
