@@ -46,7 +46,7 @@ PenRunner.scoreOnlineState.prototype =
         getScores: function (callback) {
             $.ajax({
                 method: "GET",
-                url: 'http://localhost:8080/players/score',
+                url: 'http://localhost:8080/player/score',
                 processData: false,
                 headers: {
                     "Content-Type": "application/json"
