@@ -2,85 +2,90 @@ PenRunner.matchOnlineState = function (game) { }
 
 PenRunner.matchOnlineState.prototype =
 	{
+		//Aquí creamos todas las cosas necesarias para usar en la clase match
 		create: function () {
 			game.Goal = false;
 			this.getNumPlayers(function (data) {
 				game.numPlayers = data;
 			});
-			numeroMeta = 0;
-			//console.log(game.player.id);
-			//console.log("número de jugadores: " + game.numPlayers);
-			playerId = game.player.id;
+			numeroMeta = 0; //Indica el número de jugadores que han llegado a la meta hasta ese momento
+			playerId = game.player.id; //en esta variable guardamos el id del jugador en cuestión
 			//nos aseguramos de que el fondo sea blanco	
 			game.stage.backgroundColor = "#FFFFFF";
 
 			//cogemos los jsons necesarios de la cache
 			var trackJson = game.cache.getJSON('track');
-			game.arrived = new Array(game.numPlayers);
 
 			//metemos los sprites con sus colliders cuando son necesarios, todo leyendo del json del circuito,
 			//y con las variables del mismo colocamos todo y construimos el circuito además de activar sus físicas
 			walls = game.add.sprite(trackJson.wallsPositionX, trackJson.wallsPositionY, 'walls');
 			start = game.add.sprite(trackJson.startPositionX, trackJson.startPositionY, 'start');
 			goal = game.add.sprite(trackJson.goalPositionX, trackJson.goalPositionY, 'goal');
-
+			
+			//Con este trozo de código, decimos donde está la línea de meta y la línea de salida del mapa caegado desde el JSON (4 líneas siguientes)
 			start.angle = trackJson.startRotation;
 			start.scale.setTo(trackJson.startScaleX, 1);
 			goal.angle = trackJson.goalRotation;
 			goal.scale.setTo(trackJson.goalScaleX, 1);
-
+			
+			//Aquí cargamos las físicas necesarias para hacer las colisione con el mapa y con la línea de meta
 			game.physics.p2.enable(goal, true);
 			for (var i = 0; i < goal.body.data.shapes.length; i++)
 				goal.body.data.shapes[i].sensor = true;
-
+			//Propiedades de la línea de meta.
 			goal.body.static = true;
 			goal.body.x += goal.width / 2;
 			goal.body.y += goal.height / 2;
 			goal.body.debug = false;
-
+			
+			//Colisiones de las paredes
 			game.physics.p2.enable(walls, true);
 			walls.body.x += walls.width / 2;
 			walls.body.y += walls.height / 2;
 
-			walls.body.clearShapes();
-			walls.body.loadPolygon('wallsCollision', 'wallsTrack');
-			walls.body.static = true;
+			walls.body.clearShapes(); //Hacemos las colisiones mas limpias
+			walls.body.loadPolygon('wallsCollision', 'wallsTrack'); //Cargamos los poligonos de las paredes del mapa desde el JSON
+			walls.body.static = true; //Hacemos que las paredes del mapa seas estáticas
 			walls.body.debug = false;
 			for (var i = 0; i < walls.body.data.shapes.length; i++) {
 				walls.body.data.shapes[i].sensor = true;
 			}
-
+			//A partir de estas líneas de codigo definimos el jugador, sus características, como añadir el sprite, ajustar la escala del propio sprite
+			//a parte de ajustar el ángulo que va a tener, que siempre son 45. 
 			player = game.add.sprite(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, game.player.id / (game.numPlayers + 2)),
 				game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, game.player.id / (game.numPlayers + 2)),
 				'player' + (game.player.id - 1));
 			player.anchor.setTo(0, 0);
 			player.scale.setTo(0.15, 0.15);
 			player.angle += trackJson.playerAngle;
-
+			//Ajustamos las coordenadas x e y al jugador y las establecemos con las que están guardadas en el servidor
 			game.player.x = player.x;
 			game.player.y = player.y;
 
 			game.player.angle = player.angle;
 
-			this.sendPlayerUpdate();
+			this.sendPlayerUpdate(); //Una vez hecho todo esto, llamamos a la función del server que actualiza al jugador. 
 
 			//var game.altPlayers;
 
 
-
+			//Aquí comprobamos si el número de jugadores que hay actualmente en la partida es mayor que uno, ya que si solo hay un jugador, no puede iniciar
+			//la partida, y por lo tanto, hay que esperar a que haya, como mínimo, dos jugadores.
 			if (game.numPlayers > 1) {
 
-				game.altPlayers = game.add.group();
+				game.altPlayers = game.add.group(); //Aquí agrupamos los jugadores en un array para poder gestionarlos más fácilmente
 
 				var altCount = 0;
+				//Mediante el código que tenemos en este for recorremos todo el array que hemos declarado anteriormente y creamos las caracteristicas para
+				//todos los jugadores que hay en la partida concreta.
 				for (var i = 0; i < game.numPlayers; i++) {
-					if (i != (game.player.id - 1)) {
+					if (i != (game.player.id - 1)) { //Este if impide que el for se salga de los límites del array
 						game.altPlayers.create(game.math.linear(trackJson.playerPositionXzero, trackJson.playerPositionXone, (i + 1) / (game.numPlayers + 2)),
 							game.math.linear(trackJson.playerPositionYzero, trackJson.playerPositionYone, (i + 1) / (game.numPlayers + 2)),
 							'player' + i);
-						game.altPlayers.children[altCount].anchor.setTo(0, 0);
+						game.altPlayers.children[altCount].anchor.setTo(0, 0); //ancho del sprite del jugador
 						game.altPlayers.children[altCount].scale.setTo(0.15, 0.15);
-						game.altPlayers.children[altCount].angle += trackJson.playerAngle;
+						game.altPlayers.children[altCount].angle += trackJson.playerAngle; //Ángulo de apertura para jugar de cada jugador en concreto.
 						altCount++;
 					}
 				}
@@ -91,27 +96,27 @@ PenRunner.matchOnlineState.prototype =
 			AngleLineLeft = game.add.sprite(player.x, player.y, 'angleLine');
 			AngleLineRight = game.add.sprite(player.x, player.y, 'angleLine');
 			DirectionArrow = game.add.sprite(player.x, player.y, 'angleLine' + (game.player.id - 1));
-
+			//Aquí establecemos las características de los ángulos de dirección, tanto el de giro de la flecha como el del giro del angulo de dirección
 			AngleLineLeft.anchor.setTo(0, 0.5);
 			AngleLineLeft.angle = trackJson.directionAngle - 30;
 			AngleLineRight.anchor.setTo(0, 0.5);
 			AngleLineRight.angle = trackJson.directionAngle + 30;
 			DirectionArrow.anchor.setTo(0, 0.5);
 			DirectionArrow.angle = trackJson.directionAngle;
-
+			//Por último, establecemos la escala para que se vea acorde con el propio sprite de jugador
 			AngleLineLeft.scale.setTo(0.5, 0.5);
 			AngleLineRight.scale.setTo(0.5, 0.5);
 			DirectionArrow.scale.setTo(0.4, 0.3);
 
 
 			//controles
-
+			//estas variables definen los controles del jugador, en concreto, girar a izquierda o derecha, y para hacer el movimiento hacia delante
 			leftKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
 			rightKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
 			forwardKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
 
-			forwardKey.onDown.add(this.changeState, this);
+			forwardKey.onDown.add(this.changeState, this); //Cuando se pulsa la tecla hacia arriba, cambia el estado del jugador de quieto a moviendose
 
 
 			//inicializamos variables de la escena
@@ -123,36 +128,36 @@ PenRunner.matchOnlineState.prototype =
 			timeCounter = 0;
 
 			goalOrder = new Array();
-
+			
+			//Llamamos a la función para que actualice el movimiento de la tecla pulsada en el servidor
 			this.setArrow();
 
 
-			//semaforo
+			//Gestionamos todo acerca del semáforo, como las características del sprite, o donde irá colocado.
 			semaforo = game.add.sprite(game.world.centerX, game.world.centerY, 'semaforo');
 			semaforo.scale.setTo(1 / 3, 1 / 3);
 			semaforo.x -= semaforo.width / 2;
 			semaforo.y -= semaforo.height / 2;
 
-			semaforoAnimation = semaforo.animations.add('semaforoAnim');
+			semaforoAnimation = semaforo.animations.add('semaforoAnim'); //Añadimos la animación para que cambie entre los estados del semáforo
 
-			this.setTimer(semaforoAnimation.frameTotal * 1000);
+			this.setTimer(semaforoAnimation.frameTotal * 1000); //Llamamos a la función que actualiza el timer del semaforo para que cambie de estado
 			hasStarted = false;
 
 			//timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
 
-			this.updatePlayers(function (data) {
+			this.updatePlayers(function (data) { //esta funcion actualiza la posición de los jugadores en el server
 				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
 				game.playersData = JSON.parse(JSON.stringify(data));
 			});
 
 		},
 
-		//usamos update para los distintos controles de la partida
+		//usamos update para los distintos controles de la partida, todo lo que ocurre aquí se actualiza una vez por frame
 		update: function () {
-			if (!hasStarted) {
-				this.updateTimer(function (data) {
+			if (!hasStarted) { //Entra en el if si la partida no ha empezado
+				this.updateTimer(function (data) { //Volvemos a llamar a que actualice el timer para cambiar los estados del semaforo
 
-					//console.log("tiempo recibido: " + data + " /n tiempo restante: " + 4 - data / 1000);
 					if ((data / 1000) < semaforoAnimation.frameTotal) {
 						semaforoAnimation.frame = Math.floor(data / 1000);
 					}
@@ -180,17 +185,20 @@ PenRunner.matchOnlineState.prototype =
 
 			//aquí llamamos a los métodos que giran la dirección de los jugadores o cambian la distancia que se mueven en función de su estado
 			if (playerState == 0) {
-				this.moveArrow();
+				this.moveArrow(); //Llamada al servidor para cambiar la dirección del jugador
 			}
 			else if (playerState == 1) {
-				this.powerArrow();
+				this.powerArrow(); //Llamada al servidor para decidir cuanta distancia se mueve la flecha
 			}
-			else if (playerState == 3) {
+			//Cuando el estado es 3, quiere decir que el jugador se está moviendo, entonces tenemos que actulizar la posicion del sprite en la pantalla, para la cual 
+			//sirven las siguientes líneas de código
+			else if (playerState == 3) { 
 				timeCounter += game.time.elapsedMS / 1000;
 				player.x = game.math.linear(playerStartMovePositionX, playerFinalMovePositionX,
 					Math.min(timeCounter / 0.3, 1));
 				player.y = game.math.linear(playerStartMovePositionY, playerFinalMovePositionY,
 					Math.min(timeCounter / 0.3, 1));
+				//Para entrar en este if, el jugador acaba de terminar el movimiento, y se pinta la linea de trazo por donde ha pasado el jugador
 				if (timeCounter >= 0.3) {
 					playerState = 0;
 					var line = game.add.sprite(playerStartMovePositionX, playerStartMovePositionY, 'angleLine' + (game.player.id - 1));
@@ -206,15 +214,16 @@ PenRunner.matchOnlineState.prototype =
 					AngleLineRight.visible = true;
 					DirectionArrow.x = player.x;
 					DirectionArrow.y = player.y;
-					//DirectionArrow.scale.setTo(0.4, 0.3);
-					this.setArrow();
+					this.setArrow(); //Cuando se ha realizado todo el proceso, llamamos al servidor para que se actualice en el mismo, y pueda llegar la información a los demás jugadores
+					//Esta funcion comprueba en cada movimiento si el jugador ha llegado a la meta
 					if (this.checkWin(player.x, player.y)) {
 						goalOrder.push(1);
-						playerState = 2;
-						player.arrived = true;
+						playerState = 2;//Cambiamos el estado del jugador
+						player.arrived = true; //Decimos que el jugador a llegado
 						//console.log(player.arrived);
 						if (player.arrived)
-							this.updateMeta();
+							this.updateMeta(); //Llamamos al servidor para decir quién ha llegado a la meta
+						//Descactivamos los controles del jugador para que no pueda moverse
 						AngleLineLeft.visible = false;
 						AngleLineRight.visible = false;
 						DirectionArrow.visible = false
