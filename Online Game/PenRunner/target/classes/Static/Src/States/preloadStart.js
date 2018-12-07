@@ -8,9 +8,10 @@ var volumenSonido = 10;
 
 //Estilos de fuente
 var style1 = { font: "65px Arial", fill: "#000000", align: "center" };
-var style2 =  { font: "30px Arial", fill: "#000000", align: "center"};
+var style2 =  { font: "30px Arial", fill: "#ffffff", align: "center"};
 var style3 =  { font: "30px Arial", fill: "#000000", align: "center"};
 var style4 =  { font: "60px Arial", fill: "#000000", align: "center"};
+var style5 =  { font: "60px Arial", fill: "#ffffff", align: "center"};
 
 //variable de elección de circuito
 var chosenCircuit;
@@ -38,7 +39,6 @@ PenRunner.preloadStart.prototype =
 		game.load.image('buttonStartLocalMenu', 'Assets/jugar_local.png', 200, 70);
 		game.load.image('buttonStartOnlineMenu', 'Assets/jugar_online.png', 200, 70);
 		game.load.image('buttonSettingsMenu', 'Assets/settings.png', 200, 70);
-		game.load.image('buttonExitMenu', 'Assets/exit.png', 200, 70);
 		game.load.image('background','Assets/background.png');
 
 		//Settings

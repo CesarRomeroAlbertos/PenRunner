@@ -10,8 +10,7 @@ PenRunner.menuState.prototype =
 			//Asignamos los tres botones que están en el menú principal a las variables creadas previamente
 			var buttonStartLocalMenu = game.add.button(game.world.x + 120, 400, 'buttonStartLocalMenu', this.startLocalMenu, this, 1, 0, 2);
 			var buttonStartOnlineMenu = game.add.button(game.world.x + 440, 400, 'buttonStartOnlineMenu', this.startOnlineMenu, this, 1, 0, 2);
-			var buttonSettingsMenu = game.add.button(game.world.x + 740, 20, 'buttonSettingsMenu', this.settingsMenu, this, 1, 0, 2);
-			//var buttonExitMenu = game.add.button(game.world.x + 20, 20, 'buttonExitMenu', this.exitMenu, this, 1, 0, 2);
+			var buttonSettingsMenu = game.add.button(game.world.x + 720, 40, 'buttonSettingsMenu', this.settingsMenu, this, 1, 0, 2);
 
 			//Añadimos el título del menú principal
 			var tituloMenu = 'Menú Principal';
@@ -21,8 +20,6 @@ PenRunner.menuState.prototype =
 			buttonStartLocalMenu.width = buttonStartOnlineMenu.width = 240;
 			buttonStartLocalMenu.height = buttonStartOnlineMenu.height = 80;
 			buttonSettingsMenu.width = buttonSettingsMenu.height = 40;
-			//buttonExitMenu.width = buttonExitMenu.height = 40;
-
 		},
 		
 		startLocalMenu: function () //Función llamada cuando pulsamos el botón local, llama al script de carga de matchmaking local
@@ -40,10 +37,5 @@ PenRunner.menuState.prototype =
 		{
 			game.state.start('settingsState');
 		}
-
-		/*exitMenu: function () //Función llamada cuando pulsamos el botón de salir, cierra la ventana
-		{
-			window.close();
-		}*/
 	}
 

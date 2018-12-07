@@ -8,8 +8,9 @@ PenRunner.matchmakingOnlineState.prototype =
     {
 
         create: function () {
+        	
+        	//Inicializamos las variables que vamos a utilizar en este estado
             votado = false;
-            //	this.deletePlayer();
             contador = 1200;
             numeroDeVotos1 = 0;
             numeroDeVotos2 = 0;
@@ -21,7 +22,6 @@ PenRunner.matchmakingOnlineState.prototype =
             numeroDeJugadores = 0;
 
             this.getNumPlayers();
-            //console.log(numeroDeJugadores + " iajdbvoi");
             this.isStarted();
 
             game.stage.backgroundColor = '#182d3b';
@@ -38,9 +38,9 @@ PenRunner.matchmakingOnlineState.prototype =
             text = game.add.text(game.world.centerX - 270, game.world.centerY + 250, 'Tiempo restante para iniciar partida: 12', style3);  //ponemos la variable text en el recinto y la editamos 
             text2 = 'Vacío';
 
-            votos1 = game.add.text(game.world.x + 120, 250, numeroDeVotos1, style1);
-            votos2 = game.add.text(game.world.x + 380, 250, numeroDeVotos2, style1);
-            votos3 = game.add.text(game.world.x + 640, 250, numeroDeVotos3, style1);
+            votos1 = game.add.text(game.world.x + 124, 250, numeroDeVotos1, style4);
+            votos2 = game.add.text(game.world.x + 384, 250, numeroDeVotos2, style4);
+            votos3 = game.add.text(game.world.x + 644, 250, numeroDeVotos3, style4);
 
             //Boton izquierda
             buttonMap.onInputUp.add(this.up, this); //Cuando clickamos el boton, ejecuta la función up()
@@ -69,14 +69,14 @@ PenRunner.matchmakingOnlineState.prototype =
             // jugador6.scale.setTo(0.4, 0.5);
 
             //Aquí guardamos los nombres de los jugadores, de momento, están establecidos por defecto a jugador 1 y jugador 2. Pero se estudiará el hecho de incluir nombres personalizados
-            textPlayer = game.add.text(game.world.x + 100, game.world.y + 382, text2, style2);
-            textPlayer2 = game.add.text(game.world.x + 360, game.world.y + 382, text2, style2);
+            textPlayer = game.add.text(game.world.x + 100, game.world.y + 382, text2, style3);
+            textPlayer2 = game.add.text(game.world.x + 360, game.world.y + 382, text2, style3);
 
             //Mostramos el resto de textos donde pone "Vacío"
-            textPlayer3 = game.add.text(game.world.x + 620, game.world.y + 382, text2, style2);
-            textPlayer4 = game.add.text(game.world.x + 100, game.world.y + 482, text2, style2);
-            //  game.add.text(game.world.x+360, game.world.y+482, text2, style2);
-            // game.add.text(game.world.x+620, game.world.y+482, text2, style2);
+            textPlayer3 = game.add.text(game.world.x + 620, game.world.y + 382, text2, style3);
+            textPlayer4 = game.add.text(game.world.x + 100, game.world.y + 482, text2, style3);
+            //  game.add.text(game.world.x+360, game.world.y+482, text2, style3);
+            // game.add.text(game.world.x+620, game.world.y+482, text2, style3);
 
             //Hemos declarado dos variables con las que hacemos que los jugadores se unan a la partida
             joinKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
@@ -107,23 +107,23 @@ PenRunner.matchmakingOnlineState.prototype =
 
                 case 2:
                     textPlayer2.destroy();
-                    game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
+                    game.add.text(game.world.x + 335, game.world.y + 382, 'Jugador 2', style3);
                     break;
 
                 case 3:
                     textPlayer3.destroy();
                     textPlayer2.destroy();
-                    game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
-                    game.add.text(game.world.x + 600, game.world.y + 382, 'Jugador 3', style2);
+                    game.add.text(game.world.x + 335, game.world.y + 382, 'Jugador 2', style3);
+                    game.add.text(game.world.x + 595, game.world.y + 382, 'Jugador 3', style3);
                     break;
 
                 case 4:
                     textPlayer2.destroy();
                     textPlayer3.destroy();
                     textPlayer4.destroy();
-                    game.add.text(game.world.x + 340, game.world.y + 382, 'Jugador 2', style2);
-                    game.add.text(game.world.x + 600, game.world.y + 382, 'Jugador 3', style2);
-                    game.add.text(game.world.x + 70, game.world.y + 482, 'Jugador 4', style2);
+                    game.add.text(game.world.x + 335, game.world.y + 382, 'Jugador 2', style3);
+                    game.add.text(game.world.x + 595, game.world.y + 382, 'Jugador 3', style3);
+                    game.add.text(game.world.x + 75, game.world.y + 482, 'Jugador 4', style3);
                     break;
 
             }
@@ -177,7 +177,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 //console.log("Se ha creado el jugador: " + JSON.stringify(data));
                 game.player = data
                 textPlayer.destroy();
-                game.add.text(game.world.x + 80, game.world.y + 382, 'Jugador 1', style2);
+                game.add.text(game.world.x + 75, game.world.y + 382, 'Jugador 1', style3);
 
             })
         },
