@@ -17,11 +17,11 @@ PenRunner.settingsState.prototype =
 		var background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Ponemos una imagen de fondo
 		
 		//Asignamos los cinco botones que están en el menú de opciones a las variables creadas previamente
-		var buttonBack = game.add.button(game.world.x + 20, 20, 'buttonBackSettings', backSettings, this, 0, 0, 0);
-		var buttonUp1 = game.add.button(560, 240, 'buttonUp', subirMusica, this, 0, 0, 0);
-		var buttonDown1 = game.add.button(405, 240, 'buttonDown', bajarMusica, this, 0, 0, 0);
-		var buttonUp2 = game.add.button(560, 320, 'buttonUp', subirSonido, this, 0, 0, 0);
-		var buttonDown2 = game.add.button(405, 320, 'buttonDown', bajarSonido, this, 0, 0, 0);
+		var buttonBack = game.add.button(game.world.x + 20, 20, 'buttonBackSettings', this.backSettings, this, 0, 0, 0);
+		var buttonUp1 = game.add.button(560, 240, 'buttonUp', this.subirMusica, this, 0, 0, 0);
+		var buttonDown1 = game.add.button(405, 240, 'buttonDown', this.bajarMusica, this, 0, 0, 0);
+		var buttonUp2 = game.add.button(560, 320, 'buttonUp', this.subirSonido, this, 0, 0, 0);
+		var buttonDown2 = game.add.button(405, 320, 'buttonDown', this.bajarSonido, this, 0, 0, 0);
 
 		//Escalamos los cinco botones para que se vean adecuadamente en la pantalla
 		buttonBack.width = buttonBack.height = 40;

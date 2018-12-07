@@ -38,7 +38,7 @@ PenRunner.menuState.prototype =
 
 		settingsMenu: function () //Función llamada cuando pulsamos el botón de opciones, llama al script de carga de settings
 		{
-			//game.state.start('settingsState');
+			game.state.start('settingsState');
 		}
 
 		/*exitMenu: function () //Función llamada cuando pulsamos el botón de salir, cierra la ventana
