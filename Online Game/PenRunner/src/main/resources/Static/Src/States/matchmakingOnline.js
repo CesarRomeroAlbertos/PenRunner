@@ -35,7 +35,7 @@ PenRunner.matchmakingOnlineState.prototype =
             buttonMap.width = buttonMap2.width = buttonMap3.width = 200;
             buttonMap.height = buttonMap2.height = buttonMap3.height = 200;
 
-            text = game.add.text(game.world.centerX - 270, game.world.centerY + 250, 'Tiempo restante para iniciar partida: 12', style3);  //ponemos la variable text en el recinto y la editamos 
+            text = game.add.text(game.world.centerX - 249, game.world.centerY + 255, 'Tiempo restante para iniciar partida: 12', style3);  //ponemos la variable text en el recinto y la editamos 
             text2 = 'Vacío';
 
             votos1 = game.add.text(game.world.x + 124, 250, numeroDeVotos1, style4);

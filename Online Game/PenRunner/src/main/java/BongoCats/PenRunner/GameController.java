@@ -120,9 +120,9 @@ public class GameController
 	@PutMapping(value = "/player/{id}")
 	public ResponseEntity<Player> updatePlayer(@PathVariable long id, @RequestBody Player player) {
 		
-			players.put(id, player);
-			//System.out.println(players);
-			return new ResponseEntity<Player>(player, HttpStatus.OK);
+		players.put(id, player);
+		//System.out.println(players);
+		return new ResponseEntity<Player>(player, HttpStatus.OK);
 		
 	}
 	
@@ -172,18 +172,18 @@ public class GameController
 		if(!hasSelectedMap)
 		{
 		mapSelected = 0;
-		  for ( int i = 1; i < votos.length; i++ )
-		  {
-			  if(votos[i] == votos[mapSelected])
-			  {
-				  int rand = rnd.nextInt(100);
-				  if(rand>=50)
-					  mapSelected = i;
-			  }
+		  	for ( int i = 1; i < votos.length; i++ )
+		  	{
+		  		if(votos[i] == votos[mapSelected])
+		  		{
+		  			//int rand = rnd.nextInt(100);
+		  			//if(rand>=50)
+		  			mapSelected = i;
+		  		}
 			  
-			  else if ( votos[i] > votos[mapSelected] )
-				  mapSelected = i;
-		  }
+		  		else if ( votos[i] > votos[mapSelected] )
+		  			mapSelected = i;
+		  	}
 		}
 		return mapSelected;
 	}
