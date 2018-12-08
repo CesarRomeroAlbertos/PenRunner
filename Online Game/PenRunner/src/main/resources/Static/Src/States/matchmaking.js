@@ -44,8 +44,8 @@ PenRunner.matchmakingState.prototype =
 
             var timerMatchmaking = game.time.events.loop(Phaser.Timer.SECOND, this.showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
             //Estalbecemos las posiciones de los sprites de cada uno de los huecos donde se pueden poner los nombres de los jugadores.
-            var jugador = game.add.sprite(game.world.x + 160, game.world.y + 370, 'jugadorMatch');
-            var jugador2 = game.add.sprite(game.world.x + 440, game.world.y + 370, 'jugadorMatch');
+            var jugador = game.add.sprite(game.world.x + 160, game.world.y + 360, 'jugadorMatch');
+            var jugador2 = game.add.sprite(game.world.x + 440, game.world.y + 360, 'jugadorMatch');
             /*var jugador3 = game.add.sprite(game.world.x + 40, game.world.y + 370, 'jugadorMatch').alignTo(jugador2, Phaser.RIGHT_CENTER, -240);
             var jugador4 = game.add.sprite(game.world.x + 40, game.world.y + 470, 'jugadorMatch');
             var jugador5 = game.add.sprite(game.world.x + 40, game.world.y + 470, 'jugadorMatch').alignTo(jugador4, Phaser.RIGHT_CENTER, -240);
@@ -60,8 +60,8 @@ PenRunner.matchmakingState.prototype =
             jugador6.scale.setTo(0.4, 0.5);*/
 
             //Aquí guardamos los nombres de los jugadores, de momento, están establecidos por defecto a jugador 1 y jugador 2. Pero se estudiará el hecho de incluir nombres personalizados
-            var textPlayer = game.add.text(game.world.x + 195, game.world.y + 382, 'Jugador 1', style3);
-            var textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 382, 'Jugador 2', style3);
+            var textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
+            var textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
 
             //Mostramos el resto de textos donde pone "Vacío"
             /*game.add.text(game.world.x + 620, game.world.y + 382, text2, style3);
