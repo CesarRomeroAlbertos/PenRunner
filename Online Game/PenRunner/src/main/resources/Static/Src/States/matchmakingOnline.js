@@ -10,7 +10,7 @@ PenRunner.matchmakingOnlineState.prototype =
         create: function () {
         	
         	//Inicializamos las variables que vamos a utilizar en este estado
-            votado = false;
+            votado = false; //Variable que nos dice si un jugador ya ha votado o no
             contador = 1200;
             numeroDeVotos1 = 0;
             numeroDeVotos2 = 0;
@@ -20,7 +20,7 @@ PenRunner.matchmakingOnlineState.prototype =
             var sceneTime = 0;
             empezado = false;
             numeroDeJugadores = 0;
-
+            //Llamamos a estas funciones, para comprobar cuando se entra en este estado cuantos jugadores hay ya en la sala, y si la partida ha empezado
             this.getNumPlayers();
             this.isStarted();
 
@@ -95,15 +95,14 @@ PenRunner.matchmakingOnlineState.prototype =
         },
 
         update: function () { //Función que se ejecuta una vez por frame
-
-            //Si el contador se queda a 0, lo ponemos a 5 para la siguiente vez que se cargue la escena
+        	//Si el numero de jugadores ha llegado a más de cuatro e intenta entrar otro, vuelve a cargar el menú principal, porque ya se ha alcanzado el 
+        	//número máximo de jugadores
             this.getNumPlayers();
             if (numeroDeJugadores > 4) {
-                //console.log("Se ha alcanzado el número máximo de jugadores, vuelve a intentarlo más tarde")
                 game.state.start('menuState');
             }
-            //console.log(numeroDeJugadores);
-            switch (numeroDeJugadores) {
+            //Este swtich sirve para que escriba en las cajas correspondientes los jugadores que existen en todo momento. 
+            switch (numeroDeJugadores) { 
 
                 case 2:
                     textPlayer2.destroy();
@@ -127,29 +126,32 @@ PenRunner.matchmakingOnlineState.prototype =
                     break;
 
             }
+            //Con esta llamada actualizamos la votación de los mapas desde el servidor
             this.getRealVotes();
 
 
 
-
+            //Llamamos a la funcion que actualiza la cuenta atrás de la sala pre-partida dentro del servidor, metemos la funcion como 
+            //parámetro para que se actualice antes de que se continúe ejecutando el código-
             this.updateTimer(function (data) {
-                //   console.log("tiempo recibido: " + data + " /n tiempo restante: " + 15 - data / 1000);
-                contador = 15 - data / 1000;
+                contador = 15 - data / 1000; //como lo ejecutamos con el contador del sistema, lo dividimos entre 1000 para que concuerde con un numero entero
+                
 
                 text.setText('Tiempo restante para iniciar partida: ' + Math.round(contador));
-                // console.log(contador);
-                // console.log('Se ha actualizado el timer: ' + contador);
             });
-
+            
+            //si el contador se acaba, pero solo hay un jugador, se vuelve a llamar al estado para que vuelva una oportunidad a los jugadores que no 
+            //hayan entrado todavía
             if (contador <= 0 && numeroDeJugadores <= 1) {
                 game.state.start('matchmakingOnlineState');
 
             }
 
 
-
+            //Si el contador ya se ha acabado, pero los jugadores están comprendidos entre dos y cuatro personas, se prosigue a elegir el mapa
+            //mas votado desde el servidor el forma de JSON para que se cargue en el siguiente estado. Después, se carga el estado del juego con
+            //el mapa seleccionado
             if (contador <= 0 && numeroDeJugadores <= 4) {
-                //this.getNumPlayers();
                 this.getTrack(function (data) {
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
@@ -165,6 +167,8 @@ PenRunner.matchmakingOnlineState.prototype =
             votos3.setText(numeroDeVotos3);
 
         },
+        //esta funcion llama al servidor mediante una petición get, y creamos un jugador nuevo, con todas sus caracteriticas ya descritas en 
+        //GameController
         createPlayer: function () {
             $.ajax({
                 method: "POST",
@@ -174,25 +178,22 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                //console.log("Se ha creado el jugador: " + JSON.stringify(data));
                 game.player = data
                 textPlayer.destroy();
                 game.add.text(game.world.x + 75, game.world.y + 382, 'Jugador 1', style3);
 
             })
         },
-
+        //Devuelve el número de jugadores que hay hasta ahora en la sala pre-partida
         getNumPlayers: function () {
             $.ajax({
                 url: 'http://localhost:8080/player/number',
             }).done(function (data) {
-                // console.log("Hay " + JSON.stringify(data) + " jugadores")
                 game.numPlayers = JSON.parse(JSON.stringify(data));
                 numeroDeJugadores = data;
-                // console.log(numeroDeJugadores);
             })
         },
-
+        //Hacemos una llamada al servidor que borra un jugador
         deletePlayer: function () {
             $.ajax({
                 method: "DELETE",
@@ -202,7 +203,6 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                //console.log('Se ha borrado el jugador' + JSON.stringify(data));
             })
         },
         createVotes: function () {
@@ -214,10 +214,6 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                //  numeroDeVotos1 += data;
-                //console.log('Se ha creado el voto para el jugador: ' + JSON.stringify(data));
-                //console.log(numeroDeVotos1);
-
             })
         },
 
@@ -232,7 +228,7 @@ PenRunner.matchmakingOnlineState.prototype =
             }).done(function (data) {
             })
         },
-
+        //Actualiza el cronómetro que lleva la cuenta atrás para que empiece la partida
         updateTimer: function (callback) {
 
             $.ajax({
@@ -270,7 +266,6 @@ PenRunner.matchmakingOnlineState.prototype =
                 this.getVotes(); //Llamamos a la función para actualizar el número de votos en el servidor
                 votado = true;
             }
-            //console.log(numeroDeVotos1)
             votos1.setText(numeroDeVotos1);
 
         },
@@ -294,8 +289,6 @@ PenRunner.matchmakingOnlineState.prototype =
                 votado = true;
             }
 
-
-            //numeroDeVotos3++;
         },
 
         updateNumberOfVotes: function (mapa) {
@@ -307,16 +300,10 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                /*
-                numeroDeVotos1 += data;
-                console.log(numeroDeVotos1);
-                console.log('Se ha actualizado la votación del primer mapa: ' + numeroDeVotos1);
-                votos1.setText(numeroDeVotos1); //Imprimimos el resultado por pantalla.
-                votado = true;*/
             })
 
         },
-
+        //Actualiza el numero de votos que se ha hecho en el mapa 3
         getVotes: function () {
             $.ajax({
                 method: "GET",
@@ -330,7 +317,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 // numeroDeVotos1 = data;
             })
         },
-
+        //Actualiza el numero de votos que se ha hecho en el mapa 3
         getVotes2: function () {
             $.ajax({
                 method: "GET",
@@ -344,7 +331,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 // numeroDeVotos2 = data;
             })
         },
-
+        //Actualiza el numero de votos que se ha hecho en el mapa 3
         getVotes3: function () {
             $.ajax({
                 method: "GET",
@@ -358,6 +345,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 // numeroDeVotos3 = data;
             })
         },
+        //esta función nos devuelve desde el servidor el número de votos finales que han tenido los mapas, y en consecuencia, carga el mapa correspondiente.
         getRealVotes: function () {
             $.ajax({
                 method: "GET",
@@ -373,7 +361,8 @@ PenRunner.matchmakingOnlineState.prototype =
 
             })
         },
-
+        //Esta funcion hace una llamada al servidor, donde cogemos el JSON del mapa más votado, para devolverlo y cargarlo en el siguiente estado
+        //que se va a cargar.
         getTrack: function (callback) {
             {
                 $.ajax({

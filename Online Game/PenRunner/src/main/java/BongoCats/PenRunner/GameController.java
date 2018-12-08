@@ -20,53 +20,51 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-//import es.urjc.jer.game.Player;
-
 
 @RestController
 public class GameController 
 {
-	Map<Long, Player> players = new ConcurrentHashMap<Long, Player>();
+	Map<Long, Player> players = new ConcurrentHashMap<Long, Player>(); //Array con todos los jugadores
 	AtomicLong nextId = new AtomicLong(0);
 	Random rnd = new Random();
-	short mapaVotado;
-	long startTime=0;
+	short mapaVotado; //Identificador que nos indica el mapa más votado en matchMaking
+	long startTime=0; 
 	long startGameTime;
 	long currentTime=0;
-	long maxTime;
+	long maxTime; //tiempo máximo de espera
 	long maxGameTime;
-	int[] votos = {0,0,0};
-	int meta = 0;
+	int[] votos = {0,0,0}; //Array de los votos de cada mapa en matchmaking
+	int meta = 0; //Indica cuantos jugadores han llegado a la meta
 	boolean hasStartedTimer = false;
 	boolean hasSelectedMap = false;
-	boolean startedMatch;
+	boolean startedMatch; //Variable que controla si la partida ha empezado o no
 	int mapSelected;
 	int numPlayers=0;
 	
-	//devolvemos jugadores
+	//Devolvemos la información de todos los jugadores que haya en ese momento
 	@GetMapping(value = "/players")
 	public Collection<Player> getPlayers() 
 	{
 		return players.values();
 	}
-	
+	//Esta funcion devuelve la puntuación de todos los jugadores que hay en la partida en ese momento
 	@GetMapping(value = "/players/score")
 	public Collection<Player> getPlayersScores() 
 	{
-		//Collections.sort(players.values(), (o1, o2) -> o1.getScore() - o2.getScore());
 		List<Player> temp = new ArrayList<Player>();
 		temp.addAll(players.values());
 		temp.sort((o1, o2) -> o2.getScore() - o1.getScore());
 		return temp;
 	}
 	
-	//devolvemos número de jugadores
+	//Devolvemos el número de jugadores que hay en la partida en este momento
 	@GetMapping(value = "/player/number")
 	public int getNumPlayers() 
 	{
 		return numPlayers;
 	}
 	
+	//Devuelve si la partida ya ha empezado o no
 	@GetMapping(value = "/isStarted")
 	public boolean isStarted()
 	{
@@ -88,7 +86,7 @@ public class GameController
 		}
 	}
 	
-	// Con POST creamos un nuevo jugador
+	//Esta función nos permite crear un jugador y guardar su información en el servidor, estableciendo todos los valores que queramos
 	@PostMapping(value = "/player")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Player newPlayer()
@@ -104,19 +102,21 @@ public class GameController
 		numPlayers++;
 		return player;
 	}
+	//Esta función devuelve la variable meta aumentada, que quiere decir que ha llegado un jugador a la meta, y así se ve en todos los jugadores
 	@GetMapping(value = "/meta/add")
 	public int metaAdd()
 	{
 		meta++;
 		return meta;
 	}
+	//Devuelve el número de jugadores que han llegado a la meta
 	@GetMapping(value = "/meta")
 	public int meta()
 	{
 		return meta;
 	}
 	
-	//Con PUT actualizamos la posición de un jugador
+	//Mediante esta función nos permite actualizar la información de un jugador en el servidor, en concreto la posición
 	@PutMapping(value = "/player/{id}")
 	public ResponseEntity<Player> updatePlayer(@PathVariable long id, @RequestBody Player player) {
 		
@@ -126,7 +126,7 @@ public class GameController
 		
 	}
 	
-	//Mediante este put actualizamos la votacion del mapa seleccionado
+	//Esta función nos permite crear un voto único para cada jugador que entra nuevo en la partida
 	@PostMapping(value = "/voto")
 	public int createVote() 
 	{		
@@ -135,38 +135,37 @@ public class GameController
 		return voto.getValor();
 	}
 	
-	
+	//devuelve el número de votos de todos los mapas actualizados
 	@GetMapping(value = "/voto")
 	public int[] getRealVotes()
 	{
 		return votos;
 
 	}
-	
+	//Actualiza en el servidor el número de votos del mapa número 1
 	@GetMapping(value = "/voto/voto1")
 	public int getVote1()
 	{
 		votos[0]++;
 		return votos[0];
 	}
+	//Actualiza en el servidor el número de votos del mapa número 2
 	@GetMapping(value = "/voto/voto2")
 	public int getVote2()
 	{
 		votos[1]++;
 		return votos[1];
 	}
+	//Actualiza en el servidor el número de votos del mapa número 3
 	@GetMapping(value = "/voto/voto3")
 	public int getVote3()
 	{
 		votos[2]++;
 		return votos[2];
 	}
-	
-	/*@GetMapping(value = "/voto")
-	public int[] getVotes()
-	{
-		return votos;
-	}*/
+
+	//cuando se acaba el tiempo en matchmaking, se llama a esta función para actualizar el mapa que se ha elegido en el server, cogiendo
+	//el JSON desde el propio server, y mandarlo de nuevo al juego, para que se cargue el mismo mapa para todos los jugadores
 	@GetMapping(value = "/chosenMap")
 	public int mapaSeleccionado()
 	{
@@ -189,6 +188,8 @@ public class GameController
 		return mapSelected;
 	}
 	
+	
+	//Actualiza la cuenta atras para que empiece la partida
 	@PostMapping(value = "/timer/{time}")
 	public void updateTimer(@PathVariable long time)
 	{
@@ -200,6 +201,7 @@ public class GameController
 		}
 	}
 	
+	//devuelve el valor que tiene el contador en el server, para que tenga el mismo valor para todos los jugadores
 	@GetMapping(value="/timer")
 	public int getTimer()
 	{
@@ -207,13 +209,14 @@ public class GameController
 		return currentTime;
 	}
 	
+	//Actualiza el timer del semaforo de una partida
 	@PostMapping(value = "/game/timer/{time}")
 	public void updateGameTimer(@PathVariable long time)
 	{
 		startGameTime = System.currentTimeMillis();
 		maxGameTime = time;
 	}
-	
+	//Devuelve al juego el temporizador del semaforo, para que se actualice en todos los jugadores por igual
 	@GetMapping(value="/game/timer")
 	public int getGameTimer()
 	{

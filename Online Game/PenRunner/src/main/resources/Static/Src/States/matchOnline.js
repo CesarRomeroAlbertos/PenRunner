@@ -226,17 +226,17 @@ PenRunner.matchOnlineState.prototype =
 						//Descactivamos los controles del jugador para que no pueda moverse
 						AngleLineLeft.visible = false;
 						AngleLineRight.visible = false;
-						DirectionArrow.visible = false
+						DirectionArrow.visible = false;
 					}
 				}
 
 			}
-
 			game.player.x = player.x;
 			game.player.y = player.y;
 
 			game.player.angle = player.angle;
-
+			//Llamamos a la función del servidor que actualiza la posición de los jugadores, y comprobamos si el jugador ha llegado, en caso afirmativo
+			//llamamos a la función que actualiza en el servidor si el jugador ha llegado a la meta.
 			this.sendPlayerUpdate();
 			if (player.arrived)
 				this.getMeta();
@@ -249,13 +249,13 @@ PenRunner.matchOnlineState.prototype =
 				var numeroMeta = 0;
 				game.playersDataNew = JSON.parse(JSON.stringify(data));
 
-
+				//Recorremos toda la lista de jugadores, para comprobar su posición y actualizar la posición del jugador que estamos manejando nosotros,
+				//y le mandamos la información actualizada al servidor
 				for (var i = 0; i < game.numPlayers; i++) {
 					if (i != game.player.id - 1) {
 						if ((game.altPlayers.children[count].x !== game.playersDataNew[i].x
 							|| game.altPlayers.children[count].y !== game.playersDataNew[i].y)
 							&& hasStarted) {
-							//console.log(game.altPlayers.children[count].x);
 							var line = game.add.sprite(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
 								'angleLine' + i);
 							line.angle = (Phaser.Math.angleBetween(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
@@ -263,34 +263,20 @@ PenRunner.matchOnlineState.prototype =
 							var lineScale = Phaser.Math.linear(0, 1, Phaser.Math.distance(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
 								game.playersDataNew[i].x, game.playersDataNew[i].y) / (2 * AngleLineLeft.width));
 							line.scale.setTo(lineScale, 0.3);
-							//console.log(line);
 						}
+						//Actualizamos el valor de la posición y el ángulo del jugador respecto del servidor, para que los demás jugadores vean dónde
+						//están los jugadores en todo momento.
 						game.altPlayers.children[count].x = game.playersDataNew[i].x;
 						game.altPlayers.children[count].y = game.playersDataNew[i].y;
-
-						//game.altPlayers.children[count].arrived = false;
-						/*if (game.playersData[i].x != game.playersDataNew[i].x
-						|| game.playersData[i].y != game.playersDataNew[i].y) {
-						var line = game.add.sprite(game.playersData[i].x, game.playersData[i].y, 'angleLine' + i);
-						line.angle = Phaser.math.angleBetween(game.playersData[i].x, game.playersData[i].y,
-							game.playersDataNew[i].x, game.playersDataNew[i].y);
-						line.scale.setTo(Phaser.math.distance(game.playersData[i].x, game.playersData[i].y,
-							game.playersDataNew[i].x, game.playersDataNew[i].y), 0.3);
-						}*/
-
 						game.altPlayers.children[count].angle = game.playersDataNew[i].angle;
 						count++;
 					}
 				}
 				game.playersData = game.playersDataNew;
 			});
-
-			/*//aquí comprobamos que han llegado ambos jugadores a la meta
-			if (goalOrder.length >= 2) {
-				game.state.start('scoreState');
-			}*/
 		},
-
+		//Esta funcion corresponde con una llamada GET al servidor mediante la cual, en el apartado /players actualizamos la información de los jugadores
+		//dentro del servidor, para que sea común a todos los mismos.
 		updatePlayers: function (callback) {
 			$.ajax({
 				method: "GET",
@@ -304,7 +290,10 @@ PenRunner.matchOnlineState.prototype =
 				callback(JSON.parse(JSON.stringify(data)));
 			})
 		},
-		updateMeta: function () {
+		//Esta funcion corresponde con una llamada GET al servidor mediante la cual, en el apartado /meta/add actualizamos el número de jugadores que ha llegado
+		//a la meta. Si ese número es igual al número de jugadores en la partida, se pasa al siguiente estado. Cuando llega un jugador a la meta, guarda su id y
+		//le asigna una puntuación correspondiente
+		updateMeta: function(){
 			$.ajax({
 				method: "GET",
 				url: 'http://localhost:8080/meta/add',
@@ -319,6 +308,8 @@ PenRunner.matchOnlineState.prototype =
 					game.state.start("scoreOnlineState");
 			})
 		},
+		//Esta función corresponde con una llamada GET al servidor mediante la cual, en el apartado /meta/add 
+		//obtenemos el número de jugadores que han llegado a la meta en todo momento
 		getMeta: function () {
 			$.ajax({
 				method: "GET",
@@ -333,7 +324,8 @@ PenRunner.matchOnlineState.prototype =
 					game.state.start("scoreOnlineState");
 			})
 		},
-
+		//Esta función corresponde con una llamada PUT al servidor mediante la cual, en el apartado /player/playerId actualizamos la información 
+		//de nuestro jugador dentro del servidor.
 		sendPlayerUpdate: function () {
 			$.ajax({
 				method: "PUT",
@@ -345,7 +337,8 @@ PenRunner.matchOnlineState.prototype =
 				}
 			}).done(function (data) { })
 		},
-
+		//Esta función corresponde con una llamada al servidor mediante la cual, en el apartado player/number obtenemos el número de jugadores
+		//que existen ahora mismo en la partida
 		getNumPlayers: function (callback) {
 			$.ajax({
 				url: 'http://localhost:8080/player/number',
@@ -355,7 +348,8 @@ PenRunner.matchOnlineState.prototype =
 				//game.numPlayers = JSON.parse(JSON.stringify(data));
 			})
 		},
-
+		//Esta función corresponde con una llamada POST al servidor mediante la cual, en el apartado game/timer/time establecemos un temporizador
+		//para hacer el semáforo que tenemos al principio
 		setTimer: function (time) {
 			$.ajax({
 				method: "POST",
@@ -367,7 +361,8 @@ PenRunner.matchOnlineState.prototype =
 			}).done(function (data) {
 			})
 		},
-
+		//Esta función corresponde con una llamada GET al servidor mediante la cual, en el apartado game/timer mediante el cual actualizamos la información
+		//del semáforo para que todos los jugadores puedan ver el semáforo actualizado
 		updateTimer: function (callback) {
 
 			$.ajax({
