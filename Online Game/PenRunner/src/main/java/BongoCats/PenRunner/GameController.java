@@ -196,9 +196,9 @@ public class GameController
 	{
 		if(!hasStartedTimer)
 		{
-		startTime = System.currentTimeMillis();
-		maxTime = time;
-		hasStartedTimer = true;
+			startTime = System.currentTimeMillis();
+			maxTime = time;
+			hasStartedTimer = true;
 		}
 	}
 	

@@ -35,7 +35,7 @@ PenRunner.matchmakingOnlineState.prototype =
             buttonMap.width = buttonMap2.width = buttonMap3.width = 200;
             buttonMap.height = buttonMap2.height = buttonMap3.height = 200;
 
-            text = game.add.text(game.world.centerX - 249, game.world.centerY + 253, 'Tiempo restante para iniciar partida: 12', style3);  //ponemos la variable text en el recinto y la editamos 
+            text = game.add.text(game.world.centerX - 249, game.world.centerY + 253, 'Tiempo restante para iniciar partida: 15', style3);  //ponemos la variable text en el recinto y la editamos 
             text2 = 'Vacío';
 
             votos1 = game.add.text(game.world.x + 124, 250, numeroDeVotos1, style4);
@@ -77,7 +77,7 @@ PenRunner.matchmakingOnlineState.prototype =
             joinKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
             joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
-            this.setTimer(15 * 1000);
+            this.setTimer(5 * 1000);
 
             if (numeroDeJugadores < 4 && !empezado) { //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
                 this.createPlayer();
@@ -95,56 +95,60 @@ PenRunner.matchmakingOnlineState.prototype =
                 game.state.start('menuState');
             }
             //Este swtich sirve para que escriba en las cajas correspondientes los jugadores que existen en todo momento. 
-            switch (numeroDeJugadores) { 
+            switch (numeroDeJugadores) {
 
                 case 2:
                     textPlayer2.destroy();
-                    game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
+                    textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
                     break;
 
                 case 3:
+                	textPlayer2.destroy();
                     textPlayer3.destroy();
-                    textPlayer2.destroy();
-                    game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
-                    game.add.text(game.world.x + 195, game.world.y + 472, 'Jugador 3', style3);
+                    textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
+                    textPlayer3 = game.add.text(game.world.x + 195, game.world.y + 472, 'Jugador 3', style3);
                     break;
 
                 case 4:
                     textPlayer2.destroy();
                     textPlayer3.destroy();
                     textPlayer4.destroy();
-                    game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
-                    game.add.text(game.world.x + 195, game.world.y + 472, 'Jugador 3', style3);
-                    game.add.text(game.world.x + 475, game.world.y + 472, 'Jugador 4', style3);
+                    textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
+                    textPlayer3 = game.add.text(game.world.x + 195, game.world.y + 472, 'Jugador 3', style3);
+                    textPlayer4 = game.add.text(game.world.x + 475, game.world.y + 472, 'Jugador 4', style3);
                     break;
 
             }
             //Con esta llamada actualizamos la votación de los mapas desde el servidor
             this.getRealVotes();
 
-
-
             //Llamamos a la funcion que actualiza la cuenta atrás de la sala pre-partida dentro del servidor, metemos la funcion como 
             //parámetro para que se actualice antes de que se continúe ejecutando el código-
             this.updateTimer(function (data) {
                 contador = 15 - data / 1000; //como lo ejecutamos con el contador del sistema, lo dividimos entre 1000 para que concuerde con un numero entero
-                
-
                 text.setText('Tiempo restante para iniciar partida: ' + Math.round(contador));
             });
             
             //si el contador se acaba, pero solo hay un jugador, se vuelve a llamar al estado para que vuelva una oportunidad a los jugadores que no 
             //hayan entrado todavía
             if (contador <= 0 && numeroDeJugadores <= 1) {
-                game.state.start('matchmakingOnlineState');
+                //game.state.start('matchmakingOnlineState');
 
+            } else if(contador <= 0 && numeroDeJugadores > 1){
+            	this.getTrack(function (data) {
+                    game.chosenCircuit = JSON.parse(JSON.stringify(data));
+                })
+                if (game.chosenCircuit != null) {
+                    this.isStarted(); //Se cambia el booleano para indicar que la partida ya ha empezado
+                    game.state.start('preloadMatchOnlineState');
+                }
             }
 
 
             //Si el contador ya se ha acabado, pero los jugadores están comprendidos entre dos y cuatro personas, se prosigue a elegir el mapa
             //mas votado desde el servidor el forma de JSON para que se cargue en el siguiente estado. Después, se carga el estado del juego con
             //el mapa seleccionado
-            if (contador <= 0 && numeroDeJugadores <= 4) {
+            /*if (contador <= 0 && numeroDeJugadores <= 4) {
                 this.getTrack(function (data) {
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
@@ -153,7 +157,7 @@ PenRunner.matchmakingOnlineState.prototype =
                     game.state.start('preloadMatchOnlineState');
                 }
 
-            }
+            }*/
 
             votos1.setText(numeroDeVotos1);
             votos2.setText(numeroDeVotos2);
