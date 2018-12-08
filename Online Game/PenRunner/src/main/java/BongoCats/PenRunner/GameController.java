@@ -176,14 +176,15 @@ public class GameController
 		  	{
 		  		if(votos[i] == votos[mapSelected])
 		  		{
-		  			//int rand = rnd.nextInt(100);
-		  			//if(rand>=50)
+		  			int rand = rnd.nextInt(100);
+		  			if(rand>=50)
 		  			mapSelected = i;
 		  		}
 			  
 		  		else if ( votos[i] > votos[mapSelected] )
 		  			mapSelected = i;
 		  	}
+		  	hasSelectedMap = true;
 		}
 		return mapSelected;
 	}
