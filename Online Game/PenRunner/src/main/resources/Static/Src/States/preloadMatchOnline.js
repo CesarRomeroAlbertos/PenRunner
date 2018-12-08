@@ -8,13 +8,6 @@ PenRunner.preloadMatchOnlineState.prototype =
 {
 	preload:function()
 	{
-		/*if(game.chosenCircuit === null)
-		{
-			this.getTrack(function(){
-				game.chosenCircuit = data;
-			});
-		}*/
-		//console.log("circuito: " + game.chosenCircuit);
 		
 			trackList = game.cache.getJSON('trackList');
 			chosenTrack = trackList.tracks[game.chosenCircuit].json;
@@ -29,32 +22,13 @@ PenRunner.preloadMatchOnlineState.prototype =
 
 		var t = game.add.text(game.world.centerX-150, game.world.centerY-100, text, style);
 		
-		//Archivos a cargar:
-
-		//leemos el json del circuito elegido
-	
-		
 	},
 	update: function()
 	{
 		
 			game.state.start('preloadTrackBuildOnlineState');
 
-	}/*,
-	getTrack: function(callback)
-	{
-		{
-			$.ajax({
-				method: "GET",
-				url: 'http://localhost:8080/chosenMap',
-				processData: false,
-				headers: {
-					"Content-Type": "application/json"
-				}
-			}).done(function (data) {
-				callback(JSON.parse(JSON.stringify(data)));
-			})
-		}
-	}*/
+	}
+
 	
 }

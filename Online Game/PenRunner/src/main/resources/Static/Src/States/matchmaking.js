@@ -69,16 +69,12 @@ PenRunner.matchmakingState.prototype =
             game.add.text(game.world.x + 360, game.world.y + 482, text2, style3);
             game.add.text(game.world.x + 620, game.world.y + 482, text2, style3);
 
-            //Hemos declarado dos variables con las que hacemos que los jugadores se unan a la partida
-            //joinKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
-            //joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
         },
 
         update: function () { //Función que se ejecuta una vez por frame
             //Si el contador se queda a 0, lo ponemos a 5 para la siguiente vez que se cargue la escena
             if (contador <= 0) {
-                //contador = 5;
                 //En función de los mapas votados, asignamos un valor a la variable chosenCircuit, para luego elegirlo desde el json
                 var select = [];
                 var max = 0;
@@ -102,16 +98,7 @@ PenRunner.matchmakingState.prototype =
                     chosenCircuit = select[0];
                 game.state.start('preloadMatchState');
             }
-            /*//Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
-            if (joinKey.isDown) {
-                textPlayer2.destroy();
-                game.add.text(game.world.x + 335, game.world.y + 382, 'Jugador 2', style3);
-            }
-            //Si se pulsa la tecla seleccionada en el teclado, se une uno de los dos jugadores
-            if (joinKey2.isDown) {
-                textPlayer.destroy();
-                game.add.text(game.world.x + 75, game.world.y + 382, 'Jugador 1', style3);
-            }*/
+
         },
         //esta funcion se encarga de actualizar la cuenta atrás para iniciar la partida, se llama una vez cada segundo, como bien se indica en la instrucción de game.loop(Línea 82)
         showSeconds: function () {

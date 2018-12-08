@@ -66,7 +66,6 @@ PenRunner.matchOnlineState.prototype =
 
 			this.sendPlayerUpdate(); //Una vez hecho todo esto, llamamos a la función del server que actualiza al jugador. 
 
-			//var game.altPlayers;
 
 
 			//Aquí comprobamos si el número de jugadores que hay actualmente en la partida es mayor que uno, ya que si solo hay un jugador, no puede iniciar
@@ -144,8 +143,6 @@ PenRunner.matchOnlineState.prototype =
 			this.setTimer(semaforoAnimation.frameTotal * 1000); //Llamamos a la función que actualiza el timer del semaforo para que cambie de estado
 			hasStarted = false;
 
-			//timerSemaforo = game.time.events.loop(Phaser.Timer.SECOND, semaforoCounter, this);
-
 			this.updatePlayers(function (data) { //esta funcion actualiza la posición de los jugadores en el server
 				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
 				game.playersData = JSON.parse(JSON.stringify(data));
@@ -220,7 +217,6 @@ PenRunner.matchOnlineState.prototype =
 						goalOrder.push(1);
 						playerState = 2;//Cambiamos el estado del jugador
 						player.arrived = true; //Decimos que el jugador a llegado
-						//console.log(player.arrived);
 						if (player.arrived)
 							this.updateMeta(); //Llamamos al servidor para decir quién ha llegado a la meta
 						//Descactivamos los controles del jugador para que no pueda moverse
@@ -345,7 +341,6 @@ PenRunner.matchOnlineState.prototype =
 			}).done(function (data) {
 				console.log("Hay " + JSON.stringify(data) + " jugadores")
 				callback(JSON.parse(JSON.stringify(data)));
-				//game.numPlayers = JSON.parse(JSON.stringify(data));
 			})
 		},
 		//Esta función corresponde con una llamada POST al servidor mediante la cual, en el apartado game/timer/time establecemos un temporizador

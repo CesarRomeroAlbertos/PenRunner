@@ -13,24 +13,8 @@ PenRunner.scoreState.prototype =
 			buttonReturn.height = 40;
 			//Esta instrucción detecta cuando se ha pulsado el botón de vuelta atrás y ejecuta el bloque de código en la función actionOnClickScore()
 			buttonReturn.onInputUp.add(this.actionONClickScore, this);
-
-			//De momento, las puntuaciones son estaticas, más adelante, se guardarán en función de la escena anterior
-
-
-
-			//	for(var i= 0; i < 2; i++)
-			//{
-			////	if(goalOrder[0]==1)
-			//	{
 			var puntuacion1 = 10;
 			var puntuacion2 = 8;
-			/*}
-				else
-				{
-					puntuacion2+=10;
-					puntuacion1+=8;
-				}*/
-			//}
 
 			//Creamos los sprites para los fondos de puntuación de los jugadores
 			var jugador = game.add.sprite(game.world.x + 34, game.world.y + 110, 'jugador');

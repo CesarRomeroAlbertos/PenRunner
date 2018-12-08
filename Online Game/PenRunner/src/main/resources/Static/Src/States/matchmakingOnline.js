@@ -65,8 +65,6 @@ PenRunner.matchmakingOnlineState.prototype =
             jugador2.scale.setTo(0.4, 0.5);
             jugador3.scale.setTo(0.4, 0.5);
             jugador4.scale.setTo(0.4, 0.5);
-            // jugador5.scale.setTo(0.4, 0.5);
-            // jugador6.scale.setTo(0.4, 0.5);
 
             //Aquí guardamos los nombres de los jugadores, de momento, están establecidos por defecto a jugador 1 y jugador 2. Pero se estudiará el hecho de incluir nombres personalizados
             textPlayer = game.add.text(game.world.x + 100, game.world.y + 382, text2, style3);
@@ -75,8 +73,7 @@ PenRunner.matchmakingOnlineState.prototype =
             //Mostramos el resto de textos donde pone "Vacío"
             textPlayer3 = game.add.text(game.world.x + 620, game.world.y + 382, text2, style3);
             textPlayer4 = game.add.text(game.world.x + 100, game.world.y + 482, text2, style3);
-            //  game.add.text(game.world.x+360, game.world.y+482, text2, style3);
-            // game.add.text(game.world.x+620, game.world.y+482, text2, style3);
+
 
             //Hemos declarado dos variables con las que hacemos que los jugadores se unan a la partida
             joinKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
@@ -85,8 +82,6 @@ PenRunner.matchmakingOnlineState.prototype =
             this.setTimer(15 * 1000);
 
             if (numeroDeJugadores < 4 && !empezado) { //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
-                //console.log(numeroDeJugadores + " en crear")
-                //console.log(empezado);
                 this.createPlayer();
                 this.createVotes();
             }
@@ -205,6 +200,8 @@ PenRunner.matchmakingOnlineState.prototype =
             }).done(function (data) {
             })
         },
+        //esta función llama al servidor para crear un voto único para cada jugador, de tal modo que cuando un jugador vote, el voto se anula y no puede
+        //volver a votar
         createVotes: function () {
             $.ajax({
                 method: "POST",
@@ -216,7 +213,7 @@ PenRunner.matchmakingOnlineState.prototype =
             }).done(function (data) {
             })
         },
-
+        //Crea el objeto de tipo timer. En resumen, crea el cronómetro que hace la cuenta atrás para iniciar la partida dentro del matchmaking
         setTimer: function (time) {
             $.ajax({
                 method: "POST",
@@ -242,7 +239,8 @@ PenRunner.matchmakingOnlineState.prototype =
                 callback(JSON.parse(JSON.stringify(data)));
             })
         },
-
+        //Esta función llama al servidor para decir si la función ya se ha iniciado, y guarda la variable booleana en el servidor, de tal modo que
+        //si la partida ha empezado, devuelve un true, y no puede iniciarse la partida
         isStarted: function () {
             $.ajax({
                 method: "GET",
@@ -252,7 +250,6 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                //console.log(data);
                 empezado = data;
             })
         },
@@ -290,7 +287,8 @@ PenRunner.matchmakingOnlineState.prototype =
             }
 
         },
-
+        //Esta función llama al servidor para indicar la actualización de los votos, pero no de un voto en concreto, como las funciones que tenemos abajo
+        //sino que devuelve el array con todos los votos de los tres mapas
         updateNumberOfVotes: function (mapa) {
             $.ajax({
                 method: "PUT",
@@ -303,7 +301,7 @@ PenRunner.matchmakingOnlineState.prototype =
             })
 
         },
-        //Actualiza el numero de votos que se ha hecho en el mapa 3
+        //Actualiza el numero de votos que se ha hecho en el mapa 1
         getVotes: function () {
             $.ajax({
                 method: "GET",
@@ -317,7 +315,7 @@ PenRunner.matchmakingOnlineState.prototype =
                 // numeroDeVotos1 = data;
             })
         },
-        //Actualiza el numero de votos que se ha hecho en el mapa 3
+        //Actualiza el numero de votos que se ha hecho en el mapa 2
         getVotes2: function () {
             $.ajax({
                 method: "GET",
@@ -327,8 +325,6 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                //console.log(data);
-                // numeroDeVotos2 = data;
             })
         },
         //Actualiza el numero de votos que se ha hecho en el mapa 3
@@ -341,8 +337,6 @@ PenRunner.matchmakingOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                //console.log(data);
-                // numeroDeVotos3 = data;
             })
         },
         //esta función nos devuelve desde el servidor el número de votos finales que han tenido los mapas, y en consecuencia, carga el mapa correspondiente.
