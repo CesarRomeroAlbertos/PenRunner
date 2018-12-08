@@ -178,7 +178,7 @@ public class GameController
 		  		{
 		  			int rand = rnd.nextInt(100);
 		  			if(rand>=50)
-		  			mapSelected = i;
+		  				mapSelected = i;
 		  		}
 			  
 		  		else if ( votos[i] > votos[mapSelected] )
