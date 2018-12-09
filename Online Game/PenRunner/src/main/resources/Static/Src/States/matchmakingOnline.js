@@ -57,9 +57,7 @@ PenRunner.matchmakingOnlineState.prototype =
             var jugador2 = game.add.sprite(game.world.x + 440, game.world.y + 360, 'jugadorMatch');
             var jugador3 = game.add.sprite(game.world.x + 160, game.world.y + 460, 'jugadorMatch');
             var jugador4 = game.add.sprite(game.world.x + 440, game.world.y + 460, 'jugadorMatch');
-            //  var jugador5 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador4, Phaser.RIGHT_CENTER, -240);
-            //  var jugador6 = game.add.sprite(game.world.x+40, game.world.y+470, 'jugadorMatch').alignTo(jugador5, Phaser.RIGHT_CENTER, -240);
-
+            
             //escalamos los botones donde iran el nombres de los jugadores.
             jugador.scale.setTo(0.4, 0.5);
             jugador2.scale.setTo(0.4, 0.5);

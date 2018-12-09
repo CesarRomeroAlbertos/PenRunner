@@ -72,18 +72,25 @@ public class GameController
 		return startedMatch;
 	}
 	
-	//Con este metodo borramos los jugadores al reiniciar la cache, para que siempre que se inicie un nuevo matchmaking, se reestablezcan los jugadores a 0
-	@DeleteMapping(value = "/player/{id}")
-	public ResponseEntity<Player> deletePlayer(@PathVariable long id) {
-		System.out.println("He borrado al jugador");
-
-		Player savedPlayer = players.get(id);
-		if (savedPlayer != null) {
-			players.remove(savedPlayer.getId());
-			return new ResponseEntity<Player>(savedPlayer, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Player>(HttpStatus.NOT_FOUND);
+	//Con este metodo borramos los jugadores al reiniciar la cache, para que siempre que se inicie un nuevo matchmaking, se reestablezcan los jugadores a 0.
+	//También establecemos que los votos de los mapas se pongan a 0 y que reinicie las ids de los jugadores. Básicamente, que vuelve a reiniciar todo el proceso
+	//para que se pueda volver a jugar otra partida como si fuera desde el principio
+	@DeleteMapping(value = "/player/")
+	public void deletePlayers() {
+		System.out.println("He borrado a los jugadores");
+		if(numPlayers > 0) {
+		for(int i = 0; i<players.size(); i++)
+		{
+			
+			players.remove(i);
+			numPlayers--;
+			nextId.set(0);
+			votos[1] = 0;
+			votos[2] = 0;
+			votos[0] = 0;
 		}
+	}
+	
 	}
 	
 	//Esta función nos permite crear un jugador y guardar su información en el servidor, estableciendo todos los valores que queramos
