@@ -11,7 +11,7 @@ PenRunner.matchmakingOnlineState.prototype =
 
             //Inicializamos las variables que vamos a utilizar en este estado
             votado = false; //Variable que nos dice si un jugador ya ha votado o no
-            contador = 1200;
+            contador = 0;
             numeroDeVotos1 = 0;
             numeroDeVotos2 = 0;
             numeroDeVotos3 = 0;
@@ -162,7 +162,7 @@ PenRunner.matchmakingOnlineState.prototype =
             }).done(function (data) {
                 game.player = data
                 textPlayer.destroy();
-                game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
+                textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
 
             })
         },

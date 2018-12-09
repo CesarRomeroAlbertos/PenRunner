@@ -6,13 +6,12 @@ PenRunner.scoreState.prototype =
 		create: function () {
 			var background = game.add.sprite(game.world.x, game.world.y - 25, 'backgroundScore'); //Añadimos un sprite al background
 			background.scale.setTo(0.65, 1); //Escalamos la imagen del background
-			var buttonReturn = game.add.button(game.world.x + 42, game.world.y + 40, 'return', null, this, 0, 0, 0); //Botón para volver al menú principal
+			var buttonReturn = game.add.button(game.world.x + 42, game.world.y + 40, 'return', this.actionONClickScore, this, 0, 0, 0); //Botón para volver al menú principal
 
-			//escalamos el boton de volver atrás
+			//Escalamos el boton de volver atrás
 			buttonReturn.width = 35;
 			buttonReturn.height = 40;
-			//Esta instrucción detecta cuando se ha pulsado el botón de vuelta atrás y ejecuta el bloque de código en la función actionOnClickScore()
-			buttonReturn.onInputUp.add(this.actionONClickScore, this);
+			
 			var puntuacion1 = 10;
 			var puntuacion2 = 8;
 
