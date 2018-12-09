@@ -81,13 +81,19 @@ public class GameController
 		if(numPlayers > 0) {
 		for(int i = 0; i<players.size(); i++)
 		{
-			
 			players.remove(i);
 			numPlayers--;
 			nextId.set(0);
 			votos[1] = 0;
 			votos[2] = 0;
 			votos[0] = 0;
+		}
+		if(hasSelectedMap)
+		{
+			hasSelectedMap = false;
+			votos[0]=0;
+			votos[1]=0;
+			votos[2]=0;
 		}
 	}
 	
