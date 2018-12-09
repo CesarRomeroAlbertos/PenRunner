@@ -77,13 +77,12 @@ PenRunner.matchmakingOnlineState.prototype =
             joinKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
             joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
-            this.setTimer(5 * 1000);
-
             if (numeroDeJugadores < 4 && !empezado) { //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
                 this.createPlayer();
                 this.createVotes();
             }
-
+            
+            this.setTimer(15 * 1000);
 
         },
 
@@ -129,42 +128,30 @@ PenRunner.matchmakingOnlineState.prototype =
                 text.setText('Tiempo restante para iniciar partida: ' + Math.round(contador));
             });
             
-            //si el contador se acaba, pero solo hay un jugador, se vuelve a llamar al estado para que vuelva una oportunidad a los jugadores que no 
-            //hayan entrado todavía
+            //Si el contador se acaba, pero solo hay un jugador, se resetea el temporizador para que vuelva a empezar la cuenta atrás
             if (contador <= 0 && numeroDeJugadores <= 1) {
-                //game.state.start('matchmakingOnlineState');
-
-            } else if(contador <= 0 && numeroDeJugadores > 1){
-            	this.getTrack(function (data) {
-                    game.chosenCircuit = JSON.parse(JSON.stringify(data));
-                })
-                if (game.chosenCircuit != null) {
-                    this.isStarted(); //Se cambia el booleano para indicar que la partida ya ha empezado
-                    game.state.start('preloadMatchOnlineState');
-                }
+            	this.setTimer(15 * 1000);
             }
-
-
+            
             //Si el contador ya se ha acabado, pero los jugadores están comprendidos entre dos y cuatro personas, se prosigue a elegir el mapa
             //mas votado desde el servidor el forma de JSON para que se cargue en el siguiente estado. Después, se carga el estado del juego con
             //el mapa seleccionado
-            /*if (contador <= 0 && numeroDeJugadores <= 4) {
-                this.getTrack(function (data) {
+            else if(contador <= 0 && numeroDeJugadores <= 4){
+            	this.getTrack(function (data) {
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
                 if (numeroDeJugadores > 1 && game.chosenCircuit != null) {
                     this.isStarted(); //Se cambia el booleano para indicar que la partida ya ha empezado
                     game.state.start('preloadMatchOnlineState');
                 }
-
-            }*/
-
+            }
+            
             votos1.setText(numeroDeVotos1);
             votos2.setText(numeroDeVotos2);
             votos3.setText(numeroDeVotos3);
 
         },
-        //esta funcion llama al servidor mediante una petición get, y creamos un jugador nuevo, con todas sus caracteriticas ya descritas en 
+        //Esta funcion llama al servidor mediante una petición get, y creamos un jugador nuevo, con todas sus caracteriticas ya descritas en 
         //GameController
         createPlayer: function () {
             $.ajax({

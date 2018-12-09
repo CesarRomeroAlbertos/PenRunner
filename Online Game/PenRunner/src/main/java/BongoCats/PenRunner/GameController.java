@@ -194,7 +194,7 @@ public class GameController
 	@PostMapping(value = "/timer/{time}")
 	public void updateTimer(@PathVariable long time)
 	{
-		if(!hasStartedTimer)
+		if(!hasStartedTimer || numPlayers <= 1)
 		{
 			startTime = System.currentTimeMillis();
 			maxTime = time;
