@@ -8,8 +8,8 @@ PenRunner.matchmakingOnlineState.prototype =
     {
 
         create: function () {
-        	
-        	//Inicializamos las variables que vamos a utilizar en este estado
+
+            //Inicializamos las variables que vamos a utilizar en este estado
             votado = false; //Variable que nos dice si un jugador ya ha votado o no
             contador = 1200;
             numeroDeVotos1 = 0;
@@ -65,7 +65,7 @@ PenRunner.matchmakingOnlineState.prototype =
             jugador2.scale.setTo(0.4, 0.5);
             jugador3.scale.setTo(0.4, 0.5);
             jugador4.scale.setTo(0.4, 0.5);
-            
+
             //Mostramos todos los jugadores como "Vacío"
             textPlayer = game.add.text(game.world.x + 220, game.world.y + 372, text2, style3);
             textPlayer2 = game.add.text(game.world.x + 500, game.world.y + 372, text2, style3);
@@ -81,16 +81,16 @@ PenRunner.matchmakingOnlineState.prototype =
                 this.createPlayer();
                 this.createVotes();
             }
-            
+
             this.setTimer(15 * 1000);
 
         },
 
         update: function () { //Función que se ejecuta una vez por frame
-        	//Si el numero de jugadores ha llegado a más de cuatro e intenta entrar otro, vuelve a cargar el menú principal, porque ya se ha alcanzado el 
-        	//número máximo de jugadores
+            //Si el numero de jugadores ha llegado a más de cuatro e intenta entrar otro, vuelve a cargar el menú principal, porque ya se ha alcanzado el 
+            //número máximo de jugadores
             this.getNumPlayers();
-            if (numeroDeJugadores > 4) {
+            if (numeroDeJugadores > 4 && game.player.id > 4) {
                 game.state.start('menuState');
             }
             //Este swtich sirve para que escriba en las cajas correspondientes los jugadores que existen en todo momento. 
@@ -102,7 +102,7 @@ PenRunner.matchmakingOnlineState.prototype =
                     break;
 
                 case 3:
-                	textPlayer2.destroy();
+                    textPlayer2.destroy();
                     textPlayer3.destroy();
                     textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
                     textPlayer3 = game.add.text(game.world.x + 195, game.world.y + 472, 'Jugador 3', style3);
@@ -127,17 +127,17 @@ PenRunner.matchmakingOnlineState.prototype =
                 contador = 15 - data / 1000; //como lo ejecutamos con el contador del sistema, lo dividimos entre 1000 para que concuerde con un numero entero
                 text.setText('Tiempo restante para iniciar partida: ' + Math.round(contador));
             });
-            
+
             //Si el contador se acaba, pero solo hay un jugador, se resetea el temporizador para que vuelva a empezar la cuenta atrás
             if (contador <= 0 && numeroDeJugadores <= 1) {
-            	this.setTimer(15 * 1000);
+                this.setTimer(15 * 1000);
             }
-            
+
             //Si el contador ya se ha acabado, pero los jugadores están comprendidos entre dos y cuatro personas, se prosigue a elegir el mapa
             //mas votado desde el servidor el forma de JSON para que se cargue en el siguiente estado. Después, se carga el estado del juego con
             //el mapa seleccionado
-            else if(contador <= 0 && numeroDeJugadores <= 4){
-            	this.getTrack(function (data) {
+            else if (contador <= 0 && numeroDeJugadores <= 4) {
+                this.getTrack(function (data) {
                     game.chosenCircuit = JSON.parse(JSON.stringify(data));
                 })
                 if (numeroDeJugadores > 1 && game.chosenCircuit != null) {
@@ -145,7 +145,7 @@ PenRunner.matchmakingOnlineState.prototype =
                     game.state.start('preloadMatchOnlineState');
                 }
             }
-            
+
             votos1.setText(numeroDeVotos1);
             votos2.setText(numeroDeVotos2);
             votos3.setText(numeroDeVotos3);
