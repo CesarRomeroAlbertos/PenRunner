@@ -30,7 +30,7 @@ PenRunner.scoreOnlineState.prototype =
             var text = game.add.text(game.world.centerX - 222, game.world.centerY - 275, 'Puntuación Final', style5);
         },
         //Cuando llamamos a esta función devolvemos una lista con todos los jugadores de la partida, ordenados por la puntuación que han obtenido en la partida,
-        //es decir, en función de cuando hayan llegado a la meta, se les asigna una puntuación, y, en función de eso, se les ordena.
+        //es decir, en función de cuando hayan llegado a la meta, se les asigna una puntuación, y, en función de eso, se les ordena e imprime en la pantalla
         updatePlayers: function (callback) {
             $.ajax({
                 method: "GET",
@@ -48,7 +48,7 @@ PenRunner.scoreOnlineState.prototype =
         deletePlayer: function (id) {
             $.ajax({
                 method: "DELETE",
-                url: 'http://localhost:8080/player/' + id,
+                url: 'http://localhost:8080/player/',
                 processData: false,
                 headers: {
                     "Content-Type": "application/json"
@@ -69,13 +69,25 @@ PenRunner.scoreOnlineState.prototype =
                 }
             }).done(function (data) { })
         },
+        
+        getNumPlayers: function () {
+            $.ajax({
+                url: 'http://localhost:8080/player/number',
+            }).done(function (data) {
+                game.numPlayers = JSON.parse(JSON.stringify(data));
+                console.log(game.numPlayers);
+            })
+        },
 
         //esta función se llama cuando clickamos el botón de volver atrás en la esquina superior izquierda, llevándonos de nuevo al menú principal.
         actionONClickScore: function () {
-            for (var i = 0; i < game.numPlayers; i++) {
-            	//Borramos a los jugadores de la partida, para que al volver al menú principal, los jugadores empiecen de 0
-                this.deletePlayer(i);
-            }
+        	console.log(game.numPlayers);
+
+            this.deletePlayer();
+            
+            this.getNumPlayers();
+            //Hasta que no se hayan borrado todos los jugadores, no se pasa al menú, así nos aseguramos de que no hay problema, y que se reinicia todo bien
+            if(game.numPlayers == 0)
             game.state.start('menuState');
         }
 
