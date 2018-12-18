@@ -1,5 +1,4 @@
-PenRunner.matchmakingOnlineWSState = function (game) { 
-}
+PenRunner.matchmakingOnlineWSState = function (game) { }
 
 
 
@@ -22,8 +21,8 @@ PenRunner.matchmakingOnlineState.prototype =
             empezado = false;
             numeroDeJugadores = 0;
             //Llamamos a estas funciones, para comprobar cuando se entra en este estado cuantos jugadores hay ya en la sala, y si la partida ha empezado
-            //this.getNumPlayers();
-            //this.isStarted();
+            this.getNumPlayers();
+            this.isStarted();
 
             game.stage.backgroundColor = '#182d3b';
             var background = game.add.tileSprite(0, 0, 800, 600, 'background'); //Añadimos un sprite al background

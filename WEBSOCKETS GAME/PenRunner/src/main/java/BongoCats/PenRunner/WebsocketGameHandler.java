@@ -41,7 +41,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				JsonNode node = mapper.readTree(message.getPayload());
 				ObjectNode json = mapper.createObjectNode();
 
-				/*
+				
 				switch (node.get("type").asText()) {
 				case "JOIN":
 					if (gameController.getPlayers().size() < 2) {
@@ -67,7 +67,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 
 				default:
 					break;
-				}*/
+				}
 			}
 		}
 		
