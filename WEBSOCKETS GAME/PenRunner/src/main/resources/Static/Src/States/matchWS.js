@@ -1,4 +1,4 @@
-PenRunner.matchOnlineState = function (game) { }
+PenRunner.matchOnlineWSState = function (game) { }
 
 PenRunner.matchOnlineState.prototype =
 	{
@@ -301,7 +301,7 @@ PenRunner.matchOnlineState.prototype =
 				numeroMeta = JSON.parse(JSON.stringify(data));
 					game.player.score += 100 - ((numeroMeta - 1) * 10);
 				if (numeroMeta == game.numPlayers)
-					game.state.start("scoreOnlineWSState");
+					game.state.start("scoreOnlineState");
 			})
 		},
 		//Esta función corresponde con una llamada GET al servidor mediante la cual, en el apartado /meta/add 
@@ -317,7 +317,7 @@ PenRunner.matchOnlineState.prototype =
 			}).done(function (data) {
 				numeroMeta = JSON.parse(JSON.stringify(data));
 				if (numeroMeta == game.numPlayers)
-					game.state.start("scoreOnlineWSState");
+					game.state.start("scoreOnlineState");
 			})
 		},
 		//Esta función corresponde con una llamada PUT al servidor mediante la cual, en el apartado /player/playerId actualizamos la información 
