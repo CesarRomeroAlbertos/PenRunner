@@ -2,15 +2,14 @@ PenRunner.matchmakingOnlineState = function (game) { }
 
 
 
-
-
 PenRunner.matchmakingOnlineState.prototype =
     {
-
         create: function () {
+			var ws = new WebSocket('ws://localhost:8080/penrunner');
 
             //Inicializamos las variables que vamos a utilizar en este estado
             votado = false; //Variable que nos dice si un jugador ya ha votado o no
+    		
             contador = 0;
             numeroDeVotos1 = 0;
             numeroDeVotos2 = 0;
@@ -76,7 +75,9 @@ PenRunner.matchmakingOnlineState.prototype =
             joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
             if (numeroDeJugadores < 4 && !empezado) { //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
-                this.createPlayer();
+                //this.createPlayer();
+            	var message = { type: 'create_player'};
+            	ws.send(JSON.stringify(message));
                 this.createVotes();
             }
 

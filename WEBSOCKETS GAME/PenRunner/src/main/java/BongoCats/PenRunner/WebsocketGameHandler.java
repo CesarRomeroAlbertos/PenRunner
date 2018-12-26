@@ -25,6 +25,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 		public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 			sessions.add(session);
 		}
+		
 
 		// Invoked after the WebSocket connection has been closed by either side, or
 		// after a transport error has occurred. Although the session may technically
@@ -43,15 +44,15 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 
 				
 				switch (node.get("type").asText()) {
-				case "JOIN":
-					if (gameController.getPlayers().size() < 2) {
+				case "create_player":
+					if (gameController.getPlayers().size() < 4) {
 						Player player = gameController.newPlayer();
 
 						ObjectNode jsonPlayer = mapper.createObjectNode();
 						jsonPlayer.put("id", player.getId());
-						jsonPlayer.put("x", player.getX());
-						jsonPlayer.put("y", player.getY());
-						jsonPlayer.put("score", player.getScore());
+						jsonPlayer.put("x", 0);
+						jsonPlayer.put("y", 0);
+						jsonPlayer.put("score", 0);
 
 						json.put("type", "PLAYER_CREATED");
 						json.putPOJO("player", jsonPlayer);
@@ -64,6 +65,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					if (debug)
 						System.out.println("[DEBUG] " + json.toString());
 					break;
+				case "update_vote": 
 
 				default:
 					break;

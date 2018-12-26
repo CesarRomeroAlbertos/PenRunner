@@ -43,7 +43,7 @@ ws.onmessage = function (message) {
     console.log('INFO RECIBIDA ' + msg.type)
 
     switch (msg.type) {
-        case "crear_jugador":
+        case "create_player":
             console.log('@@@@@@ PLAYER CREATED @@@@@')
             console.log('id: ' + msg.player.id)
             console.log('pos: (' + msg.player.x + ',' + msg.player.y + ')')
