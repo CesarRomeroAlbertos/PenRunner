@@ -84,6 +84,7 @@ PenRunner.matchmakingWSState.prototype =
             	ws.onopen = () => ws.send(JSON.stringify(message));
             	ws.onmessage = function(e){
             		console.log("He creado al jugador " + e.data);
+        		
             	}
                 this.createVotes();
             }
@@ -95,15 +96,16 @@ PenRunner.matchmakingWSState.prototype =
         update: function () { //Función que se ejecuta una vez por frame
             //Si el numero de jugadores ha llegado a más de cuatro e intenta entrar otro, vuelve a cargar el menú principal, porque ya se ha alcanzado el 
             //número máximo de jugadores
+           // this.getNumPlayers();
         	var message2 = {type: "update_numPlayers"};
-        	ws.onopen = () => ws.send(message2);
+        	//ws.onopen = () => ws.send(JSON.stringify(message2));
         	ws.onmessage = function(e){
-        		console.log("Número " + e.data);
+        		console.log("Hay " + e.data + " jugadores en la sala");
+        		numeroDeJugadores = e.data;
         	}
             if (numeroDeJugadores > 4 && game.player.id > 4) {
                 game.state.start('menuState');
             }
-            
             //Este swtich sirve para que escriba en las cajas correspondientes los jugadores que existen en todo momento. 
             console.log(numeroDeJugadores);
             switch (numeroDeJugadores) {
