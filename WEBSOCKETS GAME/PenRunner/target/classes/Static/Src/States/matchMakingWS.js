@@ -2,7 +2,6 @@ PenRunner.matchmakingWSState = function (game) {
 }
 
 
-//var ws = new WebSocket('127.0.0.1:8080');
 
 
 PenRunner.matchmakingWSState.prototype =
@@ -12,12 +11,12 @@ PenRunner.matchmakingWSState.prototype =
 
             //Inicializamos las variables que vamos a utilizar en este estado
             votado = false; //Variable que nos dice si un jugador ya ha votado o no
+            ws = new WebSocket('ws://localhost:8080/penrunner');
+
             contador = 0;
             numeroDeVotos1 = 0;
             numeroDeVotos2 = 0;
             numeroDeVotos3 = 0;
-            this.joinKey = 0;
-            this.joinKey2 = 0;
             var sceneTime = 0;
             empezado = false;
             numeroDeJugadores = 0;
@@ -80,7 +79,12 @@ PenRunner.matchmakingWSState.prototype =
             joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
             if (numeroDeJugadores < 4 && !empezado) { //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
-                this.createPlayer();
+               // this.createPlayer();
+            	var message = { type: "create_player" };
+            	ws.onopen = () => ws.send(JSON.stringify(message));
+            	ws.onmessage = function(e){
+            		console.log("He creado al jugador " + e.data);
+            	}
                 this.createVotes();
             }
 
@@ -91,15 +95,27 @@ PenRunner.matchmakingWSState.prototype =
         update: function () { //Función que se ejecuta una vez por frame
             //Si el numero de jugadores ha llegado a más de cuatro e intenta entrar otro, vuelve a cargar el menú principal, porque ya se ha alcanzado el 
             //número máximo de jugadores
-            this.getNumPlayers();
+        	var message2 = {type: "update_numPlayers"};
+        	ws.onopen = () => ws.send(message2);
+        	ws.onmessage = function(e){
+        		console.log("Número " + e.data);
+        	}
             if (numeroDeJugadores > 4 && game.player.id > 4) {
                 game.state.start('menuState');
             }
+            
             //Este swtich sirve para que escriba en las cajas correspondientes los jugadores que existen en todo momento. 
+            console.log(numeroDeJugadores);
             switch (numeroDeJugadores) {
+	            case 1:
+	            	textPlayer.destroy();
+	                textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
+	                break;
 
                 case 2:
                     textPlayer2.destroy();
+                    textPlayer.destroy();
+	                textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
                     textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
                     break;
 
@@ -129,7 +145,8 @@ PenRunner.matchmakingWSState.prototype =
                 contador = 15 - data / 1000; //como lo ejecutamos con el contador del sistema, lo dividimos entre 1000 para que concuerde con un numero entero
                 text.setText('Tiempo restante para iniciar partida: ' + Math.round(contador));
             });
-
+            
+            
             //Si el contador se acaba, pero solo hay un jugador, se resetea el temporizador para que vuelva a empezar la cuenta atrás
             if (contador <= 0 && numeroDeJugadores <= 1) {
                 this.setTimer(15 * 1000);

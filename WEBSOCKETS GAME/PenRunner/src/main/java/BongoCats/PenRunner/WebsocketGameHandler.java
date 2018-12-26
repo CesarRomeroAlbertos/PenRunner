@@ -18,6 +18,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 	private static Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<WebSocketSession>());
 	ObjectMapper mapper = new ObjectMapper();
 	boolean debug = true;
+	Integer jugadores;
 	GameController gameController = new GameController();
 
 	// Invoked after WebSocket negotiation has succeeded and the WebSocket
@@ -57,15 +58,20 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 						json.put("type", "PLAYER_CREATED");
 						json.putPOJO("player", jsonPlayer);
 						//json.putPOJO("player", player);
+						gameController.players.put(player.getId(), player);
+						jugadores = gameController.numPlayers++;
 					} else {
 						json.put("type", "GAME_CPMPLETE");
 					}
 					session.sendMessage(new TextMessage(json.toString()));
-
-					if (debug)
+					if (debug) {
 						System.out.println("[DEBUG] " + json.toString());
+						System.out.println("Numero de jugadores en la sala " + jugadores.toString());
+					}
 					break;
-				case "update_vote": 
+				case "update_numPlayers":
+					session.sendMessage(new TextMessage(jugadores.toString()));
+					break;
 
 				default:
 					break;

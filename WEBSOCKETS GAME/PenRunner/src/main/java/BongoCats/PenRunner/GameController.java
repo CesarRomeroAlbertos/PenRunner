@@ -39,7 +39,7 @@ public class GameController
 	boolean hasSelectedMap = false;
 	boolean startedMatch; //Variable que controla si la partida ha empezado o no
 	int mapSelected;
-	int numPlayers=0;
+	int numPlayers;
 	
 	//Devolvemos la información de todos los jugadores que haya en ese momento
 	@GetMapping(value = "/players")

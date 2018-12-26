@@ -19,6 +19,7 @@ var numeroDeJugadores;
 var textPlayer2, textPlayer3, textPlayer4;
 var empezado;
 var numeroMeta;
+var ws;
 PenRunner.preloadStart.prototype =
 {
 	preload:function()
