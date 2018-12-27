@@ -39,7 +39,7 @@ public class GameController
 	boolean hasSelectedMap = false;
 	boolean startedMatch; //Variable que controla si la partida ha empezado o no
 	int mapSelected;
-	int numPlayers;
+	int numPlayers = 0;
 	
 	//Devolvemos la información de todos los jugadores que haya en ese momento
 	@GetMapping(value = "/players")
@@ -112,7 +112,7 @@ public class GameController
 		player.setArrived(false);
 		players.put(player.getId(), player);
 		System.out.println("He creado al jugador");
-		numPlayers++;
+		//numPlayers++;
 		return player;
 	}
 	//Esta función devuelve la variable meta aumentada, que quiere decir que ha llegado un jugador a la meta, y así se ve en todos los jugadores

@@ -81,7 +81,11 @@ PenRunner.matchmakingWSState.prototype =
             if (numeroDeJugadores < 4 && !empezado) { //Mientras haya menos de 4 jugadores, y la partida no haya empezado, podemos seguir creando jugadores
                // this.createPlayer();
             	var message = { type: "create_player" };
+            	var message2 = {type: "update_numPlayers"};
+            	
+            	
             	ws.onopen = () => ws.send(JSON.stringify(message));
+            //	ws.onopen = () => ws.send(JSON.stringify(message2));
             	ws.onmessage = function(e){
             		console.log("He creado al jugador " + e.data);
         		
@@ -97,41 +101,46 @@ PenRunner.matchmakingWSState.prototype =
             //Si el numero de jugadores ha llegado a más de cuatro e intenta entrar otro, vuelve a cargar el menú principal, porque ya se ha alcanzado el 
             //número máximo de jugadores
            // this.getNumPlayers();
-        	var message2 = {type: "update_numPlayers"};
-        	//ws.onopen = () => ws.send(JSON.stringify(message2));
+        	
         	ws.onmessage = function(e){
         		console.log("Hay " + e.data + " jugadores en la sala");
         		numeroDeJugadores = e.data;
         	}
+        	
             if (numeroDeJugadores > 4 && game.player.id > 4) {
                 game.state.start('menuState');
             }
             //Este swtich sirve para que escriba en las cajas correspondientes los jugadores que existen en todo momento. 
             console.log(numeroDeJugadores);
             switch (numeroDeJugadores) {
-	            case 1:
+            	
+	            case '1':
 	            	textPlayer.destroy();
 	                textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
 	                break;
 
-                case 2:
+                case '2':
                     textPlayer2.destroy();
                     textPlayer.destroy();
 	                textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
                     textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
                     break;
 
-                case 3:
+                case '3':
+                	textPlayer.destroy();
                     textPlayer2.destroy();
                     textPlayer3.destroy();
+	                textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
                     textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
                     textPlayer3 = game.add.text(game.world.x + 195, game.world.y + 472, 'Jugador 3', style3);
                     break;
 
-                case 4:
+                case '4':
+                	textPlayer.destroy();
                     textPlayer2.destroy();
                     textPlayer3.destroy();
                     textPlayer4.destroy();
+	                textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
                     textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
                     textPlayer3 = game.add.text(game.world.x + 195, game.world.y + 472, 'Jugador 3', style3);
                     textPlayer4 = game.add.text(game.world.x + 475, game.world.y + 472, 'Jugador 4', style3);

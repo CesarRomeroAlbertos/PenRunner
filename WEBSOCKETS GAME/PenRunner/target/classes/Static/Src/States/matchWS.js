@@ -1,6 +1,6 @@
 PenRunner.matchWSState = function (game) { }
 
-PenRunner.matchOnlineState.prototype =
+PenRunner.matchWSState.prototype =
 	{
 		//Aquí creamos todas las cosas necesarias para usar en la clase match
 		create: function () {

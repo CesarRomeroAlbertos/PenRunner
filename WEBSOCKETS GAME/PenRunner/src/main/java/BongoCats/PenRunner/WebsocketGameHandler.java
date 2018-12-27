@@ -60,18 +60,26 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 						//json.putPOJO("player", player);
 						gameController.players.put(player.getId(), player);
 						jugadores = gameController.numPlayers++;
+
 					} else {
 						json.put("type", "GAME_CPMPLETE");
 					}
 					session.sendMessage(new TextMessage(json.toString()));
 					session.sendMessage(new TextMessage(jugadores.toString()));
-
 					if (debug) {
 						System.out.println("[DEBUG] " + json.toString());
 						System.out.println("Numero de jugadores en la sala " + jugadores.toString());
 					}
 					break;
 				case "update_numPlayers":
+					jugadores = gameController.numPlayers++;
+					session.sendMessage(new TextMessage(jugadores.toString()));
+					if (debug) {
+					//	System.out.println("Numero de jugadores en la sala " + jugadores.toString());
+					}
+					break;
+
+					
 					
 
 				default:
