@@ -53,5 +53,12 @@ ws.onmessage = function (message) {
         case "UPDATE_STATE":
             console.log('!!!!! GAME SENDS UPDATE !!!!!')
             break
+        case "players_update":
+            game.playersDataNew = msg.playersData;
+            PenRunner.matchWSState.updatePlayers();
+            break
+        case "match_end":
+        PenRunner.matchWSState.updateMeta();
+        break
     }
 }

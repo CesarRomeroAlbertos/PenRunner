@@ -1,8 +1,11 @@
 package BongoCats.PenRunner;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -20,6 +23,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 	boolean debug = true;
 	Integer jugadores;
 	GameController gameController = new GameController();
+	Timer timer;
 
 	// Invoked after WebSocket negotiation has succeeded and the WebSocket
 		// connection is opened and ready for use.
@@ -86,6 +90,37 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					break;
 				}
 			}
+		}
+		
+		void startPlayersUpdate () 
+		{
+			timer = new Timer();
+
+			timer.schedule( new TimerTask() {
+			    public void run() {
+			       // do your work
+			    	ObjectNode json = mapper.createObjectNode();
+			    	if(gameController.players.size()==gameController.meta)
+			    	{
+			    		json.put("type", "match_end");
+			    		timer.cancel();
+			    	}
+			    	else
+			    	{
+			    	json.put("type", "players_update");
+					json.putPOJO("playersData", gameController.players);
+			    	for(WebSocketSession s:sessions)
+			    	{
+							try {
+								s.sendMessage(new TextMessage(json.toString()));
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			    	}
+			    	}
+			    }
+			 }, 0, 1000/60);
 		}
 		
 		

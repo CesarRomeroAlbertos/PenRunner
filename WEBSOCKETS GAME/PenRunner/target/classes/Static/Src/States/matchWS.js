@@ -236,89 +236,38 @@ PenRunner.matchWSState.prototype =
 			this.sendPlayerUpdate();
 			if (player.arrived)
 				this.getMeta();
-
-			this.updatePlayers(function (data) {
-				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
-				if (game.playersData == null)
-					game.playersData = JSON.parse(JSON.stringify(data));
-				var count = 0;
-				var numeroMeta = 0;
-				game.playersDataNew = JSON.parse(JSON.stringify(data));
-
-				//Recorremos toda la lista de jugadores, para comprobar su posición y actualizar la posición del jugador que estamos manejando nosotros,
-				//y le mandamos la información actualizada al servidor
-				for (var i = 0; i < game.numPlayers; i++) {
-					if (i != game.player.id - 1) {
-						if ((game.altPlayers.children[count].x !== game.playersDataNew[i].x
-							|| game.altPlayers.children[count].y !== game.playersDataNew[i].y)
-							&& hasStarted) {
-							var line = game.add.sprite(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
-								'angleLine' + i);
-							line.angle = (Phaser.Math.angleBetween(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
-								game.playersDataNew[i].x, game.playersDataNew[i].y) * (180 / Math.PI));
-							var lineScale = Phaser.Math.linear(0, 1, Phaser.Math.distance(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
-								game.playersDataNew[i].x, game.playersDataNew[i].y) / (2 * AngleLineLeft.width));
-							line.scale.setTo(lineScale, 0.3);
-						}
-						//Actualizamos el valor de la posición y el ángulo del jugador respecto del servidor, para que los demás jugadores vean dónde
-						//están los jugadores en todo momento.
-						game.altPlayers.children[count].x = game.playersDataNew[i].x;
-						game.altPlayers.children[count].y = game.playersDataNew[i].y;
-						game.altPlayers.children[count].angle = game.playersDataNew[i].angle;
-						count++;
-					}
-				}
-				game.playersData = game.playersDataNew;
-			});
 		},
 		//Esta funcion corresponde con una llamada GET al servidor mediante la cual, en el apartado /players actualizamos la información de los jugadores
 		//dentro del servidor, para que sea común a todos los mismos.
-		updatePlayers: function (callback) {
-			$.ajax({
-				method: "GET",
-				url: 'http://localhost:8080/players',
-				processData: false,
-				headers: {
-					"Content-Type": "application/json"
+		updatePlayers: function () {
+			for (var i = 0; i < game.numPlayers; i++) {
+				if (i != game.player.id - 1) {
+					if ((game.altPlayers.children[count].x !== game.playersDataNew[i].x
+						|| game.altPlayers.children[count].y !== game.playersDataNew[i].y)
+						&& hasStarted) {
+						var line = game.add.sprite(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
+							'angleLine' + i);
+						line.angle = (Phaser.Math.angleBetween(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
+							game.playersDataNew[i].x, game.playersDataNew[i].y) * (180 / Math.PI));
+						var lineScale = Phaser.Math.linear(0, 1, Phaser.Math.distance(game.altPlayers.children[count].x, game.altPlayers.children[count].y,
+							game.playersDataNew[i].x, game.playersDataNew[i].y) / (2 * AngleLineLeft.width));
+						line.scale.setTo(lineScale, 0.3);
+					}
+					//Actualizamos el valor de la posición y el ángulo del jugador respecto del servidor, para que los demás jugadores vean dónde
+					//están los jugadores en todo momento.
+					game.altPlayers.children[count].x = game.playersDataNew[i].x;
+					game.altPlayers.children[count].y = game.playersDataNew[i].y;
+					game.altPlayers.children[count].angle = game.playersDataNew[i].angle;
+					count++;
 				}
-			}).done(function (data) {
-				game.playersDataNew = JSON.parse(JSON.stringify(data));
-				callback(JSON.parse(JSON.stringify(data)));
-			})
+			}
+			game.playersData = game.playersDataNew;
 		},
 		//Esta funcion corresponde con una llamada GET al servidor mediante la cual, en el apartado /meta/add actualizamos el número de jugadores que ha llegado
 		//a la meta. Si ese número es igual al número de jugadores en la partida, se pasa al siguiente estado. Cuando llega un jugador a la meta, guarda su id y
 		//le asigna una puntuación correspondiente
 		updateMeta: function(){
-			$.ajax({
-				method: "GET",
-				url: 'http://localhost:8080/meta/add',
-				processData: false,
-				headers: {
-					"Content-Type": "application/json"
-				}
-			}).done(function (data) {
-				numeroMeta = JSON.parse(JSON.stringify(data));
-					game.player.score += 100 - ((numeroMeta - 1) * 10);
-				if (numeroMeta == game.numPlayers)
 					game.state.start("scoreWSState");
-			})
-		},
-		//Esta función corresponde con una llamada GET al servidor mediante la cual, en el apartado /meta/add 
-		//obtenemos el número de jugadores que han llegado a la meta en todo momento
-		getMeta: function () {
-			$.ajax({
-				method: "GET",
-				url: 'http://localhost:8080/meta',
-				processData: false,
-				headers: {
-					"Content-Type": "application/json"
-				}
-			}).done(function (data) {
-				numeroMeta = JSON.parse(JSON.stringify(data));
-				if (numeroMeta == game.numPlayers)
-					game.state.start("scoreWSState");
-			})
 		},
 		//Esta función corresponde con una llamada PUT al servidor mediante la cual, en el apartado /player/playerId actualizamos la información 
 		//de nuestro jugador dentro del servidor.
