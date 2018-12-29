@@ -21,13 +21,13 @@ PenRunner.matchWSState.prototype =
 			walls = game.add.sprite(trackJson.wallsPositionX, trackJson.wallsPositionY, 'walls');
 			start = game.add.sprite(trackJson.startPositionX, trackJson.startPositionY, 'start');
 			goal = game.add.sprite(trackJson.goalPositionX, trackJson.goalPositionY, 'goal');
-			
+
 			//Con este trozo de código, decimos donde está la línea de meta y la línea de salida del mapa caegado desde el JSON (4 líneas siguientes)
 			start.angle = trackJson.startRotation;
 			start.scale.setTo(trackJson.startScaleX, 1);
 			goal.angle = trackJson.goalRotation;
 			goal.scale.setTo(trackJson.goalScaleX, 1);
-			
+
 			//Aquí cargamos las físicas necesarias para hacer las colisione con el mapa y con la línea de meta
 			game.physics.p2.enable(goal, true);
 			for (var i = 0; i < goal.body.data.shapes.length; i++)
@@ -37,7 +37,7 @@ PenRunner.matchWSState.prototype =
 			goal.body.x += goal.width / 2;
 			goal.body.y += goal.height / 2;
 			goal.body.debug = false;
-			
+
 			//Colisiones de las paredes
 			game.physics.p2.enable(walls, true);
 			walls.body.x += walls.width / 2;
@@ -127,7 +127,7 @@ PenRunner.matchWSState.prototype =
 			timeCounter = 0;
 
 			goalOrder = new Array();
-			
+
 			//Llamamos a la función para que actualice el movimiento de la tecla pulsada en el servidor
 			this.setArrow();
 
@@ -189,7 +189,7 @@ PenRunner.matchWSState.prototype =
 			}
 			//Cuando el estado es 3, quiere decir que el jugador se está moviendo, entonces tenemos que actulizar la posicion del sprite en la pantalla, para la cual 
 			//sirven las siguientes líneas de código
-			else if (playerState == 3) { 
+			else if (playerState == 3) {
 				timeCounter += game.time.elapsedMS / 1000;
 				player.x = game.math.linear(playerStartMovePositionX, playerFinalMovePositionX,
 					Math.min(timeCounter / 0.3, 1));
@@ -266,21 +266,17 @@ PenRunner.matchWSState.prototype =
 		//Esta funcion corresponde con una llamada GET al servidor mediante la cual, en el apartado /meta/add actualizamos el número de jugadores que ha llegado
 		//a la meta. Si ese número es igual al número de jugadores en la partida, se pasa al siguiente estado. Cuando llega un jugador a la meta, guarda su id y
 		//le asigna una puntuación correspondiente
-		updateMeta: function(){
-					game.state.start("scoreWSState");
+		updateMeta: function () {
+			game.state.start("scoreWSState");
 		},
 		//Esta función corresponde con una llamada PUT al servidor mediante la cual, en el apartado /player/playerId actualizamos la información 
 		//de nuestro jugador dentro del servidor.
 		sendPlayerUpdate: function () {
-			$.ajax({
-				method: "PUT",
-				url: 'http://localhost:8080/player/' + playerId,
-				data: JSON.stringify(game.player),
-				processData: false,
-				headers: {
-					"Content-Type": "application/json"
-				}
-			}).done(function (data) { })
+			var message = {
+				type: "player_update",
+				data: game.player
+			};
+			ws.send(JSON.stringify(message));
 		},
 		//Esta función corresponde con una llamada al servidor mediante la cual, en el apartado player/number obtenemos el número de jugadores
 		//que existen ahora mismo en la partida

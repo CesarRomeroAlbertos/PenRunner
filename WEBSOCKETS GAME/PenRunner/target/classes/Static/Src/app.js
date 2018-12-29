@@ -58,7 +58,7 @@ ws.onmessage = function (message) {
             PenRunner.matchWSState.updatePlayers();
             break
         case "match_end":
-        PenRunner.matchWSState.updateMeta();
-        break
+            PenRunner.matchWSState.updateMeta();
+            break
     }
 }

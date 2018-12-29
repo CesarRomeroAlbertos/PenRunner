@@ -95,7 +95,6 @@ public class GameController
 	}
 	
 	//Esta función nos permite crear un jugador y guardar su información en el servidor, estableciendo todos los valores que queramos
-	@ResponseStatus(HttpStatus.CREATED)
 	public Player newPlayer()
 	{
 		Player player = new Player();
@@ -122,11 +121,10 @@ public class GameController
 	}
 	
 	//Mediante esta función nos permite actualizar la información de un jugador en el servidor, en concreto la posición
-	public ResponseEntity<Player> updatePlayer(@PathVariable long id, @RequestBody Player player) {
+	public void updatePlayer(Player player) {
 		
-		players.put(id, player);
+		players.put(player.getId(), player);
 		//System.out.println(players);
-		return new ResponseEntity<Player>(player, HttpStatus.OK);
 		
 	}
 	
@@ -189,7 +187,7 @@ public class GameController
 	
 	
 	//Actualiza la cuenta atras para que empiece la partida
-	public void updateTimer(@PathVariable long time)
+	public void updateTimer(long time)
 	{
 		if(!hasStartedTimer || numPlayers <= 1)
 		{
