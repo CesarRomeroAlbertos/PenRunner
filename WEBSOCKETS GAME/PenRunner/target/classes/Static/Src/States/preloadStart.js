@@ -40,7 +40,7 @@ PenRunner.preloadStart.prototype =
 		
 		//Title
 		game.load.atlasJSONHash('title', 'Assets/titleSpritesheet.png', 'Src/json/titleSpritesheet.json');
-		game.load.audio('titleMusic', 'Assets/Musica/musica_inicio.mp3');
+		game.load.audio('titleMusic', 'Assets/Musica/musica_inicio.mp3'); //En todos los archivos de audio cargamos la música que usaremos en cada escena
 
 		//Main Menu
 		game.load.image('buttonStartLocalMenu', 'Assets/jugar_local.png', 200, 70);
@@ -70,7 +70,7 @@ PenRunner.preloadStart.prototype =
 		game.load.image('jugador', 'Assets/Texto_Jugador_01.png', 200, 70);
 		game.load.image('return', 'Assets/leftarrow.png', 200, 70);
 		game.load.image('backgroundScore','Assets/Fondo_fin_partida.jpg', 200, 70);
-		game.load.audio('scoreMusic', 'Assets/Musica/musica_score.mp3');
+		game.load.audio('scoreMusic', 'Assets/Musica/musica_score.mp3'); 
 		
 		
 	},

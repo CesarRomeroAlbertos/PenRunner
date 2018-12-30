@@ -53,9 +53,11 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 
 		synchronized (sessions) {
 			JsonNode node = mapper.readTree(message.getPayload());
-
+			//Este switch decide que hacer en función de que mensaje le llega desde el cliente. Cuando llega un mensaje desde el mismo, leemos el tipo del mensaje
+			//y en funcion de eso, podemos identificarlo y hacer unas cosas u otras
 			switch (node.get("type").asText()) {
-			case "create_player":
+			//Si llega un mensaje de este tipo, creamos un jugador, para ello creamos un JSON donde guardaremos toda la informacion relacionadacon él
+			case "create_player": 
 				ObjectNode json = mapper.createObjectNode();
 				if (gameController.numPlayers < 4) {
 					if (gameController.getPlayers().size() == 0)
@@ -63,9 +65,10 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					Player player = gameController.newPlayer();
 					json = mapper.createObjectNode();
 					json.put("type", "player_created");
-
+					
 					ObjectNode jsonPlayer = mapper.createObjectNode();
 					ObjectNode jsonPlayerContent = mapper.createObjectNode();
+					//Una vez creado el personaje desde la clase Player, metemos la informacion en elJSON que hemos creado antes
 					jsonPlayerContent.put("id", player.getId());
 					jsonPlayerContent.put("x", player.getX());
 					jsonPlayerContent.put("y", player.getY());
@@ -78,12 +81,17 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				} else {
 					json.put("type", "GAME_COMPLETE");
 				}
+				//Aquí mandamos un mensaje a todos los clientes conectados, que contiene la informacion del jugador creado
 				session.sendMessage(new TextMessage(json.toString()));
 				if (debug) {
+					//Testeo
 					System.out.println("[DEBUG] " + json.toString());
 					System.out.println("Numero de jugadores en la sala " + gameController.numPlayers);
 				}
 				break;
+			//En este caso controlamos la votacion de los mapas en el matchmaking. Leemos la informacion que nos llega desde los clientes, y se la mandamos 
+			//a los demás. Después guardamos esa información para almacenarla en las variables del servidor, y enviamos un mensaje a  los clientes para que se 
+			//actualice la información de las votaciones.
 			case "vote":
 				gameController.getVote(node.get("data").asInt());
 				ObjectNode votejsonmsg = mapper.createObjectNode();
@@ -91,14 +99,18 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				votejsonmsg.putPOJO("content", mapper.writeValueAsString(gameController.votos));
 				sendToAll(votejsonmsg);
 				Integer numero = gameController.votos[votejsonmsg.asInt()];
+				//Aqui enviamos el mensaje a los clientes
 				session.sendMessage(new TextMessage(numero.toString()));
 				if(debug)
 					System.out.println(gameController.votos[votejsonmsg.asInt()]);
 
 				break;
+			//En este caso, actualizamos la información de un jugador en una partida.	
 			case "player_update":
 				gameController.updatePlayer(mapper.convertValue(node.get("data"), Player.class));
 				break;
+			//En esta parte del switch entramos cuando el mensaje que queremos enviar a los clientes es para informar de que un jugador ha llegado a la meta
+				//por lo tanto se actualizan la puntuacion de losjugadores y se manda a los demas, para qur todos se enteren de que jugador ha llegado a la meta.
 			case "meta":
 				int n = gameController.metaAdd();
 				ObjectNode jsonMeta = mapper.createObjectNode();
@@ -113,6 +125,8 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					timerUpdate.purge();
 				}
 				break;
+				//A diferencia del caso de arriba, aqui entramos cuando vamos a guardar la informacion de un jugador, no cuando vamos a actualizarla. Para ello,
+				//creamos una lista de jugadores, donde vamos a guardar la informacion actualizada de las puntuaciones, con respecto a los demas jugadores,
 			case "score":
 				ObjectNode jsonmsg = mapper.createObjectNode();
 				jsonmsg.put("type", "score");
@@ -123,8 +137,11 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					tempL.add(p);
 				}
 				jsonmsg.putPOJO("content", mapper.writeValueAsString(tempL));
+				//Aqui enviamos la respuesta a los clientes
 				session.sendMessage(new TextMessage(jsonmsg.toString()));
 				break;
+				//En este caso entramos cuando se incorpora un nuevo jugador a la sesion de matchmaking, es decir, hay qye actualizar el numero de jugadores en el 
+				//servidor, para que al jugar la partida, puedan crearse todos los jugadores correctamente
 			case "numPlayers":
 				ObjectNode jsonNumPlayer = mapper.createObjectNode();
 				gameController.numPlayers++;
@@ -141,7 +158,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			}
 		}
 	}
-
+	//Esta función es la encargada de enviar un mensaje desde el servidor a todos los clientes que estén conectados en ese momento
 	void sendToAll(ObjectNode json) {
 		synchronized (sessions) {
 			for (WebSocketSession s : sessions) {
@@ -153,7 +170,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			}
 		}
 	}
-
+	//Esta funcion inicia el timer de matchmaking para que empiece a contar hacia atras
 	void startMatchmakingTimer() {
 		synchronized (sessions) {
 			timer = new Timer();
@@ -180,7 +197,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			}, 0, 1000);
 		}
 	}
-
+	//Esta funcion hace algo parecido a la funcion anterior, pero con respecto al semaforo que aparece en match
 	void startSemaforoTimer() {
 		synchronized (sessions) {
 			timerSemaforo = new Timer();
@@ -203,7 +220,8 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			}, 0, 1000);
 		}
 	}
-
+	//Esta función se encarga de actualizar la informacion de los personajes cuando estamos jugando una partida. Para ello, creamos un objeto de tipo JSON
+	// y metemos el mensaje recibido de tipo players_update en el array de jugadores, que contendrá, entonces, la información necesaria actualizada.
 	void startPlayersUpdate() {
 		synchronized (sessions) {
 			timerUpdate = new Timer();

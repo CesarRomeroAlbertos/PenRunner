@@ -20,6 +20,7 @@ PenRunner.menuState.prototype =
 			//Añadimos el título del menú principal
 			var tituloMenu = 'Menú Principal';
 			game.add.text(game.world.x + 185, game.world.y + 180, tituloMenu, style1);
+			
 
 			//Escalamos los tres botones para que se vean adecuadamente en la pantalla
 			buttonStartLocalMenu.scale.setTo(0.4, 0.5);

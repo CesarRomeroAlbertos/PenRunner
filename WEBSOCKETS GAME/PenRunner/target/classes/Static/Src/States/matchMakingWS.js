@@ -8,7 +8,7 @@ PenRunner.matchmakingWSState.prototype =
     {
 
         create: function () {
-
+        	//Creamos los mensajes para crear un jugador y para actualizar el numero de jugadores que hay en la sala, se enviaran cuando sea oportuno
             var createPlayermsg = {
                 type: 'create_player'
             };
@@ -105,7 +105,6 @@ PenRunner.matchmakingWSState.prototype =
             votos3.setText(numeroDeVotos3);
 
             //Este swtich sirve para que escriba en las cajas correspondientes los jugadores que existen en todo momento. 
-            console.log(numeroDeJugadores);
             switch (numeroDeJugadores) {
 
                 case 1:
@@ -157,7 +156,6 @@ PenRunner.matchmakingWSState.prototype =
                 };
                 ws.send(JSON.stringify(voteMessage));
                 
-            	console.log(numeroDeVotos1 + " hila");
                 votado = true;
             }
         },

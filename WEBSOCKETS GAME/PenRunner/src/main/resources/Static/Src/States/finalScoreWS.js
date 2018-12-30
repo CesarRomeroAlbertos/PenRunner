@@ -53,7 +53,7 @@ PenRunner.scoreOnlineState.prototype =
                     "Content-Type": "application/json"
                 },
             }).done(function (data) {
-                console.log('Se ha borrado el jugador' + JSON.stringify(data));
+             //   console.log('Se ha borrado el jugador' + JSON.stringify(data));
             })
         },
 
@@ -74,13 +74,13 @@ PenRunner.scoreOnlineState.prototype =
                 url: 'http://localhost:8080/player/number',
             }).done(function (data) {
                 game.numPlayers = JSON.parse(JSON.stringify(data));
-                console.log(game.numPlayers);
+              //  console.log(game.numPlayers);
             })
         },
 
         //esta función se llama cuando clickamos el botón de volver atrás en la esquina superior izquierda, llevándonos de nuevo al menú principal.
         actionONClickScore: function () {
-        	console.log(game.numPlayers);
+        	//console.log(game.numPlayers);
 
             this.deletePlayer();
             
