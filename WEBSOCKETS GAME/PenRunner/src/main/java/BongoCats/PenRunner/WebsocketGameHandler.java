@@ -33,6 +33,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 	long startTime;
 	int maxTime = 15;
 	int semaforoTime = 0;
+	int finished = 0;
 
 	// Invoked after WebSocket negotiation has succeeded and the WebSocket
 	// connection is opened and ready for use.
@@ -60,7 +61,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			case "create_player": 
 				ObjectNode json = mapper.createObjectNode();
 				if (gameController.numPlayers < 4) {
-					if (gameController.getPlayers().size() == 0)
+					if (gameController.numPlayers == 0)
 						startMatchmakingTimer();
 					Player player = gameController.newPlayer();
 					json = mapper.createObjectNode();
@@ -139,6 +140,12 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				jsonmsg.putPOJO("content", mapper.writeValueAsString(tempL));
 				//Aqui enviamos la respuesta a los clientes
 				session.sendMessage(new TextMessage(jsonmsg.toString()));
+				finished++;
+				if(finished >= gameController.numPlayers)
+				{
+					finished = 0;
+					gameController.deletePlayers();
+				}
 				break;
 				//En este caso entramos cuando se incorpora un nuevo jugador a la sesion de matchmaking, es decir, hay qye actualizar el numero de jugadores en el 
 				//servidor, para que al jugar la partida, puedan crearse todos los jugadores correctamente

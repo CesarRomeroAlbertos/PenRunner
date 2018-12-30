@@ -196,7 +196,6 @@ PenRunner.matchWSState.prototype =
 					if (this.checkWin(player.x, player.y)) {
 						goalOrder.push(1);
 						playerState = 2;//Cambiamos el estado del jugador
-						player.arrived = true; //Decimos que el jugador a llegado
 							this.updateMeta(); //Llamamos al servidor para decir quién ha llegado a la meta
 						//Descactivamos los controles del jugador para que no pueda moverse
 						AngleLineLeft.visible = false;

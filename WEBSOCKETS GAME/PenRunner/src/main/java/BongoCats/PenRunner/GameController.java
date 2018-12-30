@@ -74,10 +74,11 @@ public class GameController
 	public void deletePlayers() {
 		System.out.println("He borrado a los jugadores");
 		if(numPlayers > 0) {
+			numPlayers = 0;
+			meta = 0;
 		for(int i = 0; i<players.size(); i++)
 		{
 			players.remove(i);
-			numPlayers--;
 			nextId.set(0);
 			votos[1] = 0;
 			votos[2] = 0;
