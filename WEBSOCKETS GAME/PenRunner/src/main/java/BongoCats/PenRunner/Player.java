@@ -74,7 +74,7 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Player [id=" + id + ", color=" + color +",  x=" + x + ", y=" + y + ", angle="+ angle+ ", score=" + score + "]";
+		return "[" + "\"id\":" + id + ",  \"x\":" + x + ", \"y\":" + y + ", \"angle\":"+ angle+ ", \"score\":" + score + "]";
 	}
 	
 }

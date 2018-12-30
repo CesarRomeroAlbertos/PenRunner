@@ -12,6 +12,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -51,19 +52,19 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			switch (node.get("type").asText()) {
 			case "create_player":
 				ObjectNode json = mapper.createObjectNode();
-				if (gameController.getPlayers().size() < 4) {
+				if (gameController.numPlayers < 4) {
 					if (gameController.getPlayers().size() == 0)
 						startMatchmakingTimer();
 					Player player = gameController.newPlayer();
 					json = mapper.createObjectNode();
 					json.put("type", "player_created");
-					json.putPOJO("data", player);
-					gameController.players.put(player.getId(), player);
+					json.put("content", player.toString());
+					//gameController.players.put(player.getId(), player);
 					gameController.numPlayers++;
 
 					ObjectNode jsonNumPlayer = mapper.createObjectNode();
 					jsonNumPlayer.put("type", "numPlayers");
-					jsonNumPlayer.putPOJO("data", gameController.numPlayers);
+					jsonNumPlayer.put("content", gameController.numPlayers);
 					sendToAll(jsonNumPlayer);
 
 				} else {
@@ -79,7 +80,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				gameController.getVote(node.get("data").asInt());
 				ObjectNode votejsonmsg = mapper.createObjectNode();
 				votejsonmsg.put("type", "votes");
-				votejsonmsg.putPOJO("data", gameController.votos);
+				votejsonmsg.putPOJO("content", mapper.writeValueAsString(gameController.votos));
 				sendToAll(votejsonmsg);
 
 				break;
@@ -98,7 +99,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			case "score":
 				ObjectNode jsonmsg = mapper.createObjectNode();
 				jsonmsg.put("type", "score");
-				jsonmsg.putPOJO("scores", gameController.getPlayersScores());
+				jsonmsg.put("content", mapper.writeValueAsString(gameController.getPlayersScores()));
 				session.sendMessage(new TextMessage(jsonmsg.toString()));
 				break;
 
@@ -124,7 +125,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			public void run() {
 				ObjectNode json = mapper.createObjectNode();
 				json.put("type", "matchmaking_timer");
-				json.put("data", maxTime);
+				json.put("content", maxTime);
 				maxTime -= 1;
 
 				sendToAll(json);
@@ -132,7 +133,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				if (maxTime <= 0) {
 					ObjectNode endTimerjson = mapper.createObjectNode();
 					endTimerjson.put("type", "matchmaking_end");
-					endTimerjson.put("data", gameController.mapaSeleccionado());
+					endTimerjson.put("content", gameController.mapaSeleccionado());
 					sendToAll(endTimerjson);
 					startSemaforoTimer();
 					maxTime = 15;
@@ -148,7 +149,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			public void run() {
 				ObjectNode json = mapper.createObjectNode();
 				json.put("type", "semaforo_timer");
-				json.put("data", maxTime);
+				json.put("content", maxTime);
 				semaforoTime += 1;
 
 				sendToAll(json);
@@ -168,7 +169,12 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			public void run() {
 				ObjectNode json = mapper.createObjectNode();
 				json.put("type", "players_update");
-				json.putPOJO("playersData", gameController.players);
+				try {
+					json.put("content", mapper.writeValueAsString(gameController.players));
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				sendToAll(json);
 			}
 		}, 0, 1000 / 60);

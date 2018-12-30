@@ -43,7 +43,7 @@ ws.onmessage = function (message) {
 
     switch (msg.type) {
         case "player_created":
-            game.player = msg.data;
+            game.player = msg.content;
             break
         case "GAME_COMPLETE":
             console.log('##### GAME IS COMPLETE #####')
@@ -52,22 +52,22 @@ ws.onmessage = function (message) {
             console.log('!!!!! GAME SENDS UPDATE !!!!!')
             break
         case "numPlayers":
-            game.numPlayers = msg.data;
+            game.numPlayers = msg.content;
         break
         case "matchmaking_timer":
-            PenRunner.matchmakingWSState.updateTimer(msg.data);
+            PenRunner.matchmakingWSState.updateTimer(msg.content);
             break
         case "votes":
-            PenRunner.matchmakingWSState.prototype.updateNumberOfVotes(msg.data);
+            PenRunner.matchmakingWSState.prototype.updateNumberOfVotes(msg.content);
             break
         case "matchmaking_end":
-            PenRunner.matchmakingWSState.prototype.endMatchmaking(msg.data);
+            PenRunner.matchmakingWSState.prototype.endMatchmaking(msg.content);
             break
         case "semaforo_timer":
 
             break
         case "players_update":
-            game.playersDataNew = msg.playersData;
+            game.playersDataNew = msg.content;
             PenRunner.matchWSState.updatePlayers();
             break
         case "match_end":

@@ -52,10 +52,10 @@ PenRunner.matchmakingWSState.prototype =
             buttonMap.onInputUp.add(this.up, this); //Cuando clickamos el boton, ejecuta la función up()
 
             //Boton centro
-            buttonMap2.onInputUp.add(this.up(1), this); //Cuando clickamos el boton, ejecuta la función up()
+            buttonMap2.onInputUp.add(this.up2, this); //Cuando clickamos el boton, ejecuta la función up()
 
             //Boton derecha
-            buttonMap3.onInputUp.add(this.up(2), this); //Cuando clickamos el boton, ejecuta la función up()
+            buttonMap3.onInputUp.add(this.up3, this); //Cuando clickamos el boton, ejecuta la función up()
 
             //var timerMatchmaking = game.time.events.loop(Phaser.Timer.SECOND, showSeconds, this); //Hacemos un bucle que varie en función de los segundos, es decir, cada segundo, llama a la funcion showSeconds().
             //Estalbecemos las posiciones de los sprites de cada uno de los huecos donde se pueden poner los nombres de los jugadores.
