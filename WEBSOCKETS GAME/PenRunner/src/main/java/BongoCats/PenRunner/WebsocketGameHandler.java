@@ -2,6 +2,7 @@ package BongoCats.PenRunner;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -115,7 +116,13 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			case "score":
 				ObjectNode jsonmsg = mapper.createObjectNode();
 				jsonmsg.put("type", "score");
-				jsonmsg.put("content", mapper.writeValueAsString(gameController.getPlayersScores()));
+				Collection<Player> temp = gameController.getPlayersScores();
+				List<Player> tempL = new ArrayList<Player>();
+				for(Player p : temp)
+				{
+					tempL.add(p);
+				}
+				jsonmsg.putPOJO("content", mapper.writeValueAsString(tempL));
 				session.sendMessage(new TextMessage(jsonmsg.toString()));
 				break;
 			case "numPlayers":

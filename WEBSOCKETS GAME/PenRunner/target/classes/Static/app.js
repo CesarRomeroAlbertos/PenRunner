@@ -54,7 +54,7 @@ ws.onmessage = function (message) {
                 break
             case "numPlayers":
                 game.numPlayers = msg.content;
-            	PenRunner.matchmakingWSState.prototype.updateNumberPlayers(msg.content);;
+                PenRunner.matchmakingWSState.prototype.updateNumberPlayers(msg.content);;
                 break
             case "matchmaking_timer":
                 PenRunner.matchmakingWSState.prototype.updateTimer(msg.content);
@@ -76,11 +76,12 @@ ws.onmessage = function (message) {
                 PenRunner.matchWSState.prototype.endGame();
                 break
             case "update_Score":
-                game.player.score += 100-((msg.content-1)*10);
+                game.player.score += 100 - ((msg.content - 1) * 10);
                 PenRunner.matchWSState.prototype.sendPlayerUpdate();
-            break
+                break
             case "score":
-
+                game.scoreData = msg.content;
+                PenRunner.scoreWSState.prototype.updatePlayers();
                 break
             default:
                 console.log("Mensaje con tipo no válido")
