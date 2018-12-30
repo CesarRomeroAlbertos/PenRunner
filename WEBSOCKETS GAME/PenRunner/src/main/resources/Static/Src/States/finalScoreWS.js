@@ -71,16 +71,6 @@ PenRunner.scoreWSState.prototype =
             })
         },
 
-        //esta función se llama cuando clickamos el botón de volver atrás en la esquina superior izquierda, llevándonos de nuevo al menú principal.
-        actionONClickScore: function () {
-        	//console.log(game.numPlayers);
-
-            this.deletePlayer();
-            
-            this.getNumPlayers();
-            //Hasta que no se hayan borrado todos los jugadores, no se pasa al menú, así nos aseguramos de que no hay problema, y que se reinicia todo bien
-            if(game.numPlayers == 0)
-
         updatePlayers: function () {
             for (var i = 0; i < game.numPlayers; i++) {
                 var jugador = game.add.sprite(game.world.x + 34, game.world.y + (110 + 80 * i) , 'jugador');
@@ -92,7 +82,7 @@ PenRunner.scoreWSState.prototype =
         //esta función se llama cuando clickamos el botón de volver atrás en la esquina superior izquierda, llevándonos de nuevo al menú principal.
         actionONClickScore: function () {
         	scoreMusic.pause();
-        }
+        
             game.state.start('menuState');
         }
 
