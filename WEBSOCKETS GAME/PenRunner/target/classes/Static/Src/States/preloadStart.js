@@ -20,6 +20,9 @@ var textPlayer2, textPlayer3, textPlayer4;
 var empezado;
 var numeroMeta;
 var ws;
+var musicMenu, musicMatchmaking;
+//var musicTitle;
+
 PenRunner.preloadStart.prototype =
 {
 	preload:function()
@@ -37,12 +40,14 @@ PenRunner.preloadStart.prototype =
 		
 		//Title
 		game.load.atlasJSONHash('title', 'Assets/titleSpritesheet.png', 'Src/json/titleSpritesheet.json');
+		game.load.audio('titleMusic', 'Assets/Musica/musica_inicio.mp3');
 
 		//Main Menu
 		game.load.image('buttonStartLocalMenu', 'Assets/jugar_local.png', 200, 70);
 		game.load.image('buttonStartOnlineMenu', 'Assets/jugar_online.png', 200, 70);
 		game.load.image('buttonSettingsMenu', 'Assets/settings.png', 200, 70);
 		game.load.image('background','Assets/background.png');
+		game.load.audio('menuMusic', 'Assets/Musica/musica_menuppal.mp3');
 
 		//Settings
 		game.load.image('buttonBackSettings', 'Assets/leftarrow.png', 200, 70);
@@ -55,14 +60,19 @@ PenRunner.preloadStart.prototype =
 		game.load.image('button3', 'Assets/Mapa3_3.png', 200, 70);
 		game.load.image('jugadorMatch', 'Assets/Boton_Jugadores.png', 200, 70);
 		game.load.json('trackList',"Src/json/tracks.json");
+		game.load.audio('matchmakingMusic', 'Assets/Musica/musica_matchmaking.mp3');
 
 		//Match
 		game.load.json('playersAssets',"Src/json/playersAssets.json");
+		game.load.audio('matchMusic', 'Assets/Musica/musica_match.mp3');
 
 		//Score
 		game.load.image('jugador', 'Assets/Texto_Jugador_01.png', 200, 70);
 		game.load.image('return', 'Assets/leftarrow.png', 200, 70);
 		game.load.image('backgroundScore','Assets/Fondo_fin_partida.jpg', 200, 70);
+		game.load.audio('scoreMusic', 'Assets/Musica/musica_score.mp3');
+		
+		
 	},
 	update: function()
 	{

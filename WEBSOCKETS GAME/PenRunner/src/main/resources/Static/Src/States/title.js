@@ -6,6 +6,7 @@ PenRunner.titleState.prototype =
 {
 	create: function()
 	{
+
 		//cambio el fondo a blanco para que no contraste con la imagen de la portada
 		game.stage.backgroundColor = "#FFFFFF";
 		//ponemos la imagen de título (en el futuro será un sprite animado)
@@ -24,12 +25,17 @@ PenRunner.titleState.prototype =
 
 		//activamos el input del ratón por si estuviera desactivado
 		game.input.mouse.capture = true;
+	//	musicTitle = game.add.audio('titleMusic');
+		//musicTitle.play();
 	},
 	update: function()
 	{
 		//al detectar un click cambiamos la escena
-		if(game.input.activePointer.leftButton.isDown)
+		if(game.input.activePointer.leftButton.isDown){
+			//musicTitle.pause();
 			game.state.start('menuState');
+		}
+			
 
 	}
 }

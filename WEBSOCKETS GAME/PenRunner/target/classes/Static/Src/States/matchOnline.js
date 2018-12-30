@@ -21,6 +21,8 @@ PenRunner.matchOnlineState.prototype =
 			walls = game.add.sprite(trackJson.wallsPositionX, trackJson.wallsPositionY, 'walls');
 			start = game.add.sprite(trackJson.startPositionX, trackJson.startPositionY, 'start');
 			goal = game.add.sprite(trackJson.goalPositionX, trackJson.goalPositionY, 'goal');
+			musicMatch = game.add.audio('matchMusic');
+			musicMatch.play();
 			
 			//Con este trozo de código, decimos donde está la línea de meta y la línea de salida del mapa caegado desde el JSON (4 líneas siguientes)
 			start.angle = trackJson.startRotation;
@@ -300,8 +302,10 @@ PenRunner.matchOnlineState.prototype =
 			}).done(function (data) {
 				numeroMeta = JSON.parse(JSON.stringify(data));
 					game.player.score += 100 - ((numeroMeta - 1) * 10);
-				if (numeroMeta == game.numPlayers)
+				if (numeroMeta == game.numPlayers){
+					musicMatch.pause();
 					game.state.start("scoreOnlineWSState");
+				}
 			})
 		},
 		//Esta función corresponde con una llamada GET al servidor mediante la cual, en el apartado /meta/add 

@@ -29,6 +29,8 @@ PenRunner.matchmakingWSState.prototype =
             numeroDeVotos3 = 0;
             var sceneTime = 0;
             empezado = false;
+            musicMatchmaking = game.add.audio('matchmakingMusic');
+            musicMatchmaking.play();
             //Llamamos a estas funciones, para comprobar cuando se entra en este estado cuantos jugadores hay ya en la sala, y si la partida ha empezado
             //this.getNumPlayers();
             //this.isStarted();
@@ -87,11 +89,6 @@ PenRunner.matchmakingWSState.prototype =
             joinKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
             joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
-            // this.createPlayer();
-            //var message = { type: "create_player" };
-
-          //  ws.onopen = () => ws.send(JSON.stringify(message));
-
         },
 
         update: function () { //Función que se ejecuta una vez por frame
@@ -99,6 +96,7 @@ PenRunner.matchmakingWSState.prototype =
             //número máximo de jugadores
 
             if (game.numPlayers > 4 && game.player.id > 4) {
+            	musicMatchmaking.pause();
                 game.state.start('menuState');
             }
 
@@ -111,14 +109,11 @@ PenRunner.matchmakingWSState.prototype =
             switch (numeroDeJugadores) {
 
                 case 1:
-                	console.log("Hay 1 jugador");
                     textPlayer.destroy();
                     textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
                     break;
 
                 case 2:
-                	console.log("Hay 2 jugador");
-
                     textPlayer2.destroy();
                     textPlayer.destroy();
                     textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
@@ -126,8 +121,6 @@ PenRunner.matchmakingWSState.prototype =
                     break;
 
                 case 3:
-                	console.log("Hay 3 jugador");
-
                     textPlayer.destroy();
                     textPlayer2.destroy();
                     textPlayer3.destroy();
@@ -137,8 +130,6 @@ PenRunner.matchmakingWSState.prototype =
                     break;
 
                 case 4:
-                	console.log("Hay 4 jugador");
-
                     textPlayer.destroy();
                     textPlayer2.destroy();
                     textPlayer3.destroy();
@@ -206,8 +197,20 @@ PenRunner.matchmakingWSState.prototype =
         //Esta funcion hace una llamada al servidor, donde cogemos el JSON del mapa más votado, para devolverlo y cargarlo en el siguiente estado
         //que se va a cargar.
         endMatchmaking: function (number) {
-            game.chosenCircuit = number;
-            game.state.start('preloadMatchOnlineState');
+        	if(numeroDeJugadores < 2){
+        		
+        	} else if(numeroDeJugadores > 4){
+        		console.log("Ya hay demasiados jugadores en la sala, por favor, espera");
+        		musicMatchmaking.pause();
+        		game.state.start('menuState');
+        		
+        		
+        	} else{
+        		 game.chosenCircuit = number;
+        		 musicMatchmaking.pause();
+                 game.state.start('preloadMatchOnlineState');
+        	}
+          
         }
 
 

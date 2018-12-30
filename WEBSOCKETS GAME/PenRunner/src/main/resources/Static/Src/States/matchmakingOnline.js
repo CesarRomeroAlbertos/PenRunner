@@ -40,6 +40,9 @@ PenRunner.matchmakingOnlineState.prototype =
             votos1 = game.add.text(game.world.x + 124, 250, numeroDeVotos1, style4);
             votos2 = game.add.text(game.world.x + 384, 250, numeroDeVotos2, style4);
             votos3 = game.add.text(game.world.x + 644, 250, numeroDeVotos3, style4);
+            
+            var music = game.add.audio('matchmakingMusic');
+            music.play();
 
             //Boton izquierda
             buttonMap.onInputUp.add(this.up, this); //Cuando clickamos el boton, ejecuta la función up()
