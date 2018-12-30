@@ -72,8 +72,12 @@ ws.onmessage = function (message) {
                 PenRunner.matchWSState.prototype.updatePlayers();
                 break
             case "match_end":
-                PenRunner.matchWSState.prototype.updateMeta();
+                PenRunner.matchWSState.prototype.endGame();
                 break
+            case "update_Score":
+                game.player.score += 100-((msg.content-1)*10);
+                PenRunner.matchWSState.prototype.sendPlayerUpdate();
+            break
             case "score":
 
                 break

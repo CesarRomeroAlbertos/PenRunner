@@ -1,7 +1,7 @@
 PenRunner.scoreWSState = function (game) { }
 
 
-PenRunner.scoreOnlineState.prototype =
+PenRunner.scoreWSState.prototype =
     {
         create: function () {
             this.sendPlayerUpdate(); //Recogemos la información de los jugadores para escribir correctamente los nombres y las puntuaciones

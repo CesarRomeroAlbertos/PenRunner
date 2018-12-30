@@ -100,7 +100,11 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				gameController.updatePlayer(mapper.convertValue(node.get("data"), Player.class));
 				break;
 			case "meta":
-				gameController.metaAdd();
+				int n = gameController.metaAdd();
+				ObjectNode jsonMeta = mapper.createObjectNode();
+				jsonMeta.put("type", "update_Score");
+				jsonMeta.put("content", n);
+				session.sendMessage(new TextMessage(jsonMeta.toString()));
 				if (gameController.meta == gameController.numPlayers) {
 					ObjectNode jsonmsg = mapper.createObjectNode();
 					jsonmsg.put("type", "match_end");
