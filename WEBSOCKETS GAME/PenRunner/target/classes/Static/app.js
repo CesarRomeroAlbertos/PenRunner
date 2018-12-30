@@ -53,6 +53,7 @@ ws.onmessage = function (message) {
                 console.log('!!!!! GAME SENDS UPDATE !!!!!')
                 break
             case "numPlayers":
+                game.numPlayers = msg.content;
             	PenRunner.matchmakingWSState.prototype.updateNumberPlayers(msg.content);;
                 break
             case "matchmaking_timer":
