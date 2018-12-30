@@ -1,8 +1,10 @@
 package BongoCats.PenRunner;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,6 +26,8 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 	boolean debug = true;
 	GameController gameController = new GameController();
 	Timer timer;
+	Timer timerSemaforo;
+	Timer timerUpdate;
 
 	long startTime;
 	int maxTime = 15;
@@ -100,7 +104,8 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					ObjectNode jsonmsg = mapper.createObjectNode();
 					jsonmsg.put("type", "match_end");
 					sendToAll(jsonmsg);
-					timer.cancel();
+					timerUpdate.cancel();
+					timerUpdate.purge();
 				}
 				break;
 			case "score":
@@ -167,19 +172,21 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 
 	void startSemaforoTimer() {
 		synchronized (sessions) {
-			timer.schedule(new TimerTask() {
+			timerSemaforo = new Timer();
+			timerSemaforo.schedule(new TimerTask() {
 				public void run() {
 					ObjectNode json = mapper.createObjectNode();
 					json.put("type", "semaforo_timer");
-					json.put("content", maxTime);
+					json.put("content", semaforoTime);
 					semaforoTime += 1;
 
 					sendToAll(json);
 
-					if (maxTime <= 0) {
+					if (semaforoTime >= 6) {
 						semaforoTime = 0;
-						timer.cancel();
-						timer.purge();
+						startPlayersUpdate();
+						timerSemaforo.cancel();
+						timerSemaforo.purge();
 					}
 				}
 			}, 0, 1000);
@@ -188,14 +195,19 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 
 	void startPlayersUpdate() {
 		synchronized (sessions) {
-			timer = new Timer();
+			timerUpdate = new Timer();
 
-			timer.schedule(new TimerTask() {
+			timerUpdate.schedule(new TimerTask() {
 				public void run() {
 					ObjectNode json = mapper.createObjectNode();
 					json.put("type", "players_update");
+					List<Player> temp = new ArrayList<Player>();
+					for(Player p : gameController.players.values())
+					{
+						temp.add(p);
+					}
 					try {
-						json.put("content", mapper.writeValueAsString(gameController.players));
+						json.putPOJO("content", mapper.writeValueAsString(temp));
 					} catch (JsonProcessingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -101,6 +101,11 @@ PenRunner.matchmakingWSState.prototype =
             if (game.numPlayers > 4 && game.player.id > 4) {
                 game.state.start('menuState');
             }
+
+            votos1.setText(numeroDeVotos1);
+            votos2.setText(numeroDeVotos2);
+            votos3.setText(numeroDeVotos3);
+
             //Este swtich sirve para que escriba en las cajas correspondientes los jugadores que existen en todo momento. 
             console.log(numeroDeJugadores);
             switch (numeroDeJugadores) {
@@ -145,9 +150,6 @@ PenRunner.matchmakingWSState.prototype =
                     break;
 
             }
-            votos1.setText(numeroDeVotos1);
-            votos2.setText(numeroDeVotos2);
-            votos3.setText(numeroDeVotos3);
 
         },
         //Actualiza el cronómetro que lleva la cuenta atrás para que empiece la partida

@@ -5,6 +5,7 @@ PenRunner.matchWSState.prototype =
 		//Aquí creamos todas las cosas necesarias para usar en la clase match
 		create: function () {
 			game.Goal = false;
+			game.semaforoReady = false;
 			numeroMeta = 0; //Indica el número de jugadores que han llegado a la meta hasta ese momento
 			playerId = game.player.id; //en esta variable guardamos el id del jugador en cuestión
 			//nos aseguramos de que el fondo sea blanco	
@@ -136,19 +137,14 @@ PenRunner.matchWSState.prototype =
 			semaforo.y -= semaforo.height / 2;
 
 			semaforoAnimation = semaforo.animations.add('semaforoAnim'); //Añadimos la animación para que cambie entre los estados del semáforo
-
+			game.semaforoReady = true;
 			hasStarted = false;
-
-			this.updatePlayers(function (data) { //esta funcion actualiza la posición de los jugadores en el server
-				//CÓDIGO ACTUALIZAR ESTADO JUGADORES
-				game.playersData = JSON.parse(JSON.stringify(data));
-			});
 
 		},
 
 		//usamos update para los distintos controles de la partida, todo lo que ocurre aquí se actualiza una vez por frame
 		update: function () {
-			
+
 
 			//tecla izquierda jugador 1
 			if (leftKey.isDown && playerState == 0) {
@@ -217,8 +213,6 @@ PenRunner.matchWSState.prototype =
 			//Llamamos a la función del servidor que actualiza la posición de los jugadores, y comprobamos si el jugador ha llegado, en caso afirmativo
 			//llamamos a la función que actualiza en el servidor si el jugador ha llegado a la meta.
 			this.sendPlayerUpdate();
-			if (player.arrived)
-				this.getMeta();
 		},
 		//Esta funcion corresponde con una llamada GET al servidor mediante la cual, en el apartado /players actualizamos la información de los jugadores
 		//dentro del servidor, para que sea común a todos los mismos.
@@ -386,6 +380,20 @@ PenRunner.matchWSState.prototype =
 				var length = game.math.linear(0, 0.4, (0.5 - timeCounter) / 0.5);
 				DirectionArrow.scale.setTo(length, 0.3);
 			}
+		},
+
+		updateSemaforo: function (number) {
+			//if (game.semaforoReady) {
+				if ((number) < semaforoAnimation.frameTotal) {
+					semaforoAnimation.frame = Math.floor(number);
+				}
+				else {
+					playerState = 0;
+					player2State = 0;
+					semaforo.destroy();
+					hasStarted = true;
+				}
+			//}
 		}
 	}
 
