@@ -14,6 +14,7 @@ PenRunner.matchmakingWSState.prototype =
             };
             ws.send(JSON.stringify(createPlayermsg));
 
+            game.hasJoined = true;
             //Inicializamos las variables que vamos a utilizar en este estado
             votado = false; //Variable que nos dice si un jugador ya ha votado o no
 

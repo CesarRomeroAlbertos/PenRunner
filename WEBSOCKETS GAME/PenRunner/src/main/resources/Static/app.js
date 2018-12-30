@@ -41,43 +41,45 @@ ws.onmessage = function (message) {
 
     console.log('INFO RECIBIDA /n' + msg)
 
-    switch (msg.type) {
-        case "player_created":
-            game.player = msg.content.player;
-            break
-        case "GAME_COMPLETE":
-            console.log('##### GAME IS COMPLETE #####')
-            break
-        case "UPDATE_STATE":
-            console.log('!!!!! GAME SENDS UPDATE !!!!!')
-            break
-        case "numPlayers":
-            game.numPlayers = msg.content;
-        break
-        case "matchmaking_timer":
-            PenRunner.matchmakingWSState.prototype.updateTimer(msg.content);
-            break
-        case "votes":
-            PenRunner.matchmakingWSState.prototype.updateNumberOfVotes(msg.content);
-            break
-        case "matchmaking_end":
-            PenRunner.matchmakingWSState.prototype.endMatchmaking(msg.content);
-            break
-        case "semaforo_timer":
+    if (game.hasJoined === true) {
+        switch (msg.type) {
+            case "player_created":
+                game.player = msg.content.player;
+                break
+            case "GAME_COMPLETE":
+                console.log('##### GAME IS COMPLETE #####')
+                break
+            case "UPDATE_STATE":
+                console.log('!!!!! GAME SENDS UPDATE !!!!!')
+                break
+            case "numPlayers":
+                game.numPlayers = msg.content;
+                break
+            case "matchmaking_timer":
+                PenRunner.matchmakingWSState.prototype.updateTimer(msg.content);
+                break
+            case "votes":
+                PenRunner.matchmakingWSState.prototype.updateNumberOfVotes(msg.content);
+                break
+            case "matchmaking_end":
+                PenRunner.matchmakingWSState.prototype.endMatchmaking(msg.content);
+                break
+            case "semaforo_timer":
 
-            break
-        case "players_update":
-            game.playersDataNew = msg.content;
-            PenRunner.matchWSState.prototype.updatePlayers();
-            break
-        case "match_end":
-            PenRunner.matchWSState.prototype.updateMeta();
-            break
-        case "score":
+                break
+            case "players_update":
+                game.playersDataNew = msg.content;
+                PenRunner.matchWSState.prototype.updatePlayers();
+                break
+            case "match_end":
+                PenRunner.matchWSState.prototype.updateMeta();
+                break
+            case "score":
 
-            break
-        default:
-            console.log("Mensaje con tipo no válido")
-            break
+                break
+            default:
+                console.log("Mensaje con tipo no válido")
+                break
+        }
     }
 }

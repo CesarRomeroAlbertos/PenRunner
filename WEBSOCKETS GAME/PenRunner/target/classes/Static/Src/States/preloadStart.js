@@ -24,6 +24,8 @@ PenRunner.preloadStart.prototype =
 {
 	preload:function()
 	{
+
+		game.hasJoined = false;
 		//Poner texto, imágenes, y todo lo que tenga que salir en la pantalla de carga ANTES de cargar las imágenes
 
 		var text = "Loading...";

@@ -149,6 +149,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 						startSemaforoTimer();
 						maxTime = 15;
 						timer.cancel();
+						timer.purge();
 					}
 				}
 			}, 0, 1000);
@@ -157,7 +158,6 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 
 	void startSemaforoTimer() {
 		synchronized (sessions) {
-			timer = new Timer();
 			timer.schedule(new TimerTask() {
 				public void run() {
 					ObjectNode json = mapper.createObjectNode();
@@ -170,6 +170,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					if (maxTime <= 0) {
 						semaforoTime = 0;
 						timer.cancel();
+						timer.purge();
 					}
 				}
 			}, 0, 1000);

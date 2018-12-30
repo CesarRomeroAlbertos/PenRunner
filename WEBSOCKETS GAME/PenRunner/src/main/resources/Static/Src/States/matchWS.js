@@ -5,9 +5,6 @@ PenRunner.matchWSState.prototype =
 		//Aquí creamos todas las cosas necesarias para usar en la clase match
 		create: function () {
 			game.Goal = false;
-			this.getNumPlayers(function (data) {
-				game.numPlayers = data;
-			});
 			numeroMeta = 0; //Indica el número de jugadores que han llegado a la meta hasta ese momento
 			playerId = game.player.id; //en esta variable guardamos el id del jugador en cuestión
 			//nos aseguramos de que el fondo sea blanco	
@@ -140,7 +137,6 @@ PenRunner.matchWSState.prototype =
 
 			semaforoAnimation = semaforo.animations.add('semaforoAnim'); //Añadimos la animación para que cambie entre los estados del semáforo
 
-			this.setTimer(semaforoAnimation.frameTotal * 1000); //Llamamos a la función que actualiza el timer del semaforo para que cambie de estado
 			hasStarted = false;
 
 			this.updatePlayers(function (data) { //esta funcion actualiza la posición de los jugadores en el server
@@ -152,20 +148,7 @@ PenRunner.matchWSState.prototype =
 
 		//usamos update para los distintos controles de la partida, todo lo que ocurre aquí se actualiza una vez por frame
 		update: function () {
-			if (!hasStarted) { //Entra en el if si la partida no ha empezado
-				this.updateTimer(function (data) { //Volvemos a llamar a que actualice el timer para cambiar los estados del semaforo
-
-					if ((data / 1000) < semaforoAnimation.frameTotal) {
-						semaforoAnimation.frame = Math.floor(data / 1000);
-					}
-					else {
-						playerState = 0;
-						player2State = 0;
-						semaforo.destroy();
-						hasStarted = true;
-					}
-				});
-			}
+			
 
 			//tecla izquierda jugador 1
 			if (leftKey.isDown && playerState == 0) {
@@ -241,6 +224,7 @@ PenRunner.matchWSState.prototype =
 		//dentro del servidor, para que sea común a todos los mismos.
 		updatePlayers: function () {
 			for (var i = 0; i < game.numPlayers; i++) {
+				var count = 0;
 				if (i != game.player.id - 1) {
 					if ((game.altPlayers.children[count].x !== game.playersDataNew[i].x
 						|| game.altPlayers.children[count].y !== game.playersDataNew[i].y)
@@ -277,44 +261,6 @@ PenRunner.matchWSState.prototype =
 				data: game.player
 			};
 			ws.send(JSON.stringify(message));
-		},
-		//Esta función corresponde con una llamada al servidor mediante la cual, en el apartado player/number obtenemos el número de jugadores
-		//que existen ahora mismo en la partida
-		getNumPlayers: function (callback) {
-			$.ajax({
-				url: 'http://localhost:8080/player/number',
-			}).done(function (data) {
-				console.log("Hay " + JSON.stringify(data) + " jugadores")
-				callback(JSON.parse(JSON.stringify(data)));
-			})
-		},
-		//Esta función corresponde con una llamada POST al servidor mediante la cual, en el apartado game/timer/time establecemos un temporizador
-		//para hacer el semáforo que tenemos al principio
-		setTimer: function (time) {
-			$.ajax({
-				method: "POST",
-				url: 'http://localhost:8080/game/timer/' + time,
-				processData: false,
-				headers: {
-					"Content-Type": "application/json"
-				},
-			}).done(function (data) {
-			})
-		},
-		//Esta función corresponde con una llamada GET al servidor mediante la cual, en el apartado game/timer mediante el cual actualizamos la información
-		//del semáforo para que todos los jugadores puedan ver el semáforo actualizado
-		updateTimer: function (callback) {
-
-			$.ajax({
-				method: "GET",
-				url: 'http://localhost:8080/game/timer',
-				processData: false,
-				headers: {
-					"Content-Type": "application/json"
-				},
-			}).done(function (data) {
-				callback(JSON.parse(JSON.stringify(data)));
-			})
 		},
 
 		//comprobamos si se puede mover un jugador a una posición o da a un muro
