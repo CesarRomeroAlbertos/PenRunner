@@ -136,29 +136,9 @@ public class GameController
 		return voto.getValor();
 	}
 	
-	//devuelve el número de votos de todos los mapas actualizados
-	public int[] getRealVotes()
+	public void getVote(int vote)
 	{
-		return votos;
-
-	}
-	//Actualiza en el servidor el número de votos del mapa número 1
-	public int getVote1()
-	{
-		votos[0]++;
-		return votos[0];
-	}
-	//Actualiza en el servidor el número de votos del mapa número 2
-	public int getVote2()
-	{
-		votos[1]++;
-		return votos[1];
-	}
-	//Actualiza en el servidor el número de votos del mapa número 3
-	public int getVote3()
-	{
-		votos[2]++;
-		return votos[2];
+		votos[vote]++;
 	}
 
 	//cuando se acaba el tiempo en matchmaking, se llama a esta función para actualizar el mapa que se ha elegido en el server, cogiendo

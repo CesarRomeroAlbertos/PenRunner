@@ -38,14 +38,11 @@ ws.onmessage = function (message) {
 
     var msg = JSON.parse(message.data)
 
-    console.log('INFO RECIBIDA ' + msg.type)
+    console.log('INFO RECIBIDA /n' + msg)
 
     switch (msg.type) {
-        case "crear_jugador":
-            console.log('@@@@@@ PLAYER CREATED @@@@@')
-            console.log('id: ' + msg.player.id)
-            console.log('pos: (' + msg.player.x + ',' + msg.player.y + ')')
-            console.log('score: ' + msg.player.score)
+        case "player_created":
+            game.player = msg.data;
             break
         case "GAME_COMPLETE":
             console.log('##### GAME IS COMPLETE #####')
@@ -53,12 +50,33 @@ ws.onmessage = function (message) {
         case "UPDATE_STATE":
             console.log('!!!!! GAME SENDS UPDATE !!!!!')
             break
+        case "numPlayers":
+            game.numPlayers = msg.data;
+        break
+        case "matchmaking_timer":
+            PenRunner.matchmakingWSState.updateTimer(msg.data);
+            break
+        case "votes":
+            PenRunner.matchmakingWSState.prototype.updateNumberOfVotes(msg.data);
+            break
+        case "matchmaking_end":
+            PenRunner.matchmakingWSState.prototype.endMatchmaking(msg.data);
+            break
+        case "semaforo_timer":
+
+            break
         case "players_update":
             game.playersDataNew = msg.playersData;
             PenRunner.matchWSState.updatePlayers();
             break
         case "match_end":
             PenRunner.matchWSState.updateMeta();
+            break
+        case "score":
+
+            break
+        default:
+            console.log("Mensaje con tipo no válido")
             break
     }
 }

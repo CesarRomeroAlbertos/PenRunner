@@ -21,7 +21,6 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 	private static Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<WebSocketSession>());
 	ObjectMapper mapper = new ObjectMapper();
 	boolean debug = true;
-	Integer jugadores;
 	GameController gameController = new GameController();
 	Timer timer;
 
@@ -56,33 +55,33 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					if (gameController.getPlayers().size() == 0)
 						startMatchmakingTimer();
 					Player player = gameController.newPlayer();
-					ObjectNode jsonPlayer = mapper.createObjectNode();
-					jsonPlayer.put("id", player.getId());
-					jsonPlayer.put("x", 0);
-					jsonPlayer.put("y", 0);
-					jsonPlayer.put("score", 0);
-					json.put("type", "PLAYER_CREATED");
-					json.putPOJO("player", jsonPlayer);
-					// json.putPOJO("player", player);
+					json = mapper.createObjectNode();
+					json.put("type", "player_created");
+					json.putPOJO("data", player);
 					gameController.players.put(player.getId(), player);
-					jugadores = gameController.numPlayers++;
+					gameController.numPlayers++;
+
+					ObjectNode jsonNumPlayer = mapper.createObjectNode();
+					jsonNumPlayer.put("type", "numPlayers");
+					jsonNumPlayer.putPOJO("data", gameController.numPlayers);
+					sendToAll(jsonNumPlayer);
 
 				} else {
-					json.put("type", "GAME_CPMPLETE");
+					json.put("type", "GAME_COMPLETE");
 				}
 				session.sendMessage(new TextMessage(json.toString()));
-				session.sendMessage(new TextMessage(jugadores.toString()));
 				if (debug) {
 					System.out.println("[DEBUG] " + json.toString());
-					System.out.println("Numero de jugadores en la sala " + jugadores.toString());
+					System.out.println("Numero de jugadores en la sala " + gameController.numPlayers);
 				}
 				break;
-			case "update_numPlayers":
-				jugadores = gameController.numPlayers++;
-				session.sendMessage(new TextMessage(jugadores.toString()));
-				if (debug) {
-					// System.out.println("Numero de jugadores en la sala " + jugadores.toString());
-				}
+			case "vote":
+				gameController.getVote(node.get("data").asInt());
+				ObjectNode votejsonmsg = mapper.createObjectNode();
+				votejsonmsg.put("type", "votes");
+				votejsonmsg.putPOJO("data", gameController.votos);
+				sendToAll(votejsonmsg);
+
 				break;
 			case "player_update":
 				gameController.updatePlayer(mapper.convertValue(node.get("data"), Player.class));
@@ -91,7 +90,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				gameController.metaAdd();
 				if (gameController.meta == gameController.numPlayers) {
 					ObjectNode jsonmsg = mapper.createObjectNode();
-					jsonmsg.put("type", "match_finish");
+					jsonmsg.put("type", "match_end");
 					sendToAll(jsonmsg);
 					timer.cancel();
 				}
@@ -131,6 +130,10 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				sendToAll(json);
 
 				if (maxTime <= 0) {
+					ObjectNode endTimerjson = mapper.createObjectNode();
+					endTimerjson.put("type", "matchmaking_end");
+					endTimerjson.put("data", gameController.mapaSeleccionado());
+					sendToAll(endTimerjson);
 					startSemaforoTimer();
 					maxTime = 15;
 					timer.cancel();
