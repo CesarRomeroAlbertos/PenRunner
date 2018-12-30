@@ -43,7 +43,7 @@ ws.onmessage = function (message) {
 
     switch (msg.type) {
         case "player_created":
-            game.player = msg.content;
+            game.player = msg.content.player;
             break
         case "GAME_COMPLETE":
             console.log('##### GAME IS COMPLETE #####')
@@ -55,7 +55,7 @@ ws.onmessage = function (message) {
             game.numPlayers = msg.content;
         break
         case "matchmaking_timer":
-            PenRunner.matchmakingWSState.updateTimer(msg.content);
+            PenRunner.matchmakingWSState.prototype.updateTimer(msg.content);
             break
         case "votes":
             PenRunner.matchmakingWSState.prototype.updateNumberOfVotes(msg.content);
@@ -68,10 +68,10 @@ ws.onmessage = function (message) {
             break
         case "players_update":
             game.playersDataNew = msg.content;
-            PenRunner.matchWSState.updatePlayers();
+            PenRunner.matchWSState.prototype.updatePlayers();
             break
         case "match_end":
-            PenRunner.matchWSState.updateMeta();
+            PenRunner.matchWSState.prototype.updateMeta();
             break
         case "score":
 

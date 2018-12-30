@@ -58,8 +58,16 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					Player player = gameController.newPlayer();
 					json = mapper.createObjectNode();
 					json.put("type", "player_created");
-					json.put("content", player.toString());
-					//gameController.players.put(player.getId(), player);
+
+					ObjectNode jsonPlayer = mapper.createObjectNode();
+					ObjectNode jsonPlayerContent = mapper.createObjectNode();
+					jsonPlayerContent.put("id", player.getId());
+					jsonPlayerContent.put("x", player.getX());
+					jsonPlayerContent.put("y", player.getY());
+					jsonPlayerContent.put("score", player.getScore());
+					jsonPlayer.putPOJO("player", jsonPlayerContent);
+					json.putPOJO("content", jsonPlayer);
+					// gameController.players.put(player.getId(), player);
 					gameController.numPlayers++;
 
 					ObjectNode jsonNumPlayer = mapper.createObjectNode();
@@ -110,74 +118,82 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 	}
 
 	void sendToAll(ObjectNode json) {
-		for (WebSocketSession s : sessions) {
-			try {
-				s.sendMessage(new TextMessage(json.toString()));
-			} catch (IOException e) {
-				e.printStackTrace();
+		synchronized (sessions) {
+			for (WebSocketSession s : sessions) {
+				try {
+					s.sendMessage(new TextMessage(json.toString()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
 	void startMatchmakingTimer() {
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				ObjectNode json = mapper.createObjectNode();
-				json.put("type", "matchmaking_timer");
-				json.put("content", maxTime);
-				maxTime -= 1;
+		synchronized (sessions) {
+			timer = new Timer();
+			timer.schedule(new TimerTask() {
+				public void run() {
+					ObjectNode json = mapper.createObjectNode();
+					json.put("type", "matchmaking_timer");
+					json.put("content", maxTime);
+					maxTime -= 1;
 
-				sendToAll(json);
+					sendToAll(json);
 
-				if (maxTime <= 0) {
-					ObjectNode endTimerjson = mapper.createObjectNode();
-					endTimerjson.put("type", "matchmaking_end");
-					endTimerjson.put("content", gameController.mapaSeleccionado());
-					sendToAll(endTimerjson);
-					startSemaforoTimer();
-					maxTime = 15;
-					timer.cancel();
+					if (maxTime <= 0) {
+						ObjectNode endTimerjson = mapper.createObjectNode();
+						endTimerjson.put("type", "matchmaking_end");
+						endTimerjson.put("content", gameController.mapaSeleccionado());
+						sendToAll(endTimerjson);
+						startSemaforoTimer();
+						maxTime = 15;
+						timer.cancel();
+					}
 				}
-			}
-		}, 0, 1000);
+			}, 0, 1000);
+		}
 	}
 
 	void startSemaforoTimer() {
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				ObjectNode json = mapper.createObjectNode();
-				json.put("type", "semaforo_timer");
-				json.put("content", maxTime);
-				semaforoTime += 1;
+		synchronized (sessions) {
+			timer = new Timer();
+			timer.schedule(new TimerTask() {
+				public void run() {
+					ObjectNode json = mapper.createObjectNode();
+					json.put("type", "semaforo_timer");
+					json.put("content", maxTime);
+					semaforoTime += 1;
 
-				sendToAll(json);
+					sendToAll(json);
 
-				if (maxTime <= 0) {
-					semaforoTime = 0;
-					timer.cancel();
+					if (maxTime <= 0) {
+						semaforoTime = 0;
+						timer.cancel();
+					}
 				}
-			}
-		}, 0, 1000);
+			}, 0, 1000);
+		}
 	}
 
 	void startPlayersUpdate() {
-		timer = new Timer();
+		synchronized (sessions) {
+			timer = new Timer();
 
-		timer.schedule(new TimerTask() {
-			public void run() {
-				ObjectNode json = mapper.createObjectNode();
-				json.put("type", "players_update");
-				try {
-					json.put("content", mapper.writeValueAsString(gameController.players));
-				} catch (JsonProcessingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			timer.schedule(new TimerTask() {
+				public void run() {
+					ObjectNode json = mapper.createObjectNode();
+					json.put("type", "players_update");
+					try {
+						json.put("content", mapper.writeValueAsString(gameController.players));
+					} catch (JsonProcessingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					sendToAll(json);
 				}
-				sendToAll(json);
-			}
-		}, 0, 1000 / 60);
+			}, 0, 1000 / 60);
+		}
 	}
 
 }
