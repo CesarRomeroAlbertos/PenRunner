@@ -12,7 +12,12 @@ PenRunner.matchmakingWSState.prototype =
             var createPlayermsg = {
                 type: 'create_player'
             };
+            var numeroPlayers = {
+            		type: 'numPlayers'
+            };
+            
             ws.send(JSON.stringify(createPlayermsg));
+            ws.send(JSON.stringify(numeroPlayers));
 
             game.hasJoined = true;
             //Inicializamos las variables que vamos a utilizar en este estado
@@ -83,16 +88,15 @@ PenRunner.matchmakingWSState.prototype =
             joinKey2 = game.input.keyboard.addKey(Phaser.Keyboard.W);
 
             // this.createPlayer();
-            var message = { type: "create_player" };
+            //var message = { type: "create_player" };
 
-            ws.onopen = () => ws.send(JSON.stringify(message));
+          //  ws.onopen = () => ws.send(JSON.stringify(message));
 
         },
 
         update: function () { //Función que se ejecuta una vez por frame
             //Si el numero de jugadores ha llegado a más de cuatro e intenta entrar otro, vuelve a cargar el menú principal, porque ya se ha alcanzado el 
             //número máximo de jugadores
-            // this.getNumPlayers();
 
             if (game.numPlayers > 4 && game.player.id > 4) {
                 game.state.start('menuState');
@@ -103,22 +107,27 @@ PenRunner.matchmakingWSState.prototype =
             votos3.setText(numeroDeVotos3);
 
             //Este swtich sirve para que escriba en las cajas correspondientes los jugadores que existen en todo momento. 
-            //console.log(numeroDeJugadores);
-            switch (game.numPlayers) {
+            console.log(numeroDeJugadores);
+            switch (numeroDeJugadores) {
 
-                case '1':
+                case 1:
+                	console.log("Hay 1 jugador");
                     textPlayer.destroy();
                     textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
                     break;
 
-                case '2':
+                case 2:
+                	console.log("Hay 2 jugador");
+
                     textPlayer2.destroy();
                     textPlayer.destroy();
                     textPlayer = game.add.text(game.world.x + 195, game.world.y + 372, 'Jugador 1', style3);
                     textPlayer2 = game.add.text(game.world.x + 475, game.world.y + 372, 'Jugador 2', style3);
                     break;
 
-                case '3':
+                case 3:
+                	console.log("Hay 3 jugador");
+
                     textPlayer.destroy();
                     textPlayer2.destroy();
                     textPlayer3.destroy();
@@ -127,7 +136,9 @@ PenRunner.matchmakingWSState.prototype =
                     textPlayer3 = game.add.text(game.world.x + 195, game.world.y + 472, 'Jugador 3', style3);
                     break;
 
-                case '4':
+                case 4:
+                	console.log("Hay 4 jugador");
+
                     textPlayer.destroy();
                     textPlayer2.destroy();
                     textPlayer3.destroy();
@@ -154,6 +165,8 @@ PenRunner.matchmakingWSState.prototype =
                     data: 0
                 };
                 ws.send(JSON.stringify(voteMessage));
+                
+            	console.log(numeroDeVotos1 + " hila");
                 votado = true;
             }
         },
@@ -184,8 +197,11 @@ PenRunner.matchmakingWSState.prototype =
         //sino que devuelve el array con todos los votos de los tres mapas
         updateNumberOfVotes: function (votes) {
             numeroDeVotos1 = votes[0];
-            numeroDeVotos1 = votes[1];
-            numeroDeVotos1 = votes[2];
+            numeroDeVotos2 = votes[1];
+            numeroDeVotos3 = votes[2];
+        },
+        updateNumberPlayers: function(numPlayers){
+        	numeroDeJugadores = numPlayers;
         },
         //Esta funcion hace una llamada al servidor, donde cogemos el JSON del mapa más votado, para devolverlo y cargarlo en el siguiente estado
         //que se va a cargar.
