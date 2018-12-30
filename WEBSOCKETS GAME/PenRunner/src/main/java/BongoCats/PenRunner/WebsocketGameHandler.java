@@ -67,13 +67,8 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					jsonPlayerContent.put("score", player.getScore());
 					jsonPlayer.putPOJO("player", jsonPlayerContent);
 					json.putPOJO("content", jsonPlayer);
-					// gameController.players.put(player.getId(), player);
-					gameController.numPlayers++;
 
-					ObjectNode jsonNumPlayer = mapper.createObjectNode();
-					jsonNumPlayer.put("type", "numPlayers");
-					jsonNumPlayer.put("content", gameController.numPlayers);
-					sendToAll(jsonNumPlayer);
+					
 
 				} else {
 					json.put("type", "GAME_COMPLETE");
@@ -90,6 +85,10 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				votejsonmsg.put("type", "votes");
 				votejsonmsg.putPOJO("content", mapper.writeValueAsString(gameController.votos));
 				sendToAll(votejsonmsg);
+				Integer numero = gameController.votos[votejsonmsg.asInt()];
+				session.sendMessage(new TextMessage(numero.toString()));
+				if(debug)
+					System.out.println(gameController.votos[votejsonmsg.asInt()]);
 
 				break;
 			case "player_update":
@@ -110,6 +109,16 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				jsonmsg.put("content", mapper.writeValueAsString(gameController.getPlayersScores()));
 				session.sendMessage(new TextMessage(jsonmsg.toString()));
 				break;
+			case "numPlayers":
+				ObjectNode jsonNumPlayer = mapper.createObjectNode();
+				gameController.numPlayers++;
+				Integer numero2 = gameController.numPlayers;
+				jsonNumPlayer.put("type", "numPlayers");
+				jsonNumPlayer.put("content", numero2);
+				sendToAll(jsonNumPlayer);
+				session.sendMessage(new TextMessage(jsonNumPlayer.toString()));
+				break;
+				
 
 			default:
 				break;
