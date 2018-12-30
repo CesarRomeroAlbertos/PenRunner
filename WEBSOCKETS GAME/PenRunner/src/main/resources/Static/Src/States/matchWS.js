@@ -11,6 +11,7 @@ PenRunner.matchWSState.prototype =
 			//nos aseguramos de que el fondo sea blanco	
 			game.stage.backgroundColor = "#FFFFFF";
 
+			
 			//cogemos los jsons necesarios de la cache
 			var trackJson = game.cache.getJSON('track');
 

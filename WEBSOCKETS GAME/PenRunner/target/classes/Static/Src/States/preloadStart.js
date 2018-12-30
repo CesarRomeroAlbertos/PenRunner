@@ -64,13 +64,13 @@ PenRunner.preloadStart.prototype =
 
 		//Match
 		game.load.json('playersAssets',"Src/json/playersAssets.json");
-		//game.load.audio('matchMusic', 'Assets/Musica/musica_match.mp3');
+		game.load.audio('matchMusic', 'Assets/Musica/musica_match.mp3');
 
 		//Score
 		game.load.image('jugador', 'Assets/Texto_Jugador_01.png', 200, 70);
 		game.load.image('return', 'Assets/leftarrow.png', 200, 70);
 		game.load.image('backgroundScore','Assets/Fondo_fin_partida.jpg', 200, 70);
-	//	game.load.audio('scoreMusic', 'Assets/Musica/musica_score.mp3');
+		game.load.audio('scoreMusic', 'Assets/Musica/musica_score.mp3');
 		
 		
 	},

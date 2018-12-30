@@ -11,10 +11,9 @@ PenRunner.matchWSState.prototype =
 			//nos aseguramos de que el fondo sea blanco	
 			game.stage.backgroundColor = "#FFFFFF";
 
+			
 			//cogemos los jsons necesarios de la cache
 			var trackJson = game.cache.getJSON('track');
-			//musicMatch = game.add.audio('matchMusic');
-			//musicMatch.play();
 
 			//metemos los sprites con sus colliders cuando son necesarios, todo leyendo del json del circuito,
 			//y con las variables del mismo colocamos todo y construimos el circuito además de activar sus físicas
@@ -245,26 +244,8 @@ PenRunner.matchWSState.prototype =
 		//Esta funcion corresponde con una llamada GET al servidor mediante la cual, en el apartado /meta/add actualizamos el número de jugadores que ha llegado
 		//a la meta. Si ese número es igual al número de jugadores en la partida, se pasa al siguiente estado. Cuando llega un jugador a la meta, guarda su id y
 		//le asigna una puntuación correspondiente
-<<<<<<< HEAD
-<<<<<<< HEAD
-		updateMeta: function () {
-			//musicMatch.pause();
-		//	game.state.start("scoreWSState");
-=======
-=======
->>>>>>> 883a427ec9115f8b588d91fbb8998fd4d656f6a7
 		endGame: function () {
 			game.state.start("scoreWSState");
->>>>>>> 883a427ec9115f8b588d91fbb8998fd4d656f6a7
-		},
-
-		updateMeta:function()
-		{
-			var message = {
-				type: "meta",
-				data: game.player.id
-			};
-			ws.send(JSON.stringify(message));
 		},
 
 		updateMeta:function()
