@@ -1,4 +1,6 @@
-PenRunner.menuState = function (game) { }
+PenRunner.menuState = function (game) { 
+	
+}
 
 PenRunner.menuState.prototype =
 	{
@@ -11,10 +13,13 @@ PenRunner.menuState.prototype =
 			var buttonStartLocalMenu = game.add.button(game.world.x + 160, 360, 'buttonStartLocalMenu', this.startLocalMenu, this, 1, 0, 2);
 			var buttonStartOnlineMenu = game.add.button(game.world.x + 440, 360, 'buttonStartOnlineMenu', this.startOnlineMenu, this, 1, 0, 2);
 			var buttonSettingsMenu = game.add.button(game.world.x + 720, 40, 'buttonSettingsMenu', this.settingsMenu, this, 1, 0, 2);
-
+			musicMenu = game.add.audio('menuMusic');
+			musicMenu.volume = 1.0;
+			musicMenu.play();
+//
 			//Añadimos el título del menú principal
 			var tituloMenu = 'Menú Principal';
-			game.add.text(game.world.x + 185, game.world.y + 180, tituloMenu, style1)
+			game.add.text(game.world.x + 185, game.world.y + 180, tituloMenu, style1);
 
 			//Escalamos los tres botones para que se vean adecuadamente en la pantalla
 			buttonStartLocalMenu.scale.setTo(0.4, 0.5);
@@ -24,12 +29,14 @@ PenRunner.menuState.prototype =
 		
 		startLocalMenu: function () //Función llamada cuando pulsamos el botón local, llama al script de carga de matchmaking local
 		{
+			musicMenu.pause();
 			game.state.start('matchmakingState');
 		},
 
 
 		startOnlineMenu: function () //Función llamada cuando pulsamos el botón online, llama al script de carga de matchmaking online
 		{
+			musicMenu.pause();
 			game.state.start('matchmakingWSState');
 		},
 

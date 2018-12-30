@@ -196,7 +196,6 @@ PenRunner.matchWSState.prototype =
 						goalOrder.push(1);
 						playerState = 2;//Cambiamos el estado del jugador
 						player.arrived = true; //Decimos que el jugador a llegado
-						if (player.arrived)
 							this.updateMeta(); //Llamamos al servidor para decir quién ha llegado a la meta
 						//Descactivamos los controles del jugador para que no pueda moverse
 						AngleLineLeft.visible = false;
@@ -244,8 +243,17 @@ PenRunner.matchWSState.prototype =
 		//Esta funcion corresponde con una llamada GET al servidor mediante la cual, en el apartado /meta/add actualizamos el número de jugadores que ha llegado
 		//a la meta. Si ese número es igual al número de jugadores en la partida, se pasa al siguiente estado. Cuando llega un jugador a la meta, guarda su id y
 		//le asigna una puntuación correspondiente
-		updateMeta: function () {
+		endGame: function () {
 			game.state.start("scoreWSState");
+		},
+
+		updateMeta:function()
+		{
+			var message = {
+				type: "meta",
+				data: game.player.id
+			};
+			ws.send(JSON.stringify(message));
 		},
 		//Esta función corresponde con una llamada PUT al servidor mediante la cual, en el apartado /player/playerId actualizamos la información 
 		//de nuestro jugador dentro del servidor.

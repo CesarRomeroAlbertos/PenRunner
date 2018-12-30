@@ -2,6 +2,7 @@ package BongoCats.PenRunner;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -99,7 +100,11 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				gameController.updatePlayer(mapper.convertValue(node.get("data"), Player.class));
 				break;
 			case "meta":
-				gameController.metaAdd();
+				int n = gameController.metaAdd();
+				ObjectNode jsonMeta = mapper.createObjectNode();
+				jsonMeta.put("type", "update_Score");
+				jsonMeta.put("content", n);
+				session.sendMessage(new TextMessage(jsonMeta.toString()));
 				if (gameController.meta == gameController.numPlayers) {
 					ObjectNode jsonmsg = mapper.createObjectNode();
 					jsonmsg.put("type", "match_end");
@@ -111,7 +116,13 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 			case "score":
 				ObjectNode jsonmsg = mapper.createObjectNode();
 				jsonmsg.put("type", "score");
-				jsonmsg.put("content", mapper.writeValueAsString(gameController.getPlayersScores()));
+				Collection<Player> temp = gameController.getPlayersScores();
+				List<Player> tempL = new ArrayList<Player>();
+				for(Player p : temp)
+				{
+					tempL.add(p);
+				}
+				jsonmsg.putPOJO("content", mapper.writeValueAsString(tempL));
 				session.sendMessage(new TextMessage(jsonmsg.toString()));
 				break;
 			case "numPlayers":
