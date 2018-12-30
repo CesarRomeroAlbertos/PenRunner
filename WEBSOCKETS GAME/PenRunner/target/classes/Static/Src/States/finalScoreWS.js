@@ -29,19 +29,6 @@ PenRunner.scoreWSState.prototype =
                 game.add.text(game.world.x + 95, game.world.y + 132 + 80 * i, (i + 1) + '. Jugador ' + game.scoreData[i].id + '.......................................... ' + game.scoreData[i].score + ' pts', style2);
             }
         },
-        //esta función borra a los jugadores de la partida
-        deletePlayer: function (id) {
-            $.ajax({
-                method: "DELETE",
-                url: 'http://localhost:8080/player/',
-                processData: false,
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            }).done(function (data) {
-                console.log('Se ha borrado el jugador' + JSON.stringify(data));
-            })
-        },
         //esta función se llama cuando clickamos el botón de volver atrás en la esquina superior izquierda, llevándonos de nuevo al menú principal.
         actionONClickScore: function () {
             game.state.start('menuState');
