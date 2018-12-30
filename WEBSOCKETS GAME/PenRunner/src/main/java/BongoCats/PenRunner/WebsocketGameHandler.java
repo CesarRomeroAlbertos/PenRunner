@@ -1,8 +1,10 @@
 package BongoCats.PenRunner;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -173,6 +175,7 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 
 					if (semaforoTime >= 6) {
 						semaforoTime = 0;
+						startPlayersUpdate();
 						timerSemaforo.cancel();
 						timerSemaforo.purge();
 					}
@@ -189,8 +192,13 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 				public void run() {
 					ObjectNode json = mapper.createObjectNode();
 					json.put("type", "players_update");
+					List<Player> temp = new ArrayList<Player>();
+					for(Player p : gameController.players.values())
+					{
+						temp.add(p);
+					}
 					try {
-						json.put("content", mapper.writeValueAsString(gameController.players));
+						json.putPOJO("content", mapper.writeValueAsString(temp));
 					} catch (JsonProcessingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

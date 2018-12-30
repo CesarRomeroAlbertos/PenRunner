@@ -72,9 +72,9 @@ public class Player {
 		this.color = color;
 	}
 
-	@Override
-	public String toString() {
-		return "[" + "\"id\":" + id + ",  \"x\":" + x + ", \"y\":" + y + ", \"angle\":"+ angle+ ", \"score\":" + score + "]";
-	}
+	//@Override
+	//public String toString() {
+		//return "[" + "\"id\":" + id + ",  \"x\":" + x + ", \"y\":" + y + ", \"angle\":"+ angle+ ", \"score\":" + score + "]";
+	//}
 	
 }
