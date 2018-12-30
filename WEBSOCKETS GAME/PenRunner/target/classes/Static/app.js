@@ -65,7 +65,7 @@ ws.onmessage = function (message) {
                 PenRunner.matchmakingWSState.prototype.endMatchmaking(msg.content);
                 break
             case "semaforo_timer":
-
+                PenRunner.matchWSState.prototype.updateSemaforo(msg.content);
                 break
             case "players_update":
                 game.playersDataNew = msg.content;

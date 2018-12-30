@@ -24,6 +24,8 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 	boolean debug = true;
 	GameController gameController = new GameController();
 	Timer timer;
+	Timer timerSemaforo;
+	Timer timerUpdate;
 
 	long startTime;
 	int maxTime = 15;
@@ -101,7 +103,8 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 					ObjectNode jsonmsg = mapper.createObjectNode();
 					jsonmsg.put("type", "match_end");
 					sendToAll(jsonmsg);
-					timer.cancel();
+					timerUpdate.cancel();
+					timerUpdate.purge();
 				}
 				break;
 			case "score":
@@ -158,19 +161,20 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 
 	void startSemaforoTimer() {
 		synchronized (sessions) {
-			timer.schedule(new TimerTask() {
+			timerSemaforo = new Timer();
+			timerSemaforo.schedule(new TimerTask() {
 				public void run() {
 					ObjectNode json = mapper.createObjectNode();
 					json.put("type", "semaforo_timer");
-					json.put("content", maxTime);
+					json.put("content", semaforoTime);
 					semaforoTime += 1;
 
 					sendToAll(json);
 
-					if (maxTime <= 0) {
+					if (semaforoTime >= 6) {
 						semaforoTime = 0;
-						timer.cancel();
-						timer.purge();
+						timerSemaforo.cancel();
+						timerSemaforo.purge();
 					}
 				}
 			}, 0, 1000);
@@ -179,9 +183,9 @@ public class WebsocketGameHandler extends TextWebSocketHandler {
 
 	void startPlayersUpdate() {
 		synchronized (sessions) {
-			timer = new Timer();
+			timerUpdate = new Timer();
 
-			timer.schedule(new TimerTask() {
+			timerUpdate.schedule(new TimerTask() {
 				public void run() {
 					ObjectNode json = mapper.createObjectNode();
 					json.put("type", "players_update");
