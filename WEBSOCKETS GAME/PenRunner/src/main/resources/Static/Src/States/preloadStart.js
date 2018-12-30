@@ -20,7 +20,7 @@ var textPlayer2, textPlayer3, textPlayer4;
 var empezado;
 var numeroMeta;
 var ws;
-var musicMenu, musicMatchmaking;
+var musicMenu, musicMatchmaking, matchMusic, scoreMusic;
 //var musicTitle;
 
 PenRunner.preloadStart.prototype =

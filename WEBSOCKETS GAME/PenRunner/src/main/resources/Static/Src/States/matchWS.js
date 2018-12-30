@@ -11,7 +11,8 @@ PenRunner.matchWSState.prototype =
 			//nos aseguramos de que el fondo sea blanco	
 			game.stage.backgroundColor = "#FFFFFF";
 
-			
+			matchMusic = game.add.audio('matchMusic');
+			matchMusic.play();
 			//cogemos los jsons necesarios de la cache
 			var trackJson = game.cache.getJSON('track');
 
@@ -244,6 +245,7 @@ PenRunner.matchWSState.prototype =
 		//a la meta. Si ese número es igual al número de jugadores en la partida, se pasa al siguiente estado. Cuando llega un jugador a la meta, guarda su id y
 		//le asigna una puntuación correspondiente
 		endGame: function () {
+			matchMusic.pause();
 			game.state.start("scoreWSState");
 		},
 

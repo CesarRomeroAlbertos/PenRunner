@@ -15,7 +15,8 @@ PenRunner.scoreWSState.prototype =
             //Escalamos el boton de volver atrás
             buttonReturn.width = 35;
             buttonReturn.height = 40;
-
+            scoreMusic = game.add.audio('scoreMusic');
+            scoreMusic.play();
             //Texto de la puntuación final.
             var text = game.add.text(game.world.centerX - 222, game.world.centerY - 275, 'Puntuación Final', style5);
         },
@@ -90,6 +91,8 @@ PenRunner.scoreWSState.prototype =
         },
         //esta función se llama cuando clickamos el botón de volver atrás en la esquina superior izquierda, llevándonos de nuevo al menú principal.
         actionONClickScore: function () {
+        	scoreMusic.pause();
+        }
             game.state.start('menuState');
         }
 
