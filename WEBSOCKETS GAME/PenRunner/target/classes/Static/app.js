@@ -5,9 +5,10 @@ debug = {
     ws: 1
 }
 
+ws = new WebSocket('ws://localhost:8080/penrunner');
 
 //Un monitor de eventos que es llamado cuando el estado readyState de la conexión Websocket cambia a OPEN. Esto indica que la conexión está lista para enviar y recibir datos. El evento es uno simple con el nombre "open".
-ws.onopen = function (event) {
+/*ws.onopen = function (event) {
     if (debug.ws) {
         console.log('[DEBUG-WS] Se ha establecido conexion con el servidor.')
     }
@@ -16,7 +17,7 @@ ws.onopen = function (event) {
     }
     this.send(JSON.stringify(data))
 
-}
+}*/
 
 // Un monitor de eventos que es llamado cuando un error ocurre. Esto es un evento simple llamado "error"
 ws.onerror = function (error) {

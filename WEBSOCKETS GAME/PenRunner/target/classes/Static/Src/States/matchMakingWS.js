@@ -9,9 +9,13 @@ PenRunner.matchmakingWSState.prototype =
 
         create: function () {
 
+            var createPlayermsg = {
+                type: 'create_player'
+            };
+            ws.send(JSON.stringify(createPlayermsg));
+
             //Inicializamos las variables que vamos a utilizar en este estado
             votado = false; //Variable que nos dice si un jugador ya ha votado o no
-            ws = new WebSocket('ws://localhost:8080/penrunner');
 
             contador = 0;
             numeroDeVotos1 = 0;
